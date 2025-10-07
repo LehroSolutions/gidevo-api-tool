@@ -1,0 +1,9 @@
+{
+  "name": "tmp-init",
+  "version": "1.0.0",
+  "description": "Generated API project",
+  "scripts": {
+    "generate": "gidevo-api-tool generate",
+    "validate": "gidevo-api-tool validate"
+  }
+}

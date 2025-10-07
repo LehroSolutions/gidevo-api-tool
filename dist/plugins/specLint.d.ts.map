@@ -1,0 +1,1 @@
+{"version":3,"file":"specLint.d.ts","sourceRoot":"","sources":["../../src/plugins/specLint.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAIlC,MAAM,CAAC,OAAO,OAAO,cAAe,YAAW,MAAM;IACnD,IAAI,SAAc;IAElB,UAAU;IAIJ,GAAG,CAAC,QAAQ,EAAE,MAAM,GAAG,OAAO,CAAC,OAAO,CAAC;CAY9C"}

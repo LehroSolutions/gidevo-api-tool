@@ -1,0 +1,1 @@
+{"version":3,"file":"pythonGenerator.d.ts","sourceRoot":"","sources":["../../src/plugins/pythonGenerator.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAGlC,MAAM,CAAC,OAAO,OAAO,qBAAsB,YAAW,MAAM;IAC1D,IAAI,SAAqB;IAEzB,UAAU;IAIJ,GAAG,CAAC,QAAQ,EAAE,MAAM,EAAE,SAAS,EAAE,MAAM,GAAG,OAAO,CAAC,OAAO,CAAC;CAYjE"}

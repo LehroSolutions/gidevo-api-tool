@@ -1,0 +1,1 @@
+{"version":3,"file":"logout.js","sourceRoot":"","sources":["../../../src/cli/commands/logout.ts"],"names":[],"mappings":";;;;;AAKA,sCAIC;AATD,+EAA+E;AAC/E,qCAAqC;AACrC,kDAA0B;AAC1B,0CAA8C;AAEvC,KAAK,UAAU,aAAa;IACjC,MAAM,WAAW,GAAG,IAAI,kBAAW,EAAE,CAAC;IACtC,WAAW,CAAC,MAAM,EAAE,CAAC;IACrB,OAAO,CAAC,GAAG,CAAC,eAAK,CAAC,KAAK,CAAC,yCAAyC,CAAC,CAAC,CAAC;AACtE,CAAC"}
