@@ -1,0 +1,10 @@
+{
+  "name": "tmp-init",
+  "version": "1.0.0",
+  "description": "Generated OPENAPI API project",
+  "scripts": {
+    "generate": "gidevo-api-tool generate -s specs/api.yaml -o generated",
+    "validate": "gidevo-api-tool validate specs/api.yaml",
+    "validate:strict": "gidevo-api-tool validate specs/api.yaml --strict"
+  }
+}

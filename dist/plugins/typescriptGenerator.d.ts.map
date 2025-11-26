@@ -1,0 +1,1 @@
+{"version":3,"file":"typescriptGenerator.d.ts","sourceRoot":"","sources":["../../src/plugins/typescriptGenerator.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAGlC,MAAM,CAAC,OAAO,OAAO,yBAA0B,YAAW,MAAM;IAC9D,IAAI,SAAyB;IAE7B,UAAU,CAAC,QAAQ,EAAE,GAAG;IAIlB,GAAG,CAAC,QAAQ,EAAE,MAAM,EAAE,SAAS,EAAE,MAAM,GAAG,OAAO,CAAC,OAAO,CAAC;CAYjE"}

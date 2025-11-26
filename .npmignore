@@ -1,0 +1,7 @@
+src/**/*.ts
+!dist
+*.log
+coverage
+.github
+**/*.test.ts
+node_modules

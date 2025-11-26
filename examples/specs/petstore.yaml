@@ -1,0 +1,427 @@
+openapi: 3.0.3
+info:
+  title: Pet Store API
+  description: |
+    A sample Pet Store API demonstrating OpenAPI 3.0 features.
+    Use this specification to test SDK generation with gidevo-api-tool.
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.petstore.example.com/v1
+    description: Production server
+  - url: https://staging-api.petstore.example.com/v1
+    description: Staging server
+
+tags:
+  - name: pets
+    description: Pet management operations
+  - name: store
+    description: Store operations
+
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      summary: List all pets
+      description: Returns a paginated list of all pets in the store
+      tags:
+        - pets
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of pets to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          description: Number of pets to skip
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: status
+          in: query
+          description: Filter by pet status
+          required: false
+          schema:
+            $ref: '#/components/schemas/PetStatus'
+      responses:
+        '200':
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    post:
+      operationId: createPet
+      summary: Create a new pet
+      description: Add a new pet to the store
+      tags:
+        - pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePetRequest'
+      responses:
+        '201':
+          description: Pet created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /pets/{petId}:
+    parameters:
+      - name: petId
+        in: path
+        required: true
+        description: The unique identifier of the pet
+        schema:
+          type: string
+          format: uuid
+
+    get:
+      operationId: getPet
+      summary: Get a pet by ID
+      description: Returns detailed information about a specific pet
+      tags:
+        - pets
+      responses:
+        '200':
+          description: Pet details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    put:
+      operationId: updatePet
+      summary: Update a pet
+      description: Update an existing pet's information
+      tags:
+        - pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePetRequest'
+      responses:
+        '200':
+          description: Pet updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    delete:
+      operationId: deletePet
+      summary: Delete a pet
+      description: Remove a pet from the store
+      tags:
+        - pets
+      responses:
+        '204':
+          description: Pet deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /store/inventory:
+    get:
+      operationId: getInventory
+      summary: Get store inventory
+      description: Returns the current inventory status
+      tags:
+        - store
+      responses:
+        '200':
+          description: Inventory status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inventory'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /store/orders:
+    post:
+      operationId: placeOrder
+      summary: Place an order
+      description: Place a new order for a pet
+      tags:
+        - store
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '201':
+          description: Order placed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - id
+        - name
+        - status
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the pet
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Name of the pet
+        species:
+          type: string
+          description: Species of the pet (e.g., dog, cat, bird)
+        breed:
+          type: string
+          description: Breed of the pet
+        age:
+          type: integer
+          minimum: 0
+          description: Age in years
+        status:
+          $ref: '#/components/schemas/PetStatus'
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags associated with the pet
+        createdAt:
+          type: string
+          format: date-time
+          description: When the pet was added to the store
+        updatedAt:
+          type: string
+          format: date-time
+          description: When the pet was last updated
+
+    PetStatus:
+      type: string
+      enum:
+        - available
+        - pending
+        - sold
+      description: Current status of the pet
+
+    PetList:
+      type: object
+      required:
+        - items
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+        total:
+          type: integer
+          description: Total number of pets matching the query
+        limit:
+          type: integer
+          description: Maximum items per page
+        offset:
+          type: integer
+          description: Number of items skipped
+
+    CreatePetRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        species:
+          type: string
+        breed:
+          type: string
+        age:
+          type: integer
+          minimum: 0
+        tags:
+          type: array
+          items:
+            type: string
+
+    UpdatePetRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        species:
+          type: string
+        breed:
+          type: string
+        age:
+          type: integer
+          minimum: 0
+        status:
+          $ref: '#/components/schemas/PetStatus'
+        tags:
+          type: array
+          items:
+            type: string
+
+    Order:
+      type: object
+      required:
+        - id
+        - petId
+        - status
+      properties:
+        id:
+          type: string
+          format: uuid
+        petId:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+          minimum: 1
+          default: 1
+        status:
+          type: string
+          enum:
+            - placed
+            - approved
+            - delivered
+            - cancelled
+        shipDate:
+          type: string
+          format: date-time
+        complete:
+          type: boolean
+          default: false
+
+    CreateOrderRequest:
+      type: object
+      required:
+        - petId
+      properties:
+        petId:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+          minimum: 1
+          default: 1
+
+    Inventory:
+      type: object
+      additionalProperties:
+        type: integer
+      example:
+        available: 10
+        pending: 5
+        sold: 20
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          additionalProperties: true
+          description: Additional error details
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: BAD_REQUEST
+            message: Invalid input provided
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: NOT_FOUND
+            message: The requested resource was not found
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: INTERNAL_ERROR
+            message: An unexpected error occurred
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
