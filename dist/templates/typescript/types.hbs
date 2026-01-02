@@ -18,11 +18,13 @@ export interface {{@key}} {
   /**
    * {{#if description}}{{description}}{{/if}}
    */
-  {{@key}}{{#unless required}}?{{/unless}}: {{#if (eq type "integer")}}number{{else if (eq type "number")}}number{{else if (eq type "string")}}string{{else if (eq type "boolean")}}boolean{{else if (eq type "array")}}any[]{{else if (eq type "object")}}Record<string, any>{{else}}any{{/if}};
+  {{@key}}{{#unless required}}?{{/unless}}: {{{resolveType this}}};
 {{/each}}
 }
 
 {{/each}}
+{{else}}
+// No schemas defined in specification
 {{/if}}
 
 // ============================================

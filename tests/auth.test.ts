@@ -14,9 +14,21 @@ jest.mock('os', () => {
   };
 });
 
-// Mock inquirer to avoid interactive prompt
-jest.mock('inquirer', () => ({
-  prompt: async () => ({ token: 'interactive-token' })
+// Mock interactive utils
+jest.mock('../src/cli/utils/interactive', () => ({
+  prompt: async () => 'interactive-token',
+  password: async () => 'interactive-token',
+  confirm: async () => true
+}));
+
+// Mock spinner
+jest.mock('../src/cli/utils/spinner', () => ({
+  createSpinner: async () => ({
+    start: jest.fn(),
+    stop: jest.fn(),
+    succeed: jest.fn(),
+    fail: jest.fn()
+  })
 }));
 
 describe('Auth flow', () => {
@@ -32,27 +44,30 @@ describe('Auth flow', () => {
 
   test('loginCommand with --token writes config', async () => {
     await loginCommand({ token: 'abc123' });
-    expect(fs.existsSync(configFile)).toBe(true);
-    const cfg = JSON.parse(fs.readFileSync(configFile, 'utf8'));
-    expect(cfg.token).toBe('abc123');
+    const svc = new AuthService();
+    const token = await svc.getToken();
+    expect(token).toBe('abc123');
   });
 
   test('loginCommand prompts when no token provided', async () => {
     await loginCommand({});
-    const cfg = JSON.parse(fs.readFileSync(configFile, 'utf8'));
-    expect(cfg.token).toBe('interactive-token');
+    const svc = new AuthService();
+    const token = await svc.getToken();
+    expect(token).toBe('interactive-token');
   });
 
   test('AuthService.getToken respects expiration', async () => {
     const svc = new AuthService();
     await svc.login('exp-token');
-    const first = svc.getToken();
+    const first = await svc.getToken();
     expect(first).toBe('exp-token');
+    
     // Corrupt expiresAt to past
     const cfg = JSON.parse(fs.readFileSync(configFile, 'utf8'));
     cfg.expiresAt = new Date(Date.now() - 1000).toISOString();
     fs.writeFileSync(configFile, JSON.stringify(cfg, null, 2));
-    const second = svc.getToken();
+    
+    const second = await svc.getToken();
     expect(second).toBeNull();
   });
 
@@ -62,5 +77,7 @@ describe('Auth flow', () => {
     expect(fs.existsSync(configFile)).toBe(true);
     await logoutCommand();
     expect(fs.existsSync(configFile)).toBe(false);
+    const token = await svc.getToken();
+    expect(token).toBeNull();
   });
 });

@@ -17,6 +17,6 @@ describe('--no-spinner flag', () => {
   it('respects --no-spinner for generate', () => {
     const res = spawnSync('node', [cliPath, 'generate', '--no-spinner', '--spec', spec, '--language', 'typescript', '--output', tmpDir], { encoding: 'utf8' });
     expect(res.status).toBe(0);
-    expect(res.stdout).toContain('Code generation completed');
+    expect(res.stdout).toContain('Synthesis Complete');
   });
 });

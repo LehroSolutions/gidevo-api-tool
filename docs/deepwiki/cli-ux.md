@@ -4,28 +4,45 @@ Focus on clear feedback, accessibility, and CI friendliness.
 
 ---
 
-## UI System (Updated November 2025)
+## UI System (December 2025 - Avant-Garde)
 
-The CLI now uses a comprehensive UI system (`src/cli/utils/ui.ts`) providing consistent, beautiful output.
+The CLI uses a comprehensive UI system (`src/cli/utils/ui.ts`) providing consistent, premium output with a futuristic design language.
+
+### Design Philosophy: Intentional Minimalism
+
+The UI follows these principles:
+- **Reduction over decoration** - Every element serves a purpose
+- **Asymmetric elegance** - Modern, non-templated layouts
+- **Premium language** - Technical sophistication in terminology
 
 ### Banner Display
 
 ```
-╔════════════════════════════════════════════════════════════╗
-║                                                            ║
-║   ██████╗ ██╗██████╗ ███████╗██╗   ██╗ ██████╗              ║
-║   ██╔════╝ ██║██╔══██╗██╔════╝██║   ██║██╔═══██╗             ║
-║   ...                                                      ║
-║                                                            ║
-║   Enterprise-grade API Integration & Code Generation       ║
-║                                                            ║
-╚════════════════════════════════════════════════════════════╝
+  G I D E V O
+  ──────────────────────
+  API Integration Engine
+  v0.1.5
 ```
 
 ### Compact Banner (for subcommands)
 ```
-  GIDEVO API Tool ⚡
+  ● GIDEVO API Tool
 ```
+
+---
+
+## Color Theme (Avant-Garde Palette)
+
+| Purpose | Color | Hex |
+|---------|-------|-----|
+| Primary (Core Identity) | Violet | #8B5CF6 |
+| Secondary (Actions) | Cyan | #06B6D4 |
+| Accent (Highlights) | Pink | #EC4899 |
+| Success | Emerald | #10B981 |
+| Error | Red | #EF4444 |
+| Warning | Amber | #F59E0B |
+| Dim/Muted | Slate | #64748B |
+| Background | Dark Slate | #1E293B |
 
 ---
 
@@ -35,8 +52,9 @@ The CLI now uses a comprehensive UI system (`src/cli/utils/ui.ts`) providing con
 |------|-------------|
 | `--no-spinner` | Disable spinners (for CI or screen readers) |
 | `--no-color` | Disable ANSI color output |
-| `--no-plugins` | Disable plugin loading |
+| `--no-plugins` | Disable extension loading |
 | `-q, --quiet` | Suppress banner and non-essential output |
+| `-i, --interactive` | Run in guided wizard mode |
 
 ---
 
@@ -51,78 +69,97 @@ The CLI now uses a comprehensive UI system (`src/cli/utils/ui.ts`) providing con
 
 ---
 
-## Message Types
+## Message Types (Avant-Garde Style)
 
 ### Success Messages
 ```
-  ✓ Operation completed successfully!
-    Additional details here.
+  ✔ SUCCESS
+  Operation message here.
 ```
 
 ### Error Messages
 ```
-  ✗ Operation failed
-    Error description here.
+  ✖ ERROR
+  Error description here.
 ```
 
 ### Warning Messages
 ```
-  ⚠ Warning message
-    Additional context.
+  ! WARNING
+  Warning message here.
 ```
 
 ### Info Messages
 ```
-  ℹ Information
-    More details.
+  ℹ INFO
+  Information here.
 ```
 
 ---
 
 ## Progress Indicators
 
-### Step Progress
+### Step Progress (Modern Format)
 ```
-  [1/4] Creating directories...
-  [2/4] Generating package.json...
-  [3/4] Creating spec template...
-  [4/4] Creating documentation...
+  [01/04] Creating directories...
+  [02/04] Generating package.json...
+  [03/04] Creating spec template...
+  [04/04] Creating documentation...
 ```
 
 ### Configuration Tables
 ```
-  Setting          Value
-  ───────────────  ─────────────────────────────
-  Spec File        /path/to/api.yaml
-  Language         typescript
-  Output Dir       ./generated
+  PARAMETER           VALUE
+  Source Document     /path/to/api.yaml
+  Verification Mode   STRICT
+  Output Artifact     ./generated
+```
+
+---
+
+## Section Headers
+
+Section headers use UPPERCASE with `::` prefix:
+
+```
+  :: SCHEMA INTEGRITY VERIFICATION
+
+  :: SDK SYNTHESIS PROTOCOL
+
+  :: IDENTITY CONTEXT
 ```
 
 ---
 
 ## Next Steps Sections
 
-After command completion, helpful suggestions are shown:
+After command completion, actionable guidance:
 
 ```
-  📋 Next Steps:
+  READY TO BUILD
 
-    1. Review generated code in ./output
-    2. Install dependencies if needed
-    3. Import and use the generated SDK
+  1. cd my-api
+  2. Define your schema in specs/
+  3. Run synthesis: npm run generate
 ```
 
 ---
 
-## Color Theme
+## Terminology Mapping
 
-| Purpose | Color | Hex |
-|---------|-------|-----|
-| Primary (branding, headers) | Blue | #3B82F6 |
-| Success | Green | #10B981 |
-| Accent (warnings, highlights) | Amber | #F59E0B |
-| Errors | Red | Default |
-| Muted text | Gray | Default |
+The Avant-Garde design uses distinctive terminology:
+
+| Concept | Avant-Garde Term |
+|---------|------------------|
+| Generate code | Synthesis |
+| Validate specs | Schema Integrity Verification |
+| Login | Secure Context Establishment |
+| Logout | Session Termination |
+| Plugins | Extensions |
+| Configuration | Environment Manifest |
+| Errors | Anomalies |
+| Files | Artifacts |
+| Directories | Workspaces / Vaults |
 
 ---
 
@@ -130,7 +167,7 @@ After command completion, helpful suggestions are shown:
 
 - Visual spinner via `ora` shows progress for long operations
 - Spinner wrapper (`createSpinner`) ensures fallback to no-op in non-TTY or CI
-- Success/failure uses clear Unicode icons (✓, ✗, ⚠, ℹ)
+- Success/failure uses clear Unicode icons (✔, ✖, !, ℹ)
 
 ---
 
@@ -145,46 +182,52 @@ After command completion, helpful suggestions are shown:
 
 ---
 
-## Using UI Utilities in Plugins
+## Using UI Utilities in Extensions
 
-Plugin developers can import and use the UI system:
+Extension developers can import and use the UI system:
 
 ```typescript
 import { ui } from 'gidevo-api-tool';
 
-// In your plugin
+// In your extension
 ui.showCompactBanner();
-ui.sectionHeader('My Plugin');
-ui.step(1, 3, 'Processing...');
-ui.success('Plugin completed!', 'Processed 10 files');
+ui.sectionHeader('MY EXTENSION');
+ui.success('Extension Complete', 'Processed 10 files');
 ui.nextSteps([
   'Review the output',
-  'Run tests'
+  'Run verification tests'
 ]);
+
+// Access theme colors directly
+console.log(chalk.hex(ui.theme.primary)('Custom colored text'));
 ```
 
 ### Available UI Functions
 
 | Function | Description |
 |----------|-------------|
-| `showBanner()` | Display full ASCII banner |
+| `showBanner()` | Display minimalist banner |
 | `showCompactBanner()` | Display compact banner |
-| `sectionHeader(title)` | Display section header |
-| `success(msg, details?)` | Success message |
-| `error(msg, details?)` | Error message |
-| `warning(msg, details?)` | Warning message |
-| `info(msg, details?)` | Info message |
-| `step(n, total, msg)` | Progress step |
-| `table(headers, rows)` | Display table |
-| `divider()` | Horizontal divider |
-| `nextSteps(steps)` | Next steps list |
-| `keyValue(key, value)` | Key-value pair |
-| `highlight(text)` | Highlighted text |
-| `filePath(path)` | Formatted file path |
-| `timestamp(date)` | Formatted timestamp |
+| `sectionHeader(title)` | Display UPPERCASE section header |
+| `success(msg, details?)` | Success message with ✔ |
+| `error(msg, details?)` | Error message with ✖ |
+| `warning(msg, details?)` | Warning message with ! |
+| `info(msg, details?)` | Info message with ℹ |
+| `step(n, total, msg)` | Progress step [01/04] |
+| `table(headers, rows)` | Display modern table |
+| `divider()` | Subtle horizontal divider |
+| `nextSteps(steps)` | READY TO BUILD list |
+| `list(items, title?)` | Arrow-prefixed list |
+| `keyValue(key, value)` | Key: Value pair |
+| `box(content, opts)` | Bordered content box |
+| `highlight(text)` | Accent-colored text |
+| `filePath(path)` | Underlined dim path |
+| `timestamp(date)` | ISO date format |
+| `theme` | Direct access to color palette |
 
 ---
 
 See also:
 - [Architecture Overview](architecture.md)
+- [ADR-003: Avant-Garde UI Overhaul](ADR-003-Avant-Garde-UI-Overhaul.md)
 - [CHANGELOG-UI-IMPROVEMENTS.md](CHANGELOG-UI-IMPROVEMENTS.md)

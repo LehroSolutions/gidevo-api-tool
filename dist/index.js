@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.interactiveMode = exports.select = exports.mergeWithConfig = exports.getConfigValue = exports.getConfigPath = exports.loadConfig = exports.ui = exports.configCommand = exports.whoamiCommand = exports.pluginCommand = exports.logoutCommand = exports.loginCommand = exports.validateCommand = exports.generateCommand = exports.initCommand = exports.TelemetryService = exports.LogLevel = exports.Logger = exports.loadPlugins = exports.AuthService = exports.Validator = exports.CodeGenerator = void 0;
+exports.SecretsManager = exports.interactiveMode = exports.password = exports.select = exports.mergeWithConfig = exports.getConfigValue = exports.getConfigPath = exports.loadConfig = exports.ui = exports.configCommand = exports.whoamiCommand = exports.pluginCommand = exports.logoutCommand = exports.loginCommand = exports.validateCommand = exports.generateCommand = exports.initCommand = exports.TelemetryService = exports.LogLevel = exports.Logger = exports.loadPlugins = exports.AuthService = exports.Validator = exports.CodeGenerator = void 0;
 // Public API exports for gidevo-api-tool
 // Allows programmatic usage when imported as a library
 var generator_1 = require("./core/generator");
@@ -47,5 +47,9 @@ var interactive_1 = require("./cli/utils/interactive");
 Object.defineProperty(exports, "prompt", { enumerable: true, get: function () { return interactive_1.prompt; } });
 Object.defineProperty(exports, "select", { enumerable: true, get: function () { return interactive_1.select; } });
 Object.defineProperty(exports, "confirm", { enumerable: true, get: function () { return interactive_1.confirm; } });
+Object.defineProperty(exports, "password", { enumerable: true, get: function () { return interactive_1.password; } });
 Object.defineProperty(exports, "interactiveMode", { enumerable: true, get: function () { return interactive_1.interactiveMode; } });
+// Secrets management (for advanced integrations)
+var secrets_1 = require("./core/secrets");
+Object.defineProperty(exports, "SecretsManager", { enumerable: true, get: function () { return secrets_1.SecretsManager; } });
 //# sourceMappingURL=index.js.map

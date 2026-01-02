@@ -1,8 +1,10 @@
 # ADR-002: UI System Architecture
 
-**Status:** Accepted  
+**Status:** Superseded by ADR-003  
 **Date:** November 25, 2025  
 **Decision Makers:** Development Team
+
+> **Note:** This ADR has been superseded by [ADR-003: Avant-Garde UI Overhaul](ADR-003-Avant-Garde-UI-Overhaul.md) (December 2025) which implements a premium "Neural/Deep Space" design language.
 
 ---
 
@@ -65,7 +67,7 @@ export const ui = {
 };
 ```
 
-### Color Theme
+### Original Color Theme (November 2025)
 
 | Purpose | Color | Hex Code |
 |---------|-------|----------|
@@ -73,21 +75,13 @@ export const ui = {
 | Success | Green | #10B981 |
 | Accent | Amber | #F59E0B |
 
-### Message Format Examples
+### Updated Color Theme (December 2025 - ADR-003)
 
-```
-  ✓ Operation succeeded!
-    Additional details here.
-
-  ✗ Operation failed
-    Error description.
-
-  ⚠ Warning message
-    Additional context.
-
-  ℹ Information
-    More details.
-```
+| Purpose | Color | Hex Code |
+|---------|-------|----------|
+| Primary | Violet | #8B5CF6 |
+| Secondary | Cyan | #06B6D4 |
+| Accent | Pink | #EC4899 |
 
 ---
 
@@ -137,6 +131,7 @@ Build a lightweight, custom UI module using only chalk (already a dependency). T
 ## Related Decisions
 
 - [ADR-001: Plugin Architecture](ADR-001-Plugin-Architecture.md) - UI exported for plugins
+- **[ADR-003: Avant-Garde UI Overhaul](ADR-003-Avant-Garde-UI-Overhaul.md)** - Supersedes this ADR
 
 ---
 

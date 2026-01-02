@@ -24,19 +24,19 @@ describe('validateCommand', () => {
   it('exits with error for file not found', async () => {
     const missing = 'nonexistent.yaml';
     await expect(validateCommand(missing, {})).rejects.toThrow('process.exit');
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Spec file not found'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Source Not Found'));
   });
 
   it('valid spec logs valid', async () => {
     await validateCommand(fixtureValid, {});
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('API Specification Validation'));
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Specification is valid'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('SCHEMA INTEGRITY VERIFICATION'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Schema Integrity Verified'));
   });
 
   it('invalid spec exits with error', async () => {
     const content = 'openapi: "3.0.0"\ninfo:\n  title: ""\npaths: {}';
     fs.writeFileSync(tmpInvalid, content);
     await expect(validateCommand(tmpInvalid, {})).rejects.toThrow('process.exit');
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Validation failed'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Integrity Check Failed'));
   });
 });

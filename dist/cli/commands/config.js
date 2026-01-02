@@ -42,20 +42,20 @@ const ui_1 = require("../utils/ui");
 const config_1 = require("../utils/config");
 async function configCommand(options) {
     ui_1.ui.showCompactBanner();
-    ui_1.ui.sectionHeader('Configuration');
+    ui_1.ui.sectionHeader('ENVIRONMENT CONFIGURATION');
     // If --init flag, create sample config
     if (options.init) {
         const configPath = path.resolve('.gidevorc.json');
         if (fs.existsSync(configPath)) {
-            ui_1.ui.warning('Config file already exists', ui_1.ui.filePath(configPath));
-            ui_1.ui.info('Tip', 'Remove existing file first or edit it manually');
+            ui_1.ui.warning('Manifest Already Exists', ui_1.ui.filePath(configPath));
+            ui_1.ui.info('Resolution', 'Remove existing manifest or modify directly');
             return;
         }
         (0, config_1.createSampleConfig)('.gidevorc.json');
-        ui_1.ui.success('Created configuration file', ui_1.ui.filePath(configPath));
+        ui_1.ui.success('Manifest Synthesized', ui_1.ui.filePath(configPath));
         ui_1.ui.nextSteps([
-            'Edit .gidevorc.json to customize defaults',
-            'Run gidevo-api-tool config --show to view current settings',
+            'Modify .gidevorc.json to define project defaults',
+            'Inspect: gidevo-api-tool config --show',
         ]);
         return;
     }
@@ -63,11 +63,11 @@ async function configCommand(options) {
     if (options.path) {
         const configPath = (0, config_1.getConfigPath)();
         if (configPath) {
-            ui_1.ui.success('Config file found', ui_1.ui.filePath(configPath));
+            ui_1.ui.success('Manifest Located', ui_1.ui.filePath(configPath));
         }
         else {
-            ui_1.ui.info('No config file', 'No .gidevorc.json found in project directory');
-            ui_1.ui.info('Tip', 'Run gidevo-api-tool config --init to create one');
+            ui_1.ui.info('No Manifest Detected', 'Workspace lacks .gidevorc.json');
+            ui_1.ui.info('Initialize', 'gidevo-api-tool config --init');
         }
         return;
     }
@@ -75,33 +75,33 @@ async function configCommand(options) {
     const configPath = (0, config_1.getConfigPath)();
     const config = (0, config_1.loadConfig)();
     if (!configPath) {
-        ui_1.ui.info('No configuration file found', 'Using default settings');
+        ui_1.ui.info('Operating in Default Mode', 'No project manifest detected');
         ui_1.ui.nextSteps([
-            'Run gidevo-api-tool config --init to create a config file',
+            'Initialize manifest: gidevo-api-tool config --init',
         ]);
         return;
     }
-    ui_1.ui.success('Config file', ui_1.ui.filePath(configPath));
+    ui_1.ui.success('Active Manifest', ui_1.ui.filePath(configPath));
     ui_1.ui.divider();
     // Display configuration sections
     if (config.generate) {
-        ui_1.ui.sectionHeader('Generate Defaults');
+        ui_1.ui.sectionHeader('SYNTHESIS DEFAULTS');
         displayConfigSection(config.generate);
     }
     if (config.init) {
-        ui_1.ui.sectionHeader('Init Defaults');
+        ui_1.ui.sectionHeader('INITIALIZATION DEFAULTS');
         displayConfigSection(config.init);
     }
     if (config.validate) {
-        ui_1.ui.sectionHeader('Validate Defaults');
+        ui_1.ui.sectionHeader('VERIFICATION DEFAULTS');
         displayConfigSection(config.validate);
     }
     if (config.plugins) {
-        ui_1.ui.sectionHeader('Plugin Settings');
+        ui_1.ui.sectionHeader('EXTENSION CONFIGURATION');
         displayConfigSection(config.plugins);
     }
     if (config.telemetry) {
-        ui_1.ui.sectionHeader('Telemetry Settings');
+        ui_1.ui.sectionHeader('TELEMETRY CONFIGURATION');
         displayConfigSection(config.telemetry);
     }
 }

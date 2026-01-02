@@ -11,6 +11,7 @@ import requests
 from typing import Optional, Dict, Any, List, TypeVar, Generic
 from dataclasses import dataclass
 from enum import Enum
+from .models import *
 
 T = TypeVar('T')
 

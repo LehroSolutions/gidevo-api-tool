@@ -23,7 +23,7 @@ describe('whoamiCommand', () => {
   it('prints not authenticated when no token is present', async () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
     await whoamiCommand();
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Not authenticated'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('No Active Context'));
     spy.mockRestore();
   });
 
@@ -43,7 +43,7 @@ describe('whoamiCommand', () => {
     expect(hasUserId).toBe(true);
     
     // Check that Authenticated success appears
-    const hasAuth = logs.some(log => log.includes('Authenticated'));
+    const hasAuth = logs.some(log => log.includes('Session Active'));
     expect(hasAuth).toBe(true);
 
     spy.mockRestore();

@@ -47,7 +47,7 @@ const spinner_1 = require("../utils/spinner");
  */
 async function pluginCommand(name, args) {
     ui_1.ui.showCompactBanner();
-    ui_1.ui.sectionHeader('Plugin Execution');
+    ui_1.ui.sectionHeader('EXTENSION RUNTIME');
     // Determine plugin directory: prefer compiled dist/plugins, fallback to src/plugins
     const candidatePluginDirs = [
         path.resolve(__dirname, '..', '..', 'plugins'), // dist/plugins after build
@@ -59,16 +59,16 @@ async function pluginCommand(name, args) {
         plugins = (0, plugin_1.loadPlugins)(pluginDir);
     }
     catch (error) {
-        ui_1.ui.error('Failed to load plugins', error.message);
+        ui_1.ui.error('Extension Load Failed', error.message);
         process.exit(1);
     }
     // List available plugins if requested
     if (name === 'list' || name === '--list') {
         if (plugins.length === 0) {
-            ui_1.ui.warning('No plugins found', `Plugin directory: ${ui_1.ui.filePath(pluginDir)}`);
+            ui_1.ui.warning('No Extensions Detected', `Scanned: ${ui_1.ui.filePath(pluginDir)}`);
         }
         else {
-            ui_1.ui.sectionHeader('Available Plugins');
+            ui_1.ui.sectionHeader('REGISTERED EXTENSIONS');
             plugins.forEach(plugin => {
                 console.log(`    ${ui_1.ui.highlight(plugin.name)}`);
             });
@@ -77,23 +77,23 @@ async function pluginCommand(name, args) {
     }
     const plugin = plugins.find(p => p.name.toLowerCase() === name.toLowerCase());
     if (!plugin) {
-        ui_1.ui.error('Plugin not found', `"${name}" is not a registered plugin`);
+        ui_1.ui.error('Extension Unknown', `"${name}" not in registry`);
         if (plugins.length > 0) {
-            ui_1.ui.sectionHeader('Available Plugins');
+            ui_1.ui.sectionHeader('REGISTERED EXTENSIONS');
             plugins.forEach(p => {
                 console.log(`    ${ui_1.ui.highlight(p.name)}`);
             });
         }
         else {
-            ui_1.ui.warning('No plugins available', `Plugin directory: ${ui_1.ui.filePath(pluginDir)}`);
+            ui_1.ui.warning('Registry Empty', `Scanned: ${ui_1.ui.filePath(pluginDir)}`);
         }
         process.exit(1);
     }
-    ui_1.ui.info('Running plugin', ui_1.ui.highlight(plugin.name));
+    ui_1.ui.info('Invocation', ui_1.ui.highlight(plugin.name));
     if (args.length > 0) {
-        ui_1.ui.keyValue('Arguments', args.join(' '));
+        ui_1.ui.keyValue('Parameters', args.join(' '));
     }
-    const spinner = await (0, spinner_1.createSpinner)(`Executing ${plugin.name}...`);
+    const spinner = await (0, spinner_1.createSpinner)(`Executing extension...`);
     if (spinner.start)
         spinner.start();
     try {
@@ -102,14 +102,14 @@ async function pluginCommand(name, args) {
         const duration = Date.now() - startTime;
         spinner.stop();
         if (!success) {
-            ui_1.ui.error(`Plugin "${plugin.name}" failed`);
+            ui_1.ui.error(`Extension Execution Failed`, plugin.name);
             process.exit(1);
         }
-        ui_1.ui.success(`Plugin "${plugin.name}" completed`, `Duration: ${formatDuration(duration)}`);
+        ui_1.ui.success(`Extension Complete`, `${plugin.name} | ${formatDuration(duration)}`);
     }
     catch (error) {
         spinner.stop();
-        ui_1.ui.error(`Plugin "${plugin.name}" threw an error`, error.message);
+        ui_1.ui.error(`Extension Runtime Error`, `${plugin.name}: ${error.message}`);
         process.exit(1);
     }
 }

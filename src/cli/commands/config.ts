@@ -13,24 +13,24 @@ interface ConfigOptions {
 
 export async function configCommand(options: ConfigOptions) {
   ui.showCompactBanner();
-  ui.sectionHeader('Configuration');
+  ui.sectionHeader('ENVIRONMENT CONFIGURATION');
 
   // If --init flag, create sample config
   if (options.init) {
     const configPath = path.resolve('.gidevorc.json');
-    
+
     if (fs.existsSync(configPath)) {
-      ui.warning('Config file already exists', ui.filePath(configPath));
-      ui.info('Tip', 'Remove existing file first or edit it manually');
+      ui.warning('Manifest Already Exists', ui.filePath(configPath));
+      ui.info('Resolution', 'Remove existing manifest or modify directly');
       return;
     }
 
     createSampleConfig('.gidevorc.json');
-    ui.success('Created configuration file', ui.filePath(configPath));
-    
+    ui.success('Manifest Synthesized', ui.filePath(configPath));
+
     ui.nextSteps([
-      'Edit .gidevorc.json to customize defaults',
-      'Run gidevo-api-tool config --show to view current settings',
+      'Modify .gidevorc.json to define project defaults',
+      'Inspect: gidevo-api-tool config --show',
     ]);
     return;
   }
@@ -39,10 +39,10 @@ export async function configCommand(options: ConfigOptions) {
   if (options.path) {
     const configPath = getConfigPath();
     if (configPath) {
-      ui.success('Config file found', ui.filePath(configPath));
+      ui.success('Manifest Located', ui.filePath(configPath));
     } else {
-      ui.info('No config file', 'No .gidevorc.json found in project directory');
-      ui.info('Tip', 'Run gidevo-api-tool config --init to create one');
+      ui.info('No Manifest Detected', 'Workspace lacks .gidevorc.json');
+      ui.info('Initialize', 'gidevo-api-tool config --init');
     }
     return;
   }
@@ -52,47 +52,47 @@ export async function configCommand(options: ConfigOptions) {
   const config = loadConfig();
 
   if (!configPath) {
-    ui.info('No configuration file found', 'Using default settings');
+    ui.info('Operating in Default Mode', 'No project manifest detected');
     ui.nextSteps([
-      'Run gidevo-api-tool config --init to create a config file',
+      'Initialize manifest: gidevo-api-tool config --init',
     ]);
     return;
   }
 
-  ui.success('Config file', ui.filePath(configPath));
+  ui.success('Active Manifest', ui.filePath(configPath));
   ui.divider();
 
   // Display configuration sections
   if (config.generate) {
-    ui.sectionHeader('Generate Defaults');
+    ui.sectionHeader('SYNTHESIS DEFAULTS');
     displayConfigSection(config.generate);
   }
 
   if (config.init) {
-    ui.sectionHeader('Init Defaults');
+    ui.sectionHeader('INITIALIZATION DEFAULTS');
     displayConfigSection(config.init);
   }
 
   if (config.validate) {
-    ui.sectionHeader('Validate Defaults');
+    ui.sectionHeader('VERIFICATION DEFAULTS');
     displayConfigSection(config.validate);
   }
 
   if (config.plugins) {
-    ui.sectionHeader('Plugin Settings');
+    ui.sectionHeader('EXTENSION CONFIGURATION');
     displayConfigSection(config.plugins);
   }
 
   if (config.telemetry) {
-    ui.sectionHeader('Telemetry Settings');
+    ui.sectionHeader('TELEMETRY CONFIGURATION');
     displayConfigSection(config.telemetry);
   }
 }
 
 function displayConfigSection(section: Record<string, any>) {
   for (const [key, value] of Object.entries(section)) {
-    const displayValue = typeof value === 'object' 
-      ? JSON.stringify(value) 
+    const displayValue = typeof value === 'object'
+      ? JSON.stringify(value)
       : String(value);
     ui.keyValue(key, displayValue);
   }

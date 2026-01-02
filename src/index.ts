@@ -34,5 +34,9 @@ export {
   prompt, 
   select, 
   confirm, 
+  password,
   interactiveMode 
 } from './cli/utils/interactive';
+
+// Secrets management (for advanced integrations)
+export { SecretsManager } from './core/secrets';

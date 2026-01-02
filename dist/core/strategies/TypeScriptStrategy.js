@@ -37,21 +37,15 @@ exports.TypeScriptStrategy = void 0;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const Handlebars = __importStar(require("handlebars"));
+const handlebarsHelpers_1 = require("./handlebarsHelpers");
 class TypeScriptStrategy {
     constructor() {
         // Resolve templates directory relative to this file
         // In production (dist), this will be .../dist/templates/typescript
         // In development (src), this will be .../src/templates/typescript
         this.templatesDir = path.join(__dirname, '../../templates/typescript');
-        Handlebars.registerHelper('eq', function (a, b) {
-            return a === b;
-        });
-        Handlebars.registerHelper('methodName', function (method, path) {
-            const cleanPath = path.replace(/[^a-zA-Z0-9]/g, ' ').trim();
-            const parts = cleanPath.split(' ');
-            const pathName = parts.map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join('');
-            return method + pathName;
-        });
+        // Register helpers once (idempotent)
+        (0, handlebarsHelpers_1.registerHandlebarsHelpers)();
     }
     async generate(spec, outputDir) {
         const clientCode = await this.generateClient(spec);

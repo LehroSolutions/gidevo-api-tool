@@ -24,90 +24,90 @@ export async function generateCommand(options: GenerateOptions) {
   const { spec, language = 'typescript', output = './generated' } = mergedOptions;
 
   ui.showCompactBanner();
-  ui.sectionHeader('Code Generation');
+  ui.sectionHeader('SDK SYNTHESIS PROTOCOL');
 
   // Show config file if used
   const configPath = getConfigPath();
   if (configPath) {
-    ui.info('Using config', ui.filePath(configPath));
+    ui.info('Context Loaded', ui.filePath(configPath));
   }
 
   // Validate required spec option
   if (!spec) {
-    ui.error('Missing required option', 'Please specify a spec file with -s or --spec');
-    ui.info('Usage', 'gidevo-api-tool generate -s <spec-file> [-l language] [-o output]');
+    ui.error('Missing Directive', 'Specification file required via -s or --spec');
+    ui.info('Usage', 'gidevo-api-tool generate -s <spec-file>');
     process.exit(1);
   }
 
   // Validate language
   if (!SUPPORTED_LANGUAGES.includes(language.toLowerCase())) {
-    ui.error('Unsupported language', `Language must be one of: ${SUPPORTED_LANGUAGES.join(', ')}`);
-    ui.info('Tip', 'Use -l typescript or -l python');
+    ui.error('Target Unsupported', `Runtime environment must be: ${SUPPORTED_LANGUAGES.join(', ')}`);
     process.exit(1);
   }
 
   // Check if spec file exists
   if (!fs.existsSync(spec)) {
-    ui.error('Spec file not found', ui.filePath(spec));
-    ui.info('Tip', 'Make sure the path is correct and the file exists');
+    ui.error('Source Not Found', ui.filePath(spec));
     process.exit(1);
   }
 
   // Display configuration
   ui.table(
-    ['Setting', 'Value'],
+    ['Parameter', 'Value'],
     [
-      ['Spec File', ui.filePath(path.resolve(spec))],
-      ['Language', ui.highlight(language)],
-      ['Output Dir', ui.filePath(path.resolve(output))],
+      ['Source Spec', ui.filePath(path.basename(spec))],
+      ['Target Runtime', ui.highlight(language)],
+      ['Output Artifact', ui.filePath(path.resolve(output))],
     ]
   );
 
   telemetry.track('generate_start', { language });
 
-  const spinner = await createSpinner(`Generating ${language} SDK`);
+  const spinner = await createSpinner(`Synthesizing ${language} SDK...`);
   if (spinner.start) spinner.start();
 
   const generator = new CodeGenerator();
 
   try {
     const startTime = Date.now();
-    
-    ui.step(1, 3, 'Validating API specification...');
-    ui.step(2, 3, `Generating ${language} SDK...`);
-    
+
+    // Steps are handled by the generator internally or we can denote phases here
+    // But since generator is a black box call, we just show the spinner.
+    // Ideally we would hook into generator events.
+    if (spinner.text) spinner.text = 'Parsing Neural Schema...';
+    await new Promise(r => setTimeout(r, 400)); // Visual pacing
+
+    if (spinner.text) spinner.text = `Compiling ${language} Definitions...`;
+
     await generator.generate({ spec, language, outputDir: output });
-    
-    ui.step(3, 3, 'Finalizing output...');
-    
+
+    if (spinner.text) spinner.text = 'Optimizing Artifacts...';
+
     const duration = Date.now() - startTime;
 
-    spinner.stop();
-    
+    if (spinner.stop) spinner.stop();
+
     ui.divider();
-    ui.success('Code generation completed!', `Duration: ${formatDuration(duration)}`);
-    
+    ui.success('Synthesis Complete', `Execution Time: ${formatDuration(duration)}`);
+
     // List generated files
     const generatedFiles = listGeneratedFiles(output);
     if (generatedFiles.length > 0) {
-      ui.sectionHeader('Generated Files');
-      generatedFiles.forEach(file => {
-        console.log(`    ${ui.filePath(file)}`);
-      });
+      ui.list(generatedFiles.map(f => ui.filePath(f)), 'ARTIFACT MANIFEST');
     }
 
     ui.nextSteps([
-      `Review generated code in ${ui.filePath(output)}`,
-      'Install dependencies if needed',
-      'Import and use the generated SDK in your project',
+      `Integrate artifacts from ${ui.filePath(output)}`,
+      'Install required runtime dependencies',
+      'Initialize client with generated tokens',
     ]);
 
     telemetry.track('generate_success', { language, duration });
     logger.info('Generation completed successfully!');
     logger.info(`Output: ${path.resolve(output)}`);
   } catch (error: any) {
-    spinner.stop();
-    ui.error('Generation failed', error.message);
+    if (spinner.stop) spinner.stop();
+    ui.error('Synthesis Failed', error.message);
     logger.error('Generation failed', { error });
     telemetry.captureException(error, { language });
     telemetry.track('generate_fail', { language, error: error.message });

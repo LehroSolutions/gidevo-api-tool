@@ -23,13 +23,13 @@ describe('E2E CLI tests', () => {
   it('whoami prints not authenticated', () => {
     const res = spawnSync('node', [cliPath, 'whoami'], { encoding: 'utf8' });
     expect(res.status).toBe(0);
-    expect(res.stdout).toContain('Not authenticated');
+    expect(res.stdout).toContain('No Active Context');
   });
 
   it('init command scaffolds project', () => {
     const res = spawnSync('node', [cliPath, 'init', '--template', 'openapi', '--output', tmpInit], { encoding: 'utf8' });
     expect(res.status).toBe(0);
-    expect(res.stdout).toContain('Project initialized successfully');
+    expect(res.stdout).toContain('Project Architecture Synthesized');
     expect(fs.existsSync(tmpInit)).toBe(true);
     // Expect specs folder and api.yaml
     const specPath = path.join(tmpInit, 'specs', 'api.yaml');
@@ -39,14 +39,14 @@ describe('E2E CLI tests', () => {
   it('validate valid spec', () => {
     const res = spawnSync('node', [cliPath, 'validate', fixtureSpec], { encoding: 'utf8' });
     expect(res.status).toBe(0);
-    expect(res.stdout).toContain('Specification is valid');
+    expect(res.stdout).toContain('Schema Integrity Verified');
   });
 
   it('validate missing spec exits with error', () => {
     const missing = 'does-not-exist.yaml';
     const res = spawnSync('node', [cliPath, 'validate', missing], { encoding: 'utf8' });
     expect(res.status).toBe(1);
-    expect(res.stdout).toContain('Spec file not found');
+    expect(res.stdout).toContain('Source Not Found');
   });
 
   it('generate SDK produces output', () => {
@@ -56,7 +56,7 @@ describe('E2E CLI tests', () => {
       { encoding: 'utf8' }
     );
     expect(res.status).toBe(0);
-    expect(res.stdout).toContain('Code generation completed');
+    expect(res.stdout).toContain('Synthesis Complete');
     expect(fs.existsSync(tmpGen)).toBe(true);
     // Expect at least one file in output dir
     const files = fs.readdirSync(tmpGen);

@@ -7,17 +7,17 @@ const auth_1 = require("../../core/auth");
 const ui_1 = require("../utils/ui");
 async function logoutCommand() {
     ui_1.ui.showCompactBanner();
-    ui_1.ui.sectionHeader('Logout');
+    ui_1.ui.sectionHeader('SESSION TERMINATION');
     const authService = new auth_1.AuthService();
     // Check if currently authenticated
-    const token = authService.getToken();
+    const token = await authService.getToken();
     if (!token) {
-        ui_1.ui.warning('Not authenticated', 'You are not currently logged in.');
+        ui_1.ui.warning('No Active Session', 'Context already cleared.');
         return;
     }
-    authService.logout();
-    ui_1.ui.success('Logged out successfully', 'Your credentials have been removed.');
+    await authService.logout();
+    ui_1.ui.success('Session Terminated', 'Credentials purged from vault.');
     ui_1.ui.divider();
-    ui_1.ui.info('Next', 'Run "gidevo-api-tool login" to authenticate again.');
+    ui_1.ui.info('Re-establish', 'gidevo-api-tool login to create new context');
 }
 //# sourceMappingURL=logout.js.map

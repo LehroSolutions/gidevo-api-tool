@@ -37,16 +37,32 @@ exports.PythonStrategy = void 0;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const Handlebars = __importStar(require("handlebars"));
+const handlebarsHelpers_1 = require("./handlebarsHelpers");
 class PythonStrategy {
     constructor() {
         this.templatesDir = path.resolve(__dirname, '../../templates/python');
+        // Register helpers once (idempotent)
+        (0, handlebarsHelpers_1.registerHandlebarsHelpers)();
     }
     async generate(spec, outputDir) {
         const clientCode = await this.generateClient(spec);
+        const modelsCode = await this.generateModels(spec);
         await fs.promises.writeFile(path.join(outputDir, 'client.py'), clientCode);
+        await fs.promises.writeFile(path.join(outputDir, 'models.py'), modelsCode);
     }
     async generateClient(spec) {
         const templatePath = path.join(this.templatesDir, 'client.hbs');
+        try {
+            const templateContent = await fs.promises.readFile(templatePath, 'utf-8');
+            const template = Handlebars.compile(templateContent);
+            return template(spec);
+        }
+        catch (error) {
+            throw new Error(`Failed to load template from ${templatePath}: ${error}`);
+        }
+    }
+    async generateModels(spec) {
+        const templatePath = path.join(this.templatesDir, 'models.hbs');
         try {
             const templateContent = await fs.promises.readFile(templatePath, 'utf-8');
             const template = Handlebars.compile(templateContent);

@@ -43,7 +43,7 @@ describe('CLI Generate Command', () => {
   it('exits with error for missing spec', async () => {
     const exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => { throw new Error('process.exit'); }) as any);
     await expect(generateCommand({ spec: undefined as any, language: 'typescript', output: tmpTs })).rejects.toThrow('process.exit');
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Missing required option'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Missing Directive'));
     exitSpy.mockRestore();
   });
 });

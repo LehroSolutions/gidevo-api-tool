@@ -1,5 +1,5 @@
 /**
- * Display the application banner
+ * Display the application banner with premium styling
  */
 export declare function showBanner(): void;
 /**
@@ -13,6 +13,8 @@ export interface BoxOptions {
     title?: string;
     padding?: number;
     borderColor?: string;
+    borderStyle?: 'single' | 'double' | 'round';
+    dimBorder?: boolean;
 }
 /**
  * Create a styled box around content
@@ -23,7 +25,7 @@ export declare function box(content: string, options?: BoxOptions): string;
  */
 export declare function success(message: string, details?: string): void;
 /**
- * Display an error message
+ * Display an error message with high visibility
  */
 export declare function error(message: string, details?: string): void;
 /**
@@ -35,7 +37,7 @@ export declare function warning(message: string, details?: string): void;
  */
 export declare function info(message: string, details?: string): void;
 /**
- * Display a step in a process
+ * Display a step in a process (Modern Minimalist)
  */
 export declare function step(stepNum: number, total: number, message: string): void;
 /**
@@ -47,15 +49,15 @@ export declare function list(items: string[], title?: string): void;
  */
 export declare function keyValue(key: string, value: string, indent?: number): void;
 /**
- * Display a table
+ * Display a modern table
  */
 export declare function table(headers: string[], rows: string[][]): void;
 /**
- * Display a progress bar
+ * Display a minimalist progress bar
  */
 export declare function progressBar(current: number, total: number, width?: number): string;
 /**
- * Display a divider
+ * Display a subtle divider
  */
 export declare function divider(char?: string, length?: number): void;
 /**
@@ -102,6 +104,16 @@ export declare const ui: {
     highlight: typeof highlight;
     filePath: typeof filePath;
     timestamp: typeof timestamp;
+    theme: {
+        primary: string;
+        secondary: string;
+        accent: string;
+        dim: string;
+        bg: string;
+        success: string;
+        error: string;
+        warning: string;
+    };
 };
 export default ui;
 //# sourceMappingURL=ui.d.ts.map

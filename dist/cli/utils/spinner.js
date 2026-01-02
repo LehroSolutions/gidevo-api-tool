@@ -56,7 +56,13 @@ async function createSpinner(message) {
     try {
         const mod = await Promise.resolve().then(() => __importStar(require('ora')));
         const ora = mod.default || mod;
-        return ora(message);
+        // Avant-Garde Configuration
+        return ora({
+            text: message,
+            color: 'magenta', // Closest to our Violet/Pink theme supported by ora
+            spinner: 'dots12', // A more "digital" feel
+            prefixText: '  ' // Indent to match our UI
+        });
     }
     catch {
         return noopSpinner(message);

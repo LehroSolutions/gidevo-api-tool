@@ -5,21 +5,21 @@ import { ui } from '../utils/ui';
 
 export async function logoutCommand() {
   ui.showCompactBanner();
-  ui.sectionHeader('Logout');
+  ui.sectionHeader('SESSION TERMINATION');
 
   const authService = new AuthService();
-  
+
   // Check if currently authenticated
-  const token = authService.getToken();
+  const token = await authService.getToken();
   if (!token) {
-    ui.warning('Not authenticated', 'You are not currently logged in.');
+    ui.warning('No Active Session', 'Context already cleared.');
     return;
   }
-  
-  authService.logout();
-  ui.success('Logged out successfully', 'Your credentials have been removed.');
-  
+
+  await authService.logout();
+  ui.success('Session Terminated', 'Credentials purged from vault.');
+
   ui.divider();
-  
-  ui.info('Next', 'Run "gidevo-api-tool login" to authenticate again.');
+
+  ui.info('Re-establish', 'gidevo-api-tool login to create new context');
 }

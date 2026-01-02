@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as Handlebars from 'handlebars';
 import { GeneratorStrategy } from './GeneratorStrategy';
+import { registerHandlebarsHelpers } from './handlebarsHelpers';
 
 export class TypeScriptStrategy implements GeneratorStrategy {
   // Resolve templates directory relative to this file
@@ -10,15 +11,8 @@ export class TypeScriptStrategy implements GeneratorStrategy {
   private templatesDir = path.join(__dirname, '../../templates/typescript');
 
   constructor() {
-    Handlebars.registerHelper('eq', function (a, b) {
-      return a === b;
-    });
-    Handlebars.registerHelper('methodName', function (method, path) {
-      const cleanPath = path.replace(/[^a-zA-Z0-9]/g, ' ').trim();
-      const parts = cleanPath.split(' ');
-      const pathName = parts.map((p: string) => p.charAt(0).toUpperCase() + p.slice(1)).join('');
-      return method + pathName;
-    });
+    // Register helpers once (idempotent)
+    registerHandlebarsHelpers();
   }
 
   async generate(spec: any, outputDir: string): Promise<void> {

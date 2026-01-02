@@ -12,7 +12,7 @@ import { createSpinner } from '../utils/spinner';
  */
 export async function pluginCommand(name: string, args: string[]): Promise<void> {
   ui.showCompactBanner();
-  ui.sectionHeader('Plugin Execution');
+  ui.sectionHeader('EXTENSION RUNTIME');
 
   // Determine plugin directory: prefer compiled dist/plugins, fallback to src/plugins
   const candidatePluginDirs = [
@@ -20,21 +20,21 @@ export async function pluginCommand(name: string, args: string[]): Promise<void>
     path.resolve(__dirname, '..', '..', '..', 'src', 'plugins'), // src/plugins during development
   ];
   const pluginDir = candidatePluginDirs.find(d => fs.existsSync(d)) || candidatePluginDirs[0];
-  
+
   let plugins;
   try {
     plugins = loadPlugins(pluginDir);
   } catch (error: any) {
-    ui.error('Failed to load plugins', error.message);
+    ui.error('Extension Load Failed', error.message);
     process.exit(1);
   }
 
   // List available plugins if requested
   if (name === 'list' || name === '--list') {
     if (plugins.length === 0) {
-      ui.warning('No plugins found', `Plugin directory: ${ui.filePath(pluginDir)}`);
+      ui.warning('No Extensions Detected', `Scanned: ${ui.filePath(pluginDir)}`);
     } else {
-      ui.sectionHeader('Available Plugins');
+      ui.sectionHeader('REGISTERED EXTENSIONS');
       plugins.forEach(plugin => {
         console.log(`    ${ui.highlight(plugin.name)}`);
       });
@@ -43,46 +43,46 @@ export async function pluginCommand(name: string, args: string[]): Promise<void>
   }
 
   const plugin = plugins.find(p => p.name.toLowerCase() === name.toLowerCase());
-  
+
   if (!plugin) {
-    ui.error('Plugin not found', `"${name}" is not a registered plugin`);
-    
+    ui.error('Extension Unknown', `"${name}" not in registry`);
+
     if (plugins.length > 0) {
-      ui.sectionHeader('Available Plugins');
+      ui.sectionHeader('REGISTERED EXTENSIONS');
       plugins.forEach(p => {
         console.log(`    ${ui.highlight(p.name)}`);
       });
     } else {
-      ui.warning('No plugins available', `Plugin directory: ${ui.filePath(pluginDir)}`);
+      ui.warning('Registry Empty', `Scanned: ${ui.filePath(pluginDir)}`);
     }
-    
+
     process.exit(1);
   }
 
-  ui.info('Running plugin', ui.highlight(plugin.name));
+  ui.info('Invocation', ui.highlight(plugin.name));
   if (args.length > 0) {
-    ui.keyValue('Arguments', args.join(' '));
+    ui.keyValue('Parameters', args.join(' '));
   }
 
-  const spinner = await createSpinner(`Executing ${plugin.name}...`);
+  const spinner = await createSpinner(`Executing extension...`);
   if (spinner.start) spinner.start();
 
   try {
     const startTime = Date.now();
     const success = await plugin.run(...args);
     const duration = Date.now() - startTime;
-    
+
     spinner.stop();
-    
+
     if (!success) {
-      ui.error(`Plugin "${plugin.name}" failed`);
+      ui.error(`Extension Execution Failed`, plugin.name);
       process.exit(1);
     }
-    
-    ui.success(`Plugin "${plugin.name}" completed`, `Duration: ${formatDuration(duration)}`);
+
+    ui.success(`Extension Complete`, `${plugin.name} | ${formatDuration(duration)}`);
   } catch (error: any) {
     spinner.stop();
-    ui.error(`Plugin "${plugin.name}" threw an error`, error.message);
+    ui.error(`Extension Runtime Error`, `${plugin.name}: ${error.message}`);
     process.exit(1);
   }
 }

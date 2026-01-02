@@ -4,6 +4,7 @@ export interface SpinnerLike {
     succeed?: (text?: string) => void;
     fail?: (text?: string) => void;
     text?: string;
+    color?: string;
 }
 export declare function createSpinner(message: string): Promise<SpinnerLike>;
 //# sourceMappingURL=spinner.d.ts.map

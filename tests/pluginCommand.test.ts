@@ -25,14 +25,14 @@ describe('pluginCommand', () => {
     const fakePlugin: any = { name: 'SpecLint', run: jest.fn().mockResolvedValue(true), initialize: jest.fn() };
     mockLoad.mockReturnValue([fakePlugin]);
     await pluginCommand('SpecLint', ['arg1']);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Running plugin')); 
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('EXTENSION RUNTIME')); 
     expect(fakePlugin.run).toHaveBeenCalledWith('arg1');
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('completed'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Extension Complete'));
   });
 
   it('exits on unknown plugin', async () => {
     mockLoad.mockReturnValue([]);
     await expect(pluginCommand('Unknown', [])).rejects.toThrow('process.exit');
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Plugin not found')); 
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Extension Unknown')); 
   });
 });

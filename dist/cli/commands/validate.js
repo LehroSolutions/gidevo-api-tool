@@ -47,21 +47,21 @@ async function validateCommand(spec, options) {
     // Merge with config file defaults
     const mergedOptions = (0, config_1.mergeWithConfig)(options, 'validate');
     ui_1.ui.showCompactBanner();
-    ui_1.ui.sectionHeader('API Specification Validation');
+    ui_1.ui.sectionHeader('SCHEMA INTEGRITY VERIFICATION');
     // Check if spec file exists
     if (!fs.existsSync(spec)) {
-        ui_1.ui.error('Spec file not found', ui_1.ui.filePath(spec));
-        ui_1.ui.info('Tip', 'Make sure the path is correct and the file exists');
+        ui_1.ui.error('Source Not Found', ui_1.ui.filePath(spec));
+        ui_1.ui.info('Resolution', 'Verify file path and ensure source exists');
         process.exit(1);
     }
     const mode = mergedOptions.strict ? 'strict' : 'basic';
     const specPath = path.resolve(spec);
-    ui_1.ui.table(['Setting', 'Value'], [
-        ['Spec File', ui_1.ui.filePath(specPath)],
-        ['Validation Mode', ui_1.ui.highlight(mode)],
+    ui_1.ui.table(['Parameter', 'Value'], [
+        ['Source Document', ui_1.ui.filePath(specPath)],
+        ['Verification Mode', ui_1.ui.highlight(mode.toUpperCase())],
     ]);
     telemetry_1.telemetry.track('validate_start', { mode });
-    const spinner = await (0, spinner_1.createSpinner)(`Validating specification (${mode} mode)`);
+    const spinner = await (0, spinner_1.createSpinner)(`Analyzing schema integrity...`);
     if (spinner.start)
         spinner.start();
     const validator = new validator_1.Validator();
@@ -72,7 +72,7 @@ async function validateCommand(spec, options) {
         spinner.stop();
         ui_1.ui.divider();
         if (result.valid) {
-            ui_1.ui.success('Specification is valid!', `Validated in ${formatDuration(duration)}`);
+            ui_1.ui.success('Schema Integrity Verified', `Scan completed in ${formatDuration(duration)}`);
             // Show spec info
             const specContent = fs.readFileSync(spec, 'utf8');
             const ext = path.extname(spec).toLowerCase();
@@ -81,7 +81,7 @@ async function validateCommand(spec, options) {
                     const yaml = require('js-yaml');
                     const parsed = ext === '.json' ? JSON.parse(specContent) : yaml.load(specContent);
                     if (parsed.openapi) {
-                        ui_1.ui.sectionHeader('Specification Info');
+                        ui_1.ui.sectionHeader('DOCUMENT METADATA');
                         ui_1.ui.keyValue('OpenAPI Version', parsed.openapi);
                         ui_1.ui.keyValue('Title', parsed.info?.title || 'N/A');
                         ui_1.ui.keyValue('Version', parsed.info?.version || 'N/A');
@@ -96,15 +96,15 @@ async function validateCommand(spec, options) {
             telemetry_1.telemetry.track('validate_success', { mode, duration });
         }
         else {
-            ui_1.ui.error('Validation failed', `Found ${result.errors.length} error(s)`);
-            ui_1.ui.sectionHeader('Errors');
+            ui_1.ui.error('Integrity Check Failed', `Detected ${result.errors.length} anomaly(ies)`);
+            ui_1.ui.sectionHeader('ANOMALY REPORT');
             result.errors.forEach((error, index) => {
                 console.log(`    ${ui_1.ui.highlight(`${index + 1}.`)} ${error}`);
             });
             ui_1.ui.nextSteps([
-                'Review and fix the errors above',
-                'Check OpenAPI 3.0 specification for correct format',
-                'Run with --strict for detailed validation',
+                'Remediate anomalies listed above',
+                'Cross-reference with OpenAPI 3.x specification',
+                'Engage --strict mode for deep validation',
             ]);
             telemetry_1.telemetry.track('validate_fail', { mode, errorCount: result.errors.length });
             process.exit(1);
@@ -112,7 +112,7 @@ async function validateCommand(spec, options) {
     }
     catch (error) {
         spinner.stop();
-        ui_1.ui.error('Validation error', error.message);
+        ui_1.ui.error('Verification Aborted', error.message);
         telemetry_1.telemetry.captureException(error);
         process.exit(1);
     }

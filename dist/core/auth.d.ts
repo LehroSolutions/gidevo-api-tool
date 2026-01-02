@@ -1,21 +1,21 @@
 export interface AuthConfig {
-    token: string;
     userId: string;
     expiresAt: string;
 }
 export declare class AuthService {
     private configDir;
     private configFile;
+    private secrets;
     login(token: string): Promise<void>;
-    getToken(): string | null;
+    getToken(): Promise<string | null>;
     /**
-     * Get the full authentication configuration
+     * Get the full authentication configuration (excluding token)
      */
-    getConfig(): AuthConfig | null;
+    getConfigSync(): AuthConfig | null;
     /**
      * Check if currently authenticated with valid token
      */
-    isAuthenticated(): boolean;
+    isAuthenticated(): Promise<boolean>;
     /**
      * Check if token is expired
      */
@@ -24,7 +24,7 @@ export declare class AuthService {
      * Get remaining token validity in days
      */
     getTokenValidityDays(): number | null;
-    logout(): void;
+    logout(): Promise<void>;
     /**
      * Get the config directory path
      */

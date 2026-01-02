@@ -39,10 +39,12 @@ exports.AuthService = void 0;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const os = __importStar(require("os"));
+const secrets_1 = require("./secrets");
 class AuthService {
     constructor() {
         this.configDir = path.join(os.homedir(), '.gidevo-api-tool');
         this.configFile = path.join(this.configDir, 'config.json');
+        this.secrets = new secrets_1.SecretsManager();
     }
     async login(token) {
         // Validate token format (basic validation)
@@ -51,32 +53,34 @@ class AuthService {
         }
         // In real implementation, validate token with backend
         const config = {
-            token,
             userId: 'user123',
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
         };
         if (!fs.existsSync(this.configDir)) {
             fs.mkdirSync(this.configDir, { recursive: true });
         }
+        // Store non-sensitive config
         fs.writeFileSync(this.configFile, JSON.stringify(config, null, 2), { mode: 0o600 });
+        // Store token securely
+        await this.secrets.setSecret('auth_token', token);
     }
-    getToken() {
+    async getToken() {
         // Environment variable override for CI/automation
         if (process.env.GIDEVO_API_TOKEN) {
             return process.env.GIDEVO_API_TOKEN;
         }
-        const config = this.getConfig();
+        const config = this.getConfigSync(); // We can still read config sync as it's just JSON
         if (!config)
             return null;
         if (new Date(config.expiresAt) < new Date()) {
             return null; // Token expired
         }
-        return config.token;
+        return await this.secrets.getSecret('auth_token');
     }
     /**
-     * Get the full authentication configuration
+     * Get the full authentication configuration (excluding token)
      */
-    getConfig() {
+    getConfigSync() {
         if (!fs.existsSync(this.configFile)) {
             return null;
         }
@@ -91,14 +95,14 @@ class AuthService {
     /**
      * Check if currently authenticated with valid token
      */
-    isAuthenticated() {
-        return this.getToken() !== null;
+    async isAuthenticated() {
+        return (await this.getToken()) !== null;
     }
     /**
      * Check if token is expired
      */
     isTokenExpired() {
-        const config = this.getConfig();
+        const config = this.getConfigSync();
         if (!config)
             return true;
         return new Date(config.expiresAt) < new Date();
@@ -107,7 +111,7 @@ class AuthService {
      * Get remaining token validity in days
      */
     getTokenValidityDays() {
-        const config = this.getConfig();
+        const config = this.getConfigSync();
         if (!config)
             return null;
         const expiryDate = new Date(config.expiresAt);
@@ -117,10 +121,11 @@ class AuthService {
             return 0;
         return Math.ceil(diffMs / (24 * 60 * 60 * 1000));
     }
-    logout() {
+    async logout() {
         if (fs.existsSync(this.configFile)) {
             fs.unlinkSync(this.configFile);
         }
+        await this.secrets.deleteSecret('auth_token');
     }
     /**
      * Get the config directory path
