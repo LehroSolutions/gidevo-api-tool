@@ -341,7 +341,7 @@ Please open issues or pull requests. Follow code style and include tests for new
 This project is dual-licensed. You may choose EITHER of the following:
 
 - Open Source: Apache License 2.0 — see `LICENSE-APACHE`
-- Commercial: LEHRO Solutions Commercial License — see `LICENSE-COMMERCIAL` or contact sales@lehrosolutions.com
+- Commercial: LEHRO Solutions Commercial License — see `LICENSE-COMMERCIAL` or contact lehro.solutions@gmail.com
 
 Summary: see `LICENSE`.
 
