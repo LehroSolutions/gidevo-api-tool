@@ -55,7 +55,6 @@ const fs = __importStar(require("fs"));
 const crypto_1 = require("crypto");
 const logger_1 = require("../core/logger");
 const ui_1 = require("./utils/ui");
-const interactive_1 = require("./utils/interactive");
 // Resolve version from package.json (works for both ts-node dev and compiled dist)
 function resolveVersion() {
     try {
@@ -78,6 +77,7 @@ function resolveVersion() {
     return '0.0.0-dev';
 }
 const program = new commander_1.Command();
+const nativeImport = new Function('specifier', 'return import(specifier);');
 const telemetry_1 = require("../core/telemetry");
 // Generate trace ID for this execution
 const traceId = (0, crypto_1.randomUUID)();
@@ -235,7 +235,8 @@ ${chalk_1.default.gray('Example:')}
 const isInteractive = process.argv.includes('-i') || process.argv.includes('--interactive');
 if (isInteractive) {
     // Run interactive mode wizard
-    (0, interactive_1.interactiveMode)()
+    nativeImport('./utils/interactive.js')
+        .then(({ interactiveMode }) => interactiveMode())
         .then(async ({ command, options }) => {
         switch (command) {
             case 'init':

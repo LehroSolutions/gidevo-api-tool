@@ -51,9 +51,9 @@ exports.generateWizard = generateWizard;
 exports.loginWizard = loginWizard;
 exports.interactiveMode = interactiveMode;
 const readline = __importStar(require("readline"));
-const inquirer_1 = __importDefault(require("inquirer"));
 const ui_1 = require("./ui");
 const chalk_1 = __importDefault(require("chalk"));
+const nativeImport = new Function('specifier', 'return import(specifier);');
 /**
  * Prompt user for input with a question and Avant-Garde styling
  */
@@ -114,7 +114,8 @@ async function confirm(question, defaultYes = true) {
  * Prompt for password with masking
  */
 async function password(question) {
-    const { answer } = await inquirer_1.default.prompt([
+    const { default: inquirer } = await nativeImport('inquirer');
+    const { answer } = (await inquirer.prompt([
         {
             type: 'password',
             name: 'answer',
@@ -122,7 +123,7 @@ async function password(question) {
             prefix: chalk_1.default.hex(ui_1.ui.theme.secondary)('?'),
             mask: '*',
         },
-    ]);
+    ]));
     return answer;
 }
 /**

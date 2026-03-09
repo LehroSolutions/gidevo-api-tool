@@ -19,7 +19,6 @@ import * as fs from 'fs';
 import { randomUUID } from 'crypto';
 import { logger } from '../core/logger';
 import { ui } from './utils/ui';
-import { interactiveMode } from './utils/interactive';
 
 // Resolve version from package.json (works for both ts-node dev and compiled dist)
 function resolveVersion(): string {
@@ -43,6 +42,10 @@ function resolveVersion(): string {
 }
 
 const program = new Command();
+const nativeImport = new Function(
+  'specifier',
+  'return import(specifier);'
+) as (specifier: string) => Promise<any>;
 
 import { telemetry } from '../core/telemetry';
 
@@ -243,7 +246,8 @@ const isInteractive = process.argv.includes('-i') || process.argv.includes('--in
 
 if (isInteractive) {
   // Run interactive mode wizard
-  interactiveMode()
+  nativeImport('./utils/interactive.js')
+    .then(({ interactiveMode }) => interactiveMode())
     .then(async ({ command, options }) => {
       switch (command) {
         case 'init':
