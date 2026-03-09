@@ -47,8 +47,15 @@ jobs:
       with:
         node-version: '20.x'
         cache: 'npm'
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
     - run: npm ci
     - run: npm audit --audit-level high
+    - name: Run Semgrep SAST
+      run: |
+        pip install semgrep
+        semgrep --config .semgrep.yml --error src
 
   publish:
     needs: [test, security]

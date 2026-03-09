@@ -210,6 +210,7 @@ export async function interactiveMode(): Promise<{ command: string; options: any
     case 'exit':
       console.log(chalk.hex(ui.theme.secondary)('\n  Session Terminated. Output flushed.\n'));
       process.exit(0);
+      return { command: 'whoami', options: {} };
 
     default:
       throw new Error(`Unknown command directive: ${commandName}`);

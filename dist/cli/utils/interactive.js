@@ -215,6 +215,7 @@ async function interactiveMode() {
         case 'exit':
             console.log(chalk_1.default.hex(ui_1.ui.theme.secondary)('\n  Session Terminated. Output flushed.\n'));
             process.exit(0);
+            return { command: 'whoami', options: {} };
         default:
             throw new Error(`Unknown command directive: ${commandName}`);
     }

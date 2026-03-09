@@ -1,0 +1,21 @@
+rules:
+  - id: gidevo-dynamic-require-approved
+    languages: [typescript, javascript]
+    message: "Dynamic require() is forbidden unless path validation is explicitly documented."
+    severity: ERROR
+    patterns:
+      - pattern: require($MODULE)
+      - pattern-not: require("...")
+      - pattern-not: require('...')
+
+  - id: gidevo-config-rce
+    languages: [typescript, javascript]
+    message: "Do not execute config paths. Parse JSON config files instead."
+    severity: ERROR
+    pattern: require(configPath)
+
+  - id: gidevo-outputdir-join
+    languages: [typescript, javascript]
+    message: "Avoid direct path.join(outputDir, ...). Use safeWriteGeneratedFile() helper."
+    severity: WARNING
+    pattern: path.join(outputDir, $FILE)

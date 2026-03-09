@@ -2,6 +2,7 @@
 // Copyright (c) 2025 LEHRO Solutions
 import * as fs from 'fs';
 import * as path from 'path';
+import * as yaml from 'js-yaml';
 import { Validator } from '../../core/validator';
 import { telemetry } from '../../core/telemetry';
 import { ui } from '../utils/ui';
@@ -57,7 +58,6 @@ export async function validateCommand(spec: string, options: { strict?: boolean 
 
       if (ext === '.yaml' || ext === '.yml' || ext === '.json') {
         try {
-          const yaml = require('js-yaml');
           const parsed = ext === '.json' ? JSON.parse(specContent) : yaml.load(specContent);
 
           if (parsed.openapi) {

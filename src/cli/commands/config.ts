@@ -3,7 +3,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { ui } from '../utils/ui';
-import { loadConfig, getConfigPath, createSampleConfig, GidevoConfig } from '../utils/config';
+import { loadConfig, getConfigPath, createSampleConfig } from '../utils/config';
 
 interface ConfigOptions {
   init?: boolean;

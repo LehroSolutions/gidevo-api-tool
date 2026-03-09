@@ -2,7 +2,7 @@
 /**
  * Configuration File Support
  *
- * Loads project-level configuration from .gidevorc.json or gidevo.config.js
+ * Loads project-level configuration from JSON config files.
  * This allows users to set default options for commands.
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
@@ -38,6 +38,9 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findConfigFile = findConfigFile;
 exports.loadConfigFile = loadConfigFile;
@@ -49,15 +52,66 @@ exports.mergeWithConfig = mergeWithConfig;
 exports.createSampleConfig = createSampleConfig;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const ajv_1 = __importDefault(require("ajv"));
 const logger_1 = require("../../core/logger");
+const ajv = new ajv_1.default({ allErrors: true, allowUnionTypes: true });
+const validateConfig = ajv.compile({
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+        generate: {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+                language: { type: 'string', enum: ['typescript', 'python', 'go'] },
+                output: { type: 'string', minLength: 1, maxLength: 1024 },
+                template: { type: 'string', minLength: 1, maxLength: 255 },
+                spec: { type: 'string', minLength: 1, maxLength: 1024 },
+                allowOutsideProject: { type: 'boolean' },
+            },
+        },
+        init: {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+                template: { type: 'string', enum: ['openapi', 'graphql'] },
+                output: { type: 'string', minLength: 1, maxLength: 1024 },
+            },
+        },
+        validate: {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+                strict: { type: 'boolean' },
+            },
+        },
+        plugins: {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+                enabled: { type: 'boolean' },
+                directory: { type: 'string', minLength: 1, maxLength: 1024 },
+                config: { type: 'object', additionalProperties: true },
+            },
+        },
+        telemetry: {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+                enabled: { type: 'boolean' },
+            },
+        },
+    },
+});
 /**
  * Configuration file names to search for (in order of priority)
+ * NOTE: gidevo.config.js is intentionally excluded — executing arbitrary JS as config
+ * is a Remote Code Execution (RCE) vulnerability. JSON-only configs are supported.
  */
 const CONFIG_FILE_NAMES = [
     '.gidevorc.json',
     '.gidevorc',
     'gidevo.config.json',
-    'gidevo.config.js',
 ];
 /**
  * Cached configuration
@@ -86,21 +140,26 @@ function findConfigFile(startDir = process.cwd()) {
  */
 function loadConfigFile(configPath) {
     const ext = path.extname(configPath).toLowerCase();
-    const content = fs.readFileSync(configPath, 'utf-8');
+    // Reject .js config files to prevent Remote Code Execution (RCE).
+    // require(configPath) evaluates the file as executable Node.js code.
     if (ext === '.js') {
-        // For JS config files, we need to require them
-        // Clear require cache to get fresh config
-        delete require.cache[require.resolve(configPath)];
-        const config = require(configPath);
-        return config.default || config;
+        throw new Error(`JavaScript config files (${configPath}) are not supported for security reasons. ` +
+            'Please use a JSON config file (.gidevorc.json or gidevo.config.json) instead.');
     }
+    const content = fs.readFileSync(configPath, 'utf-8');
     // JSON or no extension (treat as JSON)
+    let parsed;
     try {
-        return JSON.parse(content);
+        parsed = JSON.parse(content);
     }
     catch (error) {
         throw new Error(`Failed to parse config file ${configPath}: ${error.message}`);
     }
+    if (!validateConfig(parsed)) {
+        const details = ajv.errorsText(validateConfig.errors, { separator: ', ' });
+        throw new Error(`Config schema validation failed: ${details}`);
+    }
+    return parsed;
 }
 /**
  * Load and cache configuration
@@ -187,6 +246,7 @@ function createSampleConfig(outputPath = '.gidevorc.json') {
         generate: {
             language: 'typescript',
             output: './generated',
+            allowOutsideProject: false,
         },
         init: {
             template: 'openapi',

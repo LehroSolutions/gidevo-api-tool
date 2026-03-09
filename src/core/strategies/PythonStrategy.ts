@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as Handlebars from 'handlebars';
 import { GeneratorStrategy } from './GeneratorStrategy';
 import { registerHandlebarsHelpers } from './handlebarsHelpers';
+import { safeWriteGeneratedFile } from '../pathSafety';
 
 export class PythonStrategy implements GeneratorStrategy {
   private templatesDir = path.resolve(__dirname, '../../templates/python');
@@ -16,15 +17,8 @@ export class PythonStrategy implements GeneratorStrategy {
     const clientCode = await this.generateClient(spec);
     const modelsCode = await this.generateModels(spec);
 
-    await fs.promises.writeFile(
-      path.join(outputDir, 'client.py'),
-      clientCode
-    );
-
-    await fs.promises.writeFile(
-      path.join(outputDir, 'models.py'),
-      modelsCode
-    );
+    await safeWriteGeneratedFile(outputDir, 'client.py', clientCode);
+    await safeWriteGeneratedFile(outputDir, 'models.py', modelsCode);
   }
 
   private async generateClient(spec: any): Promise<string> {

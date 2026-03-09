@@ -44,6 +44,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerHandlebarsHelpers = registerHandlebarsHelpers;
 const Handlebars = __importStar(require("handlebars"));
 let helpersRegistered = false;
+function escapeCodeLiteral(value) {
+    return value
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/\r/g, '\\r')
+        .replace(/\n/g, '\\n')
+        .replace(/\{\{/g, '\\{\\{')
+        .replace(/\}\}/g, '\\}\\}');
+}
+function toPascalCase(value) {
+    return value
+        .replace(/[^a-zA-Z0-9]+/g, ' ')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join('');
+}
 /**
  * Register all custom Handlebars helpers.
  * Safe to call multiple times - will only register once.
@@ -54,6 +72,9 @@ function registerHandlebarsHelpers() {
     // Equality check helper
     Handlebars.registerHelper('eq', function (a, b) {
         return a === b;
+    });
+    Handlebars.registerHelper('isRequired', function (requiredList, propName) {
+        return Array.isArray(requiredList) && requiredList.includes(propName);
     });
     // Generate method name from HTTP method and path
     Handlebars.registerHelper('methodName', function (method, pathStr) {
@@ -81,8 +102,9 @@ function registerHandlebarsHelpers() {
         if (schema.type === 'string') {
             if (schema.format === 'date-time' || schema.format === 'date')
                 return 'string';
-            if (schema.enum)
-                return schema.enum.map((e) => `'${e}'`).join(' | ');
+            if (schema.enum) {
+                return schema.enum.map((e) => `'${escapeCodeLiteral(String(e))}'`).join(' | ');
+            }
             return 'string';
         }
         if (schema.type === 'object') {
@@ -143,6 +165,59 @@ function registerHandlebarsHelpers() {
             return `Optional[${type}]`;
         }
         return type;
+    });
+    Handlebars.registerHelper('resolveGoType', function (schema, requiredList, propName) {
+        if (!schema)
+            return 'interface{}';
+        let type = 'interface{}';
+        if (schema.$ref) {
+            const parts = schema.$ref.split('/');
+            type = parts[parts.length - 1];
+        }
+        else if (schema.type === 'array') {
+            const itemType = schema.items ? Handlebars.helpers.resolveGoType(schema.items, [], '') : 'interface{}';
+            const cleanItemType = String(itemType).replace(/^\*(.+)$/, '$1');
+            type = `[]${cleanItemType}`;
+        }
+        else if (schema.type === 'integer') {
+            type = 'int';
+        }
+        else if (schema.type === 'number') {
+            type = 'float64';
+        }
+        else if (schema.type === 'boolean') {
+            type = 'bool';
+        }
+        else if (schema.type === 'string') {
+            type = 'string';
+        }
+        else if (schema.type === 'object') {
+            if (schema.additionalProperties) {
+                if (typeof schema.additionalProperties === 'object') {
+                    const valueType = String(Handlebars.helpers.resolveGoType(schema.additionalProperties, [], ''))
+                        .replace(/^\*(.+)$/, '$1');
+                    type = `map[string]${valueType}`;
+                }
+                else {
+                    type = 'map[string]interface{}';
+                }
+            }
+            else {
+                type = 'map[string]interface{}';
+            }
+        }
+        const isRequired = Array.isArray(requiredList) && requiredList.includes(propName);
+        if (!isRequired && propName) {
+            if (type.startsWith('[]') || type.startsWith('map[') || type === 'interface{}') {
+                return type;
+            }
+            return `*${type}`;
+        }
+        return type;
+    });
+    Handlebars.registerHelper('goFieldName', function (name) {
+        const pascal = toPascalCase(name);
+        return pascal || 'Field';
     });
     // Lowercase helper
     Handlebars.registerHelper('lowercase', function (str) {

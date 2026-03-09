@@ -1,0 +1,1 @@
+{"version":3,"file":"goGenerator.d.ts","sourceRoot":"","sources":["../../src/plugins/goGenerator.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,MAAM,EAAE,MAAM,UAAU,CAAC;AAGlC,MAAM,CAAC,OAAO,OAAO,iBAAkB,YAAW,MAAM;IACtD,IAAI,SAAiB;IAErB,UAAU,CAAC,QAAQ,EAAE,GAAG;IAIlB,GAAG,CAAC,QAAQ,EAAE,MAAM,EAAE,SAAS,EAAE,MAAM,GAAG,OAAO,CAAC,OAAO,CAAC;CAYjE"}

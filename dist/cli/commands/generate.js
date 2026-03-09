@@ -44,11 +44,15 @@ const logger_1 = require("../../core/logger");
 const telemetry_1 = require("../../core/telemetry");
 const ui_1 = require("../utils/ui");
 const config_1 = require("../utils/config");
-const SUPPORTED_LANGUAGES = ['typescript', 'python'];
+const SUPPORTED_LANGUAGES = ['typescript', 'python', 'go'];
 async function generateCommand(options) {
     // Merge with config file defaults
     const mergedOptions = (0, config_1.mergeWithConfig)(options, 'generate');
-    const { spec, language = 'typescript', output = './generated' } = mergedOptions;
+    const { spec, language = 'typescript', output = './generated', allowOutsideProject, } = mergedOptions;
+    const cliRequestedAllowOutside = process.argv.includes('--allow-outside-project');
+    const outsideProjectAllowed = cliRequestedAllowOutside
+        ? true
+        : Boolean(allowOutsideProject);
     ui_1.ui.showCompactBanner();
     ui_1.ui.sectionHeader('SDK SYNTHESIS PROTOCOL');
     // Show config file if used
@@ -77,7 +81,11 @@ async function generateCommand(options) {
         ['Source Spec', ui_1.ui.filePath(path.basename(spec))],
         ['Target Runtime', ui_1.ui.highlight(language)],
         ['Output Artifact', ui_1.ui.filePath(path.resolve(output))],
+        ['Path Policy', outsideProjectAllowed ? ui_1.ui.highlight('UNSAFE OVERRIDE') : 'Project-bound (default)'],
     ]);
+    if (outsideProjectAllowed || process.env.GIDEVO_ALLOW_UNSAFE_PATHS === '1') {
+        ui_1.ui.warning('Unsafe Path Override Active', 'External spec/output paths are allowed for this run.');
+    }
     telemetry_1.telemetry.track('generate_start', { language });
     const spinner = await (0, spinner_1.createSpinner)(`Synthesizing ${language} SDK...`);
     if (spinner.start)
@@ -93,7 +101,12 @@ async function generateCommand(options) {
         await new Promise(r => setTimeout(r, 400)); // Visual pacing
         if (spinner.text)
             spinner.text = `Compiling ${language} Definitions...`;
-        await generator.generate({ spec, language, outputDir: output });
+        await generator.generate({
+            spec,
+            language,
+            outputDir: output,
+            allowOutsideProject: outsideProjectAllowed,
+        });
         if (spinner.text)
             spinner.text = 'Optimizing Artifacts...';
         const duration = Date.now() - startTime;

@@ -148,15 +148,21 @@ program
     .alias('gen')
     .description('Generate SDKs and documentation from API specs')
     .option('-s, --spec <file>', 'OpenAPI/GraphQL spec file (required)')
-    .option('-l, --language <lang>', 'Target language (typescript, python)', 'typescript')
+    .option('-l, --language <lang>', 'Target language (typescript, python, go)', 'typescript')
     .option('-o, --output <dir>', 'Output directory', './generated')
+    .option('--allow-outside-project', 'Allow spec/output paths outside current project root (unsafe override)')
     .addHelpText('after', `
 ${chalk_1.default.gray('Supported languages:')}
   ${chalk_1.default.cyan('typescript')}   TypeScript SDK with type definitions (default)
   ${chalk_1.default.cyan('python')}       Python SDK with type hints
+  ${chalk_1.default.cyan('go')}           Go SDK with generated client and types
 
 ${chalk_1.default.gray('Example:')}
   ${chalk_1.default.gray('$')} gidevo-api-tool generate -s api.yaml -l typescript -o ./sdk
+
+${chalk_1.default.gray('Path safety override:')}
+  ${chalk_1.default.gray('$')} gidevo-api-tool generate -s api.yaml -o ../external --allow-outside-project
+  ${chalk_1.default.gray('$')} GIDEVO_ALLOW_UNSAFE_PATHS=1 gidevo-api-tool generate -s api.yaml
 `)
     .action(generate_1.generateCommand);
 program

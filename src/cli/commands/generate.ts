@@ -14,14 +14,24 @@ interface GenerateOptions {
   language?: string;
   output?: string;
   template?: string;
+  allowOutsideProject?: boolean;
 }
 
-const SUPPORTED_LANGUAGES = ['typescript', 'python'];
+const SUPPORTED_LANGUAGES = ['typescript', 'python', 'go'];
 
 export async function generateCommand(options: GenerateOptions) {
   // Merge with config file defaults
   const mergedOptions = mergeWithConfig(options, 'generate');
-  const { spec, language = 'typescript', output = './generated' } = mergedOptions;
+  const {
+    spec,
+    language = 'typescript',
+    output = './generated',
+    allowOutsideProject,
+  } = mergedOptions;
+  const cliRequestedAllowOutside = process.argv.includes('--allow-outside-project');
+  const outsideProjectAllowed = cliRequestedAllowOutside
+    ? true
+    : Boolean(allowOutsideProject);
 
   ui.showCompactBanner();
   ui.sectionHeader('SDK SYNTHESIS PROTOCOL');
@@ -58,8 +68,16 @@ export async function generateCommand(options: GenerateOptions) {
       ['Source Spec', ui.filePath(path.basename(spec))],
       ['Target Runtime', ui.highlight(language)],
       ['Output Artifact', ui.filePath(path.resolve(output))],
+      ['Path Policy', outsideProjectAllowed ? ui.highlight('UNSAFE OVERRIDE') : 'Project-bound (default)'],
     ]
   );
+
+  if (outsideProjectAllowed || process.env.GIDEVO_ALLOW_UNSAFE_PATHS === '1') {
+    ui.warning(
+      'Unsafe Path Override Active',
+      'External spec/output paths are allowed for this run.'
+    );
+  }
 
   telemetry.track('generate_start', { language });
 
@@ -79,7 +97,12 @@ export async function generateCommand(options: GenerateOptions) {
 
     if (spinner.text) spinner.text = `Compiling ${language} Definitions...`;
 
-    await generator.generate({ spec, language, outputDir: output });
+    await generator.generate({
+      spec,
+      language,
+      outputDir: output,
+      allowOutsideProject: outsideProjectAllowed,
+    });
 
     if (spinner.text) spinner.text = 'Optimizing Artifacts...';
 

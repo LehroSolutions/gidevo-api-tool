@@ -37,5 +37,7 @@ export declare class SecretsManager {
     private deleteFromFile;
     private encrypt;
     private decrypt;
+    /** Decrypt data encrypted with the old AES-256-CBC scheme for migration purposes. */
+    private decryptLegacyCbc;
 }
 //# sourceMappingURL=secrets.d.ts.map

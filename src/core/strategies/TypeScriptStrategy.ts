@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as Handlebars from 'handlebars';
 import { GeneratorStrategy } from './GeneratorStrategy';
 import { registerHandlebarsHelpers } from './handlebarsHelpers';
+import { safeWriteGeneratedFile } from '../pathSafety';
 
 export class TypeScriptStrategy implements GeneratorStrategy {
   // Resolve templates directory relative to this file
@@ -17,16 +18,10 @@ export class TypeScriptStrategy implements GeneratorStrategy {
 
   async generate(spec: any, outputDir: string): Promise<void> {
     const clientCode = await this.generateClient(spec);
+    const typesCode = await this.generateTypes(spec);
 
-    await fs.promises.writeFile(
-      path.join(outputDir, 'client.ts'),
-      clientCode
-    );
-
-    await fs.promises.writeFile(
-      path.join(outputDir, 'types.ts'),
-      await this.generateTypes(spec)
-    );
+    await safeWriteGeneratedFile(outputDir, 'client.ts', clientCode);
+    await safeWriteGeneratedFile(outputDir, 'types.ts', typesCode);
   }
 
   private async generateClient(spec: any): Promise<string> {

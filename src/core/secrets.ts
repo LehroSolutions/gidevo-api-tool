@@ -44,7 +44,7 @@ export class SecretsManager {
     try {
       // Try to load keytar dynamically
       // This allows the tool to work even if keytar build failed or isn't installed
-      // @ts-ignore
+      // @ts-expect-error keytar is optional and may not be installed in all environments.
       this.keytar = await import('keytar');
     } catch (e) {
       // Keytar not available, will use file fallback
@@ -121,11 +121,28 @@ export class SecretsManager {
   // ==========================================
 
   private getEncryptionKey(): Buffer {
-    // In a real scenario, we'd want a user-provided password or machine-specific key.
-    // For this fallback, we use a static key derived from the machine's hostname/user
-    // to prevent simple copy-pasting of the file to another machine.
+    // Derive a key from a machine-specific value using PBKDF2 with a stored random salt.
+    // This is significantly stronger than the previous scryptSync(hostname+username, 'salt', 32)
+    // approach which used a predictable, static salt.
+    const saltFile = path.join(this.configDir, '.enc-salt');
+    let salt: Buffer;
+
+    if (!fs.existsSync(this.configDir)) {
+      fs.mkdirSync(this.configDir, { recursive: true, mode: 0o700 });
+    }
+
+    if (fs.existsSync(saltFile)) {
+      salt = fs.readFileSync(saltFile);
+    } else {
+      // Generate a new 32-byte random salt on first run and store it
+      salt = crypto.randomBytes(32);
+      fs.writeFileSync(saltFile, salt, { mode: 0o600 });
+    }
+
+    // Use a machine-specific value as the passphrase (not purely random so secrets
+    // survive process restarts without a user-provided master password)
     const machineId = os.hostname() + os.userInfo().username;
-    return crypto.scryptSync(machineId, 'salt', 32);
+    return crypto.pbkdf2Sync(machineId, salt, 100000, 32, 'sha256');
   }
 
   private saveToFile(key: string, value: string): void {
@@ -179,22 +196,72 @@ export class SecretsManager {
   }
 
   private encrypt(text: string): string {
-    const iv = crypto.randomBytes(16);
+    // AES-256-GCM: authenticated encryption — detects tampering via auth tag.
+    // Replaces previous AES-256-CBC which provided no integrity guarantee.
+    const iv = crypto.randomBytes(12); // 96-bit IV recommended for GCM
     const key = this.getEncryptionKey();
-    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-    let encrypted = cipher.update(text);
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
-    return iv.toString('hex') + ':' + encrypted.toString('hex');
+    const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+    const encrypted = Buffer.concat([cipher.update(text, 'utf8'), cipher.final()]);
+    const authTag = cipher.getAuthTag(); // 16-byte authentication tag
+    // Format: <iv-hex>:<authTag-hex>:<ciphertext-hex>
+    return iv.toString('hex') + ':' + authTag.toString('hex') + ':' + encrypted.toString('hex');
   }
 
   private decrypt(text: string): string {
+    const parts = text.split(':');
+    // Legacy CBC format had 2 parts (iv:ciphertext); GCM has 3 (iv:authTag:ciphertext)
+    if (parts.length === 2) {
+      // Migrate legacy CBC-encrypted data - decrypt with old algorithm, will be re-encrypted as GCM on next write
+      return this.decryptLegacyCbc(text);
+    }
+    if (parts.length !== 3) {
+      throw new Error('Invalid encrypted secrets format');
+    }
+
+    const iv = Buffer.from(parts[0], 'hex');
+    const authTag = Buffer.from(parts[1], 'hex');
+    const encryptedText = Buffer.from(parts[2], 'hex');
+    if (iv.length !== 12) {
+      throw new Error('Invalid encrypted payload: IV must be 12 bytes for AES-GCM');
+    }
+    if (authTag.length !== 16) {
+      throw new Error('Invalid encrypted payload: auth tag must be 16 bytes for AES-GCM');
+    }
+    if (encryptedText.length === 0) {
+      throw new Error('Invalid encrypted payload: ciphertext is empty');
+    }
+
+    const key = this.getEncryptionKey();
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+    decipher.setAuthTag(authTag); // throws if data was tampered
+    const decrypted = Buffer.concat([decipher.update(encryptedText), decipher.final()]);
+    return decrypted.toString('utf8');
+  }
+
+  /** Decrypt data encrypted with the old AES-256-CBC scheme for migration purposes. */
+  private decryptLegacyCbc(text: string): string {
     const textParts = text.split(':');
+    if (textParts.length < 2) {
+      throw new Error('Invalid legacy encrypted payload');
+    }
+
     const iv = Buffer.from(textParts.shift()!, 'hex');
     const encryptedText = Buffer.from(textParts.join(':'), 'hex');
-    const key = this.getEncryptionKey();
-    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    if (iv.length !== 16) {
+      throw new Error('Invalid legacy encrypted payload: IV must be 16 bytes');
+    }
+    if (encryptedText.length === 0) {
+      throw new Error('Invalid legacy encrypted payload: ciphertext is empty');
+    }
+
+    // Reconstruct the old key (scryptSync with static 'salt')
+    const machineId = os.hostname() + os.userInfo().username;
+    const legacyKey = crypto.scryptSync(machineId, 'salt', 32) as Buffer;
+    const decipher = crypto.createDecipheriv('aes-256-cbc', legacyKey, iv);
     let decrypted = decipher.update(encryptedText);
     decrypted = Buffer.concat([decrypted, decipher.final()]);
     return decrypted.toString();
   }
 }
+
+

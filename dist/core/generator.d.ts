@@ -2,6 +2,7 @@ interface GenerateOptions {
     spec: string;
     language: string;
     outputDir: string;
+    allowOutsideProject?: boolean;
 }
 export declare class CodeGenerator {
     private strategies;

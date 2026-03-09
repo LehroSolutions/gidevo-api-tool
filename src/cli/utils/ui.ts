@@ -2,6 +2,7 @@
 // Copyright (c) 2025 LEHRO Solutions
 
 import chalk from 'chalk';
+import packageJson from '../../../package.json';
 
 /**
  * UI utility functions for consistent CLI output formatting
@@ -39,7 +40,7 @@ export function showBanner(): void {
   console.log(chalk.hex(THEME.primary).bold('  G I D E V O'));
   console.log(chalk.hex(THEME.dim)('  ──────────────────────'));
   console.log(chalk.white('  API Integration Engine'));
-  console.log(chalk.hex(THEME.dim)('  v' + require('../../../package.json').version));
+  console.log(chalk.hex(THEME.dim)('  v' + packageJson.version));
   console.log('\n');
 }
 

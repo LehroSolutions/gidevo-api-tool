@@ -1,7 +1,7 @@
 /**
  * Configuration File Support
  *
- * Loads project-level configuration from .gidevorc.json or gidevo.config.js
+ * Loads project-level configuration from JSON config files.
  * This allows users to set default options for commands.
  */
 /**
@@ -10,10 +10,11 @@
 export interface GidevoConfig {
     /** Default settings for the generate command */
     generate?: {
-        language?: 'typescript' | 'python';
+        language?: 'typescript' | 'python' | 'go';
         output?: string;
         template?: string;
         spec?: string;
+        allowOutsideProject?: boolean;
     };
     /** Default settings for the init command */
     init?: {

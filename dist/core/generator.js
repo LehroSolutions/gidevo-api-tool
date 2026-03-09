@@ -42,35 +42,41 @@ const yaml = __importStar(require("js-yaml"));
 const validator_1 = require("./validator");
 const TypeScriptStrategy_1 = require("./strategies/TypeScriptStrategy");
 const PythonStrategy_1 = require("./strategies/PythonStrategy");
+const GoStrategy_1 = require("./strategies/GoStrategy");
 const logger_1 = require("./logger");
+const pathSafety_1 = require("./pathSafety");
 class CodeGenerator {
     constructor() {
         this.strategies = new Map();
         this.strategies.set('typescript', new TypeScriptStrategy_1.TypeScriptStrategy());
         this.strategies.set('python', new PythonStrategy_1.PythonStrategy());
+        this.strategies.set('go', new GoStrategy_1.GoStrategy());
     }
     async generate(options) {
-        const { spec, language, outputDir } = options;
+        const { spec, language, outputDir, allowOutsideProject } = options;
         logger_1.logger.info(`Starting generation for ${language} from ${spec}`);
+        const resolvedSpec = (0, pathSafety_1.resolveSpecPath)(spec, { allowOutsideProject });
         // Validate first
         const validator = new validator_1.Validator();
-        const validation = await validator.validate(spec);
+        const validation = await validator.validate(resolvedSpec);
         if (!validation.valid) {
             const errorMsg = `Spec validation failed:\n${validation.errors.join('\n')}`;
             logger_1.logger.error(errorMsg);
             throw new Error(errorMsg);
         }
-        const specContent = await fs.promises.readFile(spec, 'utf8');
-        const parsedSpec = this.parseSpec(spec, specContent);
-        await fs.promises.mkdir(outputDir, { recursive: true });
+        const specContent = await fs.promises.readFile(resolvedSpec, 'utf8');
+        const parsedSpec = this.parseSpec(resolvedSpec, specContent);
+        const preparedOutput = await (0, pathSafety_1.prepareOutputDirectory)(outputDir, { allowOutsideProject });
         const strategy = this.strategies.get(language);
         if (!strategy) {
             const errorMsg = `Unsupported language: ${language}`;
             logger_1.logger.error(errorMsg);
             throw new Error(errorMsg);
         }
-        await strategy.generate(parsedSpec, outputDir);
-        logger_1.logger.info(`Generation completed successfully in ${outputDir}`);
+        await strategy.generate(parsedSpec, preparedOutput.outputDir, {
+            allowOutsideProject: preparedOutput.allowOutsideProject,
+        });
+        logger_1.logger.info(`Generation completed successfully in ${preparedOutput.outputDir}`);
     }
     parseSpec(filePath, content) {
         const ext = path.extname(filePath).toLowerCase();

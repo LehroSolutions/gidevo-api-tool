@@ -46,13 +46,46 @@ function loadPlugins(pluginDir) {
     const dir = path.resolve(pluginDir);
     if (!fs.existsSync(dir))
         return [];
+    // Resolve canonical (symlink-free) path and verify it matches the intended dir.
+    // This prevents symlink-based path traversal attacks.
+    let realDir;
+    try {
+        realDir = fs.realpathSync(dir);
+    }
+    catch {
+        return [];
+    }
     const plugins = [];
-    for (const file of fs.readdirSync(dir)) {
+    for (const file of fs.readdirSync(realDir)) {
         // Only load compiled JavaScript files, skip TypeScript declaration and source files
         if (!file.endsWith('.js'))
             continue;
+        // Ensure the filename contains no path separators (prevents traversal via filenames)
+        if (path.basename(file) !== file)
+            continue;
+        const pluginPath = path.join(realDir, file);
+        let pluginStat;
+        try {
+            pluginStat = fs.lstatSync(pluginPath);
+        }
+        catch {
+            continue;
+        }
+        if (!pluginStat.isFile() || pluginStat.isSymbolicLink())
+            continue;
+        // Verify each plugin file resolves within the allowed directory (symlink-safe)
+        let realPluginPath;
+        try {
+            realPluginPath = fs.realpathSync(pluginPath);
+        }
+        catch {
+            continue;
+        }
+        if (!realPluginPath.startsWith(realDir + path.sep) && realPluginPath !== realDir)
+            continue;
+        // nosemgrep: gidevo-dynamic-require-approved
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const mod = require(path.join(dir, file));
+        const mod = require(realPluginPath);
         const exportObj = mod.default || mod;
         const plugin = typeof exportObj === 'function' ? new exportObj() : exportObj;
         if (plugin && plugin.name && typeof plugin.run === 'function') {

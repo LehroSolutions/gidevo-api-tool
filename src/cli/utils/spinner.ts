@@ -2,8 +2,6 @@
 // Lightweight wrapper to dynamically import ESM-only 'ora' without breaking Jest (CJS) transpilation.
 // Falls back to a no-op spinner when disabled or unavailable.
 
-import { ui } from './ui';
-
 export interface SpinnerLike {
   start?: () => SpinnerLike;
   stop: () => void;

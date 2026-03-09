@@ -7,12 +7,15 @@ import { Validator } from './validator';
 import { GeneratorStrategy } from './strategies/GeneratorStrategy';
 import { TypeScriptStrategy } from './strategies/TypeScriptStrategy';
 import { PythonStrategy } from './strategies/PythonStrategy';
+import { GoStrategy } from './strategies/GoStrategy';
 import { logger } from './logger';
+import { prepareOutputDirectory, resolveSpecPath } from './pathSafety';
 
 interface GenerateOptions {
   spec: string;
   language: string;
   outputDir: string;
+  allowOutsideProject?: boolean;
 }
 
 export class CodeGenerator {
@@ -22,26 +25,29 @@ export class CodeGenerator {
     this.strategies = new Map();
     this.strategies.set('typescript', new TypeScriptStrategy());
     this.strategies.set('python', new PythonStrategy());
+    this.strategies.set('go', new GoStrategy());
   }
 
   async generate(options: GenerateOptions): Promise<void> {
-    const { spec, language, outputDir } = options;
+    const { spec, language, outputDir, allowOutsideProject } = options;
     
     logger.info(`Starting generation for ${language} from ${spec}`);
 
+    const resolvedSpec = resolveSpecPath(spec, { allowOutsideProject });
+
     // Validate first
     const validator = new Validator();
-    const validation = await validator.validate(spec);
+    const validation = await validator.validate(resolvedSpec);
     if (!validation.valid) {
       const errorMsg = `Spec validation failed:\n${validation.errors.join('\n')}`;
       logger.error(errorMsg);
       throw new Error(errorMsg);
     }
 
-    const specContent = await fs.promises.readFile(spec, 'utf8');
-    const parsedSpec = this.parseSpec(spec, specContent);
-    
-    await fs.promises.mkdir(outputDir, { recursive: true });
+    const specContent = await fs.promises.readFile(resolvedSpec, 'utf8');
+    const parsedSpec = this.parseSpec(resolvedSpec, specContent);
+
+    const preparedOutput = await prepareOutputDirectory(outputDir, { allowOutsideProject });
     
     const strategy = this.strategies.get(language);
     if (!strategy) {
@@ -50,8 +56,10 @@ export class CodeGenerator {
       throw new Error(errorMsg);
     }
 
-    await strategy.generate(parsedSpec, outputDir);
-    logger.info(`Generation completed successfully in ${outputDir}`);
+    await strategy.generate(parsedSpec, preparedOutput.outputDir, {
+      allowOutsideProject: preparedOutput.allowOutsideProject,
+    });
+    logger.info(`Generation completed successfully in ${preparedOutput.outputDir}`);
   }
 
   private parseSpec(filePath: string, content: string): any {

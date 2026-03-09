@@ -38,6 +38,7 @@ exports.validateCommand = validateCommand;
 // Copyright (c) 2025 LEHRO Solutions
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const yaml = __importStar(require("js-yaml"));
 const validator_1 = require("../../core/validator");
 const telemetry_1 = require("../../core/telemetry");
 const ui_1 = require("../utils/ui");
@@ -78,7 +79,6 @@ async function validateCommand(spec, options) {
             const ext = path.extname(spec).toLowerCase();
             if (ext === '.yaml' || ext === '.yml' || ext === '.json') {
                 try {
-                    const yaml = require('js-yaml');
                     const parsed = ext === '.json' ? JSON.parse(specContent) : yaml.load(specContent);
                     if (parsed.openapi) {
                         ui_1.ui.sectionHeader('DOCUMENT METADATA');

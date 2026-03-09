@@ -38,6 +38,7 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const Handlebars = __importStar(require("handlebars"));
 const handlebarsHelpers_1 = require("./handlebarsHelpers");
+const pathSafety_1 = require("../pathSafety");
 class PythonStrategy {
     constructor() {
         this.templatesDir = path.resolve(__dirname, '../../templates/python');
@@ -47,8 +48,8 @@ class PythonStrategy {
     async generate(spec, outputDir) {
         const clientCode = await this.generateClient(spec);
         const modelsCode = await this.generateModels(spec);
-        await fs.promises.writeFile(path.join(outputDir, 'client.py'), clientCode);
-        await fs.promises.writeFile(path.join(outputDir, 'models.py'), modelsCode);
+        await (0, pathSafety_1.safeWriteGeneratedFile)(outputDir, 'client.py', clientCode);
+        await (0, pathSafety_1.safeWriteGeneratedFile)(outputDir, 'models.py', modelsCode);
     }
     async generateClient(spec) {
         const templatePath = path.join(this.templatesDir, 'client.hbs');

@@ -26,6 +26,7 @@ exports.highlight = highlight;
 exports.filePath = filePath;
 exports.timestamp = timestamp;
 const chalk_1 = __importDefault(require("chalk"));
+const package_json_1 = __importDefault(require("../../../package.json"));
 /**
  * UI utility functions for consistent CLI output formatting
  * "Intentional Minimalism" Design System
@@ -59,7 +60,7 @@ function showBanner() {
     console.log(chalk_1.default.hex(THEME.primary).bold('  G I D E V O'));
     console.log(chalk_1.default.hex(THEME.dim)('  ──────────────────────'));
     console.log(chalk_1.default.white('  API Integration Engine'));
-    console.log(chalk_1.default.hex(THEME.dim)('  v' + require('../../../package.json').version));
+    console.log(chalk_1.default.hex(THEME.dim)('  v' + package_json_1.default.version));
     console.log('\n');
 }
 /**

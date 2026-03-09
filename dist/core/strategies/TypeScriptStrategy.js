@@ -38,6 +38,7 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const Handlebars = __importStar(require("handlebars"));
 const handlebarsHelpers_1 = require("./handlebarsHelpers");
+const pathSafety_1 = require("../pathSafety");
 class TypeScriptStrategy {
     constructor() {
         // Resolve templates directory relative to this file
@@ -49,8 +50,9 @@ class TypeScriptStrategy {
     }
     async generate(spec, outputDir) {
         const clientCode = await this.generateClient(spec);
-        await fs.promises.writeFile(path.join(outputDir, 'client.ts'), clientCode);
-        await fs.promises.writeFile(path.join(outputDir, 'types.ts'), await this.generateTypes(spec));
+        const typesCode = await this.generateTypes(spec);
+        await (0, pathSafety_1.safeWriteGeneratedFile)(outputDir, 'client.ts', clientCode);
+        await (0, pathSafety_1.safeWriteGeneratedFile)(outputDir, 'types.ts', typesCode);
     }
     async generateClient(spec) {
         const templateName = spec.type === 'graphql' ? 'client-graphql.hbs' : 'client-rest.hbs';
