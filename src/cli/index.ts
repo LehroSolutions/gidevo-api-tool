@@ -42,10 +42,9 @@ function resolveVersion(): string {
 }
 
 const program = new Command();
-const nativeImport = new Function(
-  'specifier',
-  'return import(specifier);'
-) as (specifier: string) => Promise<any>;
+const nativeImport = new Function('specifier', 'return import(specifier);') as (
+  specifier: string
+) => Promise<any>;
 
 import { telemetry } from '../core/telemetry';
 

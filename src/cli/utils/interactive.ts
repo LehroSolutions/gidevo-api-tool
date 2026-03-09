@@ -9,10 +9,9 @@ import * as readline from 'readline';
 import { ui } from './ui';
 import chalk from 'chalk';
 
-const nativeImport = new Function(
-  'specifier',
-  'return import(specifier);'
-) as (specifier: string) => Promise<any>;
+const nativeImport = new Function('specifier', 'return import(specifier);') as (
+  specifier: string
+) => Promise<any>;
 
 /**
  * Prompt user for input with a question and Avant-Garde styling
