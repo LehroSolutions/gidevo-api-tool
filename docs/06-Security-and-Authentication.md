@@ -8,6 +8,27 @@
 - **Defense in Depth**: layered controls.
 - **Auditability**: record critical events.
 
+## 1.1 OSS Security Hardening (v0.1.6)
+- **Config safety**:
+  - `.js` config execution is rejected.
+  - JSON config is schema-validated (Ajv).
+  - Invalid config warns and safely falls back to defaults.
+- **Filesystem safety**:
+  - Spec and output paths are project-bounded by default.
+  - Path traversal and symlink escape attempts are blocked.
+  - Explicit overrides are available through:
+    - CLI: `--allow-outside-project`
+    - Config: `generate.allowOutsideProject`
+    - Env: `GIDEVO_ALLOW_UNSAFE_PATHS=1`
+- **Plugin loading safety**:
+  - Only regular `.js` files are considered.
+  - Canonical real paths must remain inside approved plugin directories.
+- **Secrets safety**:
+  - AES-256-GCM payload format is strictly validated (`iv:tag:ciphertext`).
+  - Legacy CBC decrypt compatibility is retained for migration.
+- **Template safety**:
+  - Enum/string literal escaping guards generated code against malformed values.
+
 ## 2. Authentication Flows
 
 ### API Key

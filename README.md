@@ -8,10 +8,11 @@
 ## ✨ Features
 
 - **🚀 Project Initialization**: `gidevo-api-tool init` scaffolds OpenAPI or GraphQL projects
-- **⚡ Code Generation**: `gidevo-api-tool generate` produces production-ready SDKs (TypeScript, Python)
+- **⚡ Code Generation**: `gidevo-api-tool generate` produces production-ready SDKs (TypeScript, Python, Go)
 - **✅ Specification Validation**: `gidevo-api-tool validate` checks OpenAPI/GraphQL specs with detailed error reporting
 - **🔐 Authentication**: `gidevo-api-tool login` manages API tokens securely
 - **🔌 Plugin System**: Extend functionality with custom plugins
+- **🛡️ Secure Defaults**: Project-bounded path guards, hardened plugin loading, and strict config validation
 - **🎨 Professional UI**: Consistent, colorful output with progress indicators
 - **♿ Accessible UX**: Full support for CI environments and screen readers
 
@@ -93,6 +94,9 @@ gidevo-api-tool generate --spec ./specs/api.yaml --language typescript --output 
 # Python SDK
 gidevo-api-tool generate --spec ./specs/api.yaml --language python --output ./generated
 
+# Go SDK
+gidevo-api-tool generate --spec ./specs/api.yaml --language go --output ./generated
+
 # With custom template
 gidevo-api-tool generate --spec ./specs/api.yaml --language typescript --template axios --output ./generated
 
@@ -103,6 +107,25 @@ gidevo-api-tool gen -s ./specs/api.yaml -l typescript -o ./generated
 **Supported Languages:**
 - `typescript` - REST client with fetch or axios templates
 - `python` - Python client with requests library
+- `go` - Go client with generated request helpers and schema types
+
+**Path Safety (default secure mode):**
+- By default, `--spec` and `--output` must stay within the current project root.
+- To explicitly override this behavior, use:
+  - `--allow-outside-project`, or
+  - `generate.allowOutsideProject` in `.gidevorc.json`, or
+  - `GIDEVO_ALLOW_UNSAFE_PATHS=1`
+
+**Configuration Example (`.gidevorc.json`):**
+```json
+{
+  "generate": {
+    "language": "go",
+    "output": "./generated",
+    "allowOutsideProject": false
+  }
+}
+```
 
 ### Validate Spec
 
@@ -243,12 +266,13 @@ export default class MyCustomPlugin implements Plugin {
 ```
 
 2. Build and place compiled `.js` in `dist/plugins/` for runtime loading
-3. Plugins are auto-discovered from `src/plugins/`
+3. Plugins are auto-discovered from `dist/plugins/` (falls back to `src/plugins/` in development)
 
 **Built-in Plugins:**
 - `specLint` - Lint API specifications for best practices
 - `typescriptGenerator` - Generate TypeScript SDKs
 - `pythonGenerator` - Generate Python SDKs
+- `goGenerator` - Generate Go SDKs
 
 ## 🛠️ Development & Testing
 
@@ -289,7 +313,8 @@ src/
 ├── plugins/          # Plugin system
 └── templates/        # Handlebars templates
     ├── typescript/
-    └── python/
+    ├── python/
+    └── go/
 ```
 
 ## 📚 Documentation

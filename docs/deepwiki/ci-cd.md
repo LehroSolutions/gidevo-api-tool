@@ -1,37 +1,39 @@
 # CI/CD & Release Pipeline
 
-This section describes the automated workflows covering testing, linting, security analysis, and publishing.
+This section documents the current automated workflows for open-source quality and security checks.
 
 ## GitHub Actions Workflows
 
-- **`test-lint-audit.yml`**: Runs on push and PRs.
-  - Installs dependencies.
-  - Runs `npm test`, `npm run lint`, `npm audit --audit-level=high`.
-  - Uploads coverage report.
+- **`ci.yml`** (push to `main`/`develop`, PR to `main`):
+  - `test` job:
+    - Runs matrix builds on Node `18.x` and `20.x`.
+    - Executes `npm run lint`, `npm run format:check`, `npm run test:coverage`, and `npm run build`.
+  - `security` job:
+    - Runs `npm audit --audit-level high`.
+    - Runs Semgrep with repository rules:
+      - `semgrep --config .semgrep.yml --error src`
+  - `publish` job:
+    - Runs after `test` and `security`.
+    - Publishes package from `main` with `npm publish --access public`.
 
-- **`codeql-analysis.yml`**: Schedules daily scans and on pull_request.
-  - Performs security analysis using CodeQL.
+- **`codeql.yml`**:
+  - Runs CodeQL analysis for JavaScript and TypeScript on push/PR.
 
-- **`release.yml`**: Triggered on tagged commit.
-  - Uses `semantic-release` to generate changelog, create GitHub release, publish to npm.
+- **`release.yml`**:
+  - Handles release automation for tagged release flow.
 
-## Release Process
+## Security Checks in CI
 
-1. **Tag**: Create a Git tag following semver (e.g., `v1.2.0`).
-2. **CI**: `release.yml` runs semantic-release.
-3. **Artifacts**: Release notes and npm package published automatically.
+- Dependency risk gate: `npm audit --audit-level high`
+- Static analysis gate: Semgrep using `.semgrep.yml`
+- CodeQL analysis: separate dedicated workflow (`codeql.yml`)
 
 ## Environment Variables
 
-- `NPM_TOKEN`: For npm publish.
-- GITHUB_TOKEN: Provided by GitHub Actions automatically.
+- `NPM_TOKEN`: required for npm publish in `publish` job.
+- `GITHUB_TOKEN`: provided automatically by GitHub Actions.
 
-## Badges & Status
+## Maintenance Notes
 
-- Test & coverage status in `README.md`.
-- CodeQL scan status.
-
-## Maintenance
-
-- Update `jest.config.js` thresholds to track coverage.
-- Update dependency versions in `package.json` security dashboard.
+- Keep `.semgrep.yml` aligned with secure coding utilities (for example `safeWriteGeneratedFile()`).
+- Keep CodeQL and CI workflows consistent with supported Node versions in `package.json`.

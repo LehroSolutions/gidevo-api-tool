@@ -7,6 +7,17 @@
 - Prevent regressions in generated SDKs.
 - Build confidence for enterprise adoption.
 
+## 1.1 OSS Test Matrix (v0.1.6)
+Current automated coverage includes:
+- Go strategy generation (`client.go`, `types.go`).
+- CLI language handling for `--language go` and invalid language rejection.
+- Config loader safety (`.js` rejection + schema validation fallback behavior).
+- Path safety defaults and explicit unsafe-path overrides.
+- Plugin loader handling for unsafe filenames and symlink escape attempts.
+- Secrets compatibility (legacy CBC + strict GCM validation).
+- Handlebars helper escaping for enum/string literal edge cases.
+- Snapshot updates for generated outputs and CLI help language text.
+
 ## 2. Unit Testing
 - **Purpose**: validate individual functions/modules.
 - **Python**: pytest + pytest-mock

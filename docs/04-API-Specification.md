@@ -48,6 +48,19 @@ components:
 - **Response Wrapping**: avoid deep nesting; prefer flat structures.
 - **Deprecation**: mark endpoints with `deprecated: true` and communicate removal timeline.
 
+## 2.1 Generator Compatibility in OSS
+- OpenAPI specs are first-class inputs for code generation.
+- Current supported SDK targets:
+  - `typescript`
+  - `python`
+  - `go`
+- GraphQL flows remain available for validation/scaffolding, while SDK generation behavior follows the current CLI constraints.
+
+Example:
+```bash
+gidevo-api-tool generate --spec ./specs/api.yaml --language go --output ./generated
+```
+
 ## 3. GraphQL SDL Conventions
 ```graphql
 # schema.graphql

@@ -20,6 +20,31 @@ npm publish --access public
 
 ## Release Notes
 
+### v0.1.6 (Planned OSS Upgrade)
+
+#### New
+- Added `go` as a first-class generation target.
+- Added built-in `GoGenerator` plugin.
+- Added Go templates:
+  - `src/templates/go/client.hbs`
+  - `src/templates/go/types.hbs`
+
+#### Security Hardening
+- JSON-only config loading with schema validation.
+- Project-bound path safety defaults for spec/output resolution.
+- Explicit unsafe-path override support:
+  - `--allow-outside-project`
+  - `generate.allowOutsideProject` config key
+  - `GIDEVO_ALLOW_UNSAFE_PATHS=1` environment override
+- Hardened plugin loading against symlink and unsafe file handling.
+- Finalized AES-256-GCM payload validation with legacy CBC migration compatibility.
+- Added helper-level escaping for enum/string literals used during code generation.
+
+#### CI
+- Added Semgrep static security checks via `.semgrep.yml` and CI workflow step.
+
+---
+
 ### v0.1.5 (November 2025)
 
 #### 🎨 New UI System

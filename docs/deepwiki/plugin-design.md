@@ -17,7 +17,9 @@ interface Plugin {
 ## Discovery & Loading
 
 - **Directories**: Looks for `dist/plugins` first, then `src/plugins` during development.
-- **File Filter**: Only files ending `.js` are loaded (avoids TS and d.ts).
+- **File Filter**: Only safe `.js` filenames are considered (avoids TS and declaration files).
+- **File Type Check**: Plugin entries must resolve to regular files (symlinks are rejected).
+- **Path Safety**: Canonical real paths must remain inside approved plugin directories.
 - **Instantiation**:
   - If default export is a constructor, instantiate it.
   - Otherwise, use the exported object.
@@ -32,5 +34,12 @@ interface Plugin {
 Validates OpenAPI spec using `js-yaml`:
 - Reports schema issues.
 - Test coverage via `tests/specLint.test.ts`.
+
+## Built-In Plugins
+
+- `specLint`
+- `typescriptGenerator`
+- `pythonGenerator`
+- `goGenerator`
 
 For core usage, refer to [CI/CD & Release Pipeline](ci-cd.md).

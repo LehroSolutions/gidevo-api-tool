@@ -1,3 +1,9 @@
 node_modules
 
 tests/tmp-*
+
+# Private strategy/planning docs (non-OSS)
+docs/PRO_IMPLEMENTATION.md
+docs/*PRO*.md
+docs/*CLOUD*.md
+docs/*MCP*.md
