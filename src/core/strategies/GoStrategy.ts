@@ -129,12 +129,14 @@ export class GoStrategy implements GeneratorStrategy {
 
       if (schema?.type === 'object' || schema?.properties) {
         const required = Array.isArray(schema?.required) ? schema.required : [];
-        const fields = Object.entries<any>(schema?.properties ?? {}).map(([fieldName, fieldSchema]) => ({
-          name: this.toPascalCase(fieldName) || 'Field',
-          jsonName: fieldName,
-          type: this.resolveGoType(fieldSchema, required, fieldName),
-          required: required.includes(fieldName),
-        }));
+        const fields = Object.entries<any>(schema?.properties ?? {}).map(
+          ([fieldName, fieldSchema]) => ({
+            name: this.toPascalCase(fieldName) || 'Field',
+            jsonName: fieldName,
+            type: this.resolveGoType(fieldSchema, required, fieldName),
+            required: required.includes(fieldName),
+          })
+        );
 
         return {
           kind: 'struct',

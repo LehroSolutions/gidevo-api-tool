@@ -16,10 +16,10 @@ export async function pluginCommand(name: string, args: string[]): Promise<void>
 
   // Determine plugin directory: prefer compiled dist/plugins, fallback to src/plugins
   const candidatePluginDirs = [
-    path.resolve(__dirname, '..', '..', 'plugins'),      // dist/plugins after build
+    path.resolve(__dirname, '..', '..', 'plugins'), // dist/plugins after build
     path.resolve(__dirname, '..', '..', '..', 'src', 'plugins'), // src/plugins during development
   ];
-  const pluginDir = candidatePluginDirs.find(d => fs.existsSync(d)) || candidatePluginDirs[0];
+  const pluginDir = candidatePluginDirs.find((d) => fs.existsSync(d)) || candidatePluginDirs[0];
 
   let plugins;
   try {
@@ -35,21 +35,21 @@ export async function pluginCommand(name: string, args: string[]): Promise<void>
       ui.warning('No Extensions Detected', `Scanned: ${ui.filePath(pluginDir)}`);
     } else {
       ui.sectionHeader('REGISTERED EXTENSIONS');
-      plugins.forEach(plugin => {
+      plugins.forEach((plugin) => {
         console.log(`    ${ui.highlight(plugin.name)}`);
       });
     }
     return;
   }
 
-  const plugin = plugins.find(p => p.name.toLowerCase() === name.toLowerCase());
+  const plugin = plugins.find((p) => p.name.toLowerCase() === name.toLowerCase());
 
   if (!plugin) {
     ui.error('Extension Unknown', `"${name}" not in registry`);
 
     if (plugins.length > 0) {
       ui.sectionHeader('REGISTERED EXTENSIONS');
-      plugins.forEach(p => {
+      plugins.forEach((p) => {
         console.log(`    ${ui.highlight(p.name)}`);
       });
     } else {

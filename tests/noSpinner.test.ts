@@ -15,7 +15,21 @@ describe('--no-spinner flag', () => {
   });
 
   it('respects --no-spinner for generate', () => {
-    const res = spawnSync('node', [cliPath, 'generate', '--no-spinner', '--spec', spec, '--language', 'typescript', '--output', tmpDir], { encoding: 'utf8' });
+    const res = spawnSync(
+      'node',
+      [
+        cliPath,
+        'generate',
+        '--no-spinner',
+        '--spec',
+        spec,
+        '--language',
+        'typescript',
+        '--output',
+        tmpDir,
+      ],
+      { encoding: 'utf8' }
+    );
     if (res.error && (res.error as NodeJS.ErrnoException).code === 'EPERM') {
       return;
     }

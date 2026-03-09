@@ -35,9 +35,7 @@ export async function whoamiCommand(): Promise<void> {
   if (authService.isTokenExpired()) {
     ui.error('Context Expired', 'Session token validity exhausted.');
     ui.keyValue('Terminated', ui.timestamp(config.expiresAt));
-    ui.nextSteps([
-      'Refresh context: gidevo-api-tool login',
-    ]);
+    ui.nextSteps(['Refresh context: gidevo-api-tool login']);
     return;
   }
 
@@ -51,9 +49,10 @@ export async function whoamiCommand(): Promise<void> {
 
   const daysRemaining = authService.getTokenValidityDays();
   if (daysRemaining !== null) {
-    const status = daysRemaining <= 7
-      ? ui.highlight(`${daysRemaining}d remaining [CRITICAL]`)
-      : `${daysRemaining}d remaining`;
+    const status =
+      daysRemaining <= 7
+        ? ui.highlight(`${daysRemaining}d remaining [CRITICAL]`)
+        : `${daysRemaining}d remaining`;
     ui.keyValue('TTL', status);
   }
 

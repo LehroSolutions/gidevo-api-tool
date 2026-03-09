@@ -23,6 +23,7 @@ npm publish --access public
 ### v0.1.6 (Planned OSS Upgrade)
 
 #### New
+
 - Added `go` as a first-class generation target.
 - Added built-in `GoGenerator` plugin.
 - Added Go templates:
@@ -30,6 +31,7 @@ npm publish --access public
   - `src/templates/go/types.hbs`
 
 #### Security Hardening
+
 - JSON-only config loading with schema validation.
 - Project-bound path safety defaults for spec/output resolution.
 - Explicit unsafe-path override support:
@@ -41,6 +43,7 @@ npm publish --access public
 - Added helper-level escaping for enum/string literals used during code generation.
 
 #### CI
+
 - Added Semgrep static security checks via `.semgrep.yml` and CI workflow step.
 
 ---
@@ -48,6 +51,7 @@ npm publish --access public
 ### v0.1.5 (November 2025)
 
 #### 🎨 New UI System
+
 - Comprehensive UI utilities module (`src/cli/utils/ui.ts`)
 - ASCII art banner with professional branding
 - Consistent success/error/warning/info messages with icons
@@ -57,6 +61,7 @@ npm publish --access public
 - Color theming with brand colors (Blue, Green, Amber)
 
 #### ⚡ New Features
+
 - **Interactive Mode** (`-i, --interactive`): Guided wizard for new users
 - **Configuration File Support**: Load defaults from `.gidevorc.json`
 - **Config Command**: `gidevo-api-tool config --init` to create config file
@@ -64,12 +69,14 @@ npm publish --access public
 - **Quiet Mode** (`-q, --quiet`): Suppress banner and non-essential output
 
 #### 🔧 Bug Fixes
+
 - Fixed corrupted Handlebars templates (TypeScript & Python)
 - Fixed AuthService private property access issue
 - Added proper error exit codes (`process.exit(1)`)
 - Added input validation for all commands
 
 #### 📚 Examples & Documentation
+
 - Added `examples/` directory with:
   - `basic-typescript/` - TypeScript SDK example
   - `basic-python/` - Python SDK example
@@ -80,11 +87,13 @@ npm publish --access public
 - Created CHANGELOG for UI improvements
 
 #### 🧪 Test Updates
+
 - All 29 tests passing
 - Updated snapshots for new template output
 - Added exit code testing for error cases
 
 #### ⬆️ Upgrade Notes
+
 No breaking changes. Users can update and use new features immediately.
 
 ---

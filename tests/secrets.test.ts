@@ -42,8 +42,7 @@ describe('SecretsManager hardening', () => {
     await manager.setSecret('token', 'safe-token');
 
     const payload = fs.readFileSync(secretsFile, 'utf8');
-    const tampered =
-      payload.slice(0, payload.length - 1) + (payload.endsWith('0') ? '1' : '0');
+    const tampered = payload.slice(0, payload.length - 1) + (payload.endsWith('0') ? '1' : '0');
     fs.writeFileSync(secretsFile, tampered);
 
     const value = await manager.getSecret('token');

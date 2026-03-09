@@ -76,7 +76,8 @@ program
 // Custom help formatting
 program.configureHelp({
   sortSubcommands: true,
-  subcommandTerm: (cmd) => chalk.cyan(cmd.name()) + (cmd.alias() ? chalk.gray(`, ${cmd.alias()}`) : ''),
+  subcommandTerm: (cmd) =>
+    chalk.cyan(cmd.name()) + (cmd.alias() ? chalk.gray(`, ${cmd.alias()}`) : ''),
 });
 
 const version = resolveVersion();
@@ -92,7 +93,9 @@ program
     }
     return '';
   })
-  .addHelpText('after', `
+  .addHelpText(
+    'after',
+    `
 ${chalk.hex('#F59E0B').bold('Examples:')}
   ${chalk.gray('$')} gidevo-api-tool init -t openapi
   ${chalk.gray('$')} gidevo-api-tool generate -s api.yaml -l typescript
@@ -101,7 +104,8 @@ ${chalk.hex('#F59E0B').bold('Examples:')}
 
 ${chalk.gray('Documentation:')} ${chalk.cyan('https://github.com/lehrosolutions/gidevo-api-tool')}
 ${chalk.gray('Report issues:')} ${chalk.cyan('https://github.com/lehrosolutions/gidevo-api-tool/issues')}
-`);
+`
+  );
 
 program
   .command('init')
@@ -109,14 +113,17 @@ program
   .description('Initialize a new API project')
   .option('-t, --template <type>', 'Project template (openapi, graphql)', 'openapi')
   .option('-o, --output <dir>', 'Output directory', '.')
-  .addHelpText('after', `
+  .addHelpText(
+    'after',
+    `
 ${chalk.gray('Templates:')}
   ${chalk.cyan('openapi')}   OpenAPI 3.0 specification (default)
   ${chalk.cyan('graphql')}   GraphQL schema
 
 ${chalk.gray('Example:')}
   ${chalk.gray('$')} gidevo-api-tool init -t openapi -o my-api
-`)
+`
+  )
   .action(initCommand);
 
 program
@@ -130,7 +137,9 @@ program
     '--allow-outside-project',
     'Allow spec/output paths outside current project root (unsafe override)'
   )
-  .addHelpText('after', `
+  .addHelpText(
+    'after',
+    `
 ${chalk.gray('Supported languages:')}
   ${chalk.cyan('typescript')}   TypeScript SDK with type definitions (default)
   ${chalk.cyan('python')}       Python SDK with type hints
@@ -142,7 +151,8 @@ ${chalk.gray('Example:')}
 ${chalk.gray('Path safety override:')}
   ${chalk.gray('$')} gidevo-api-tool generate -s api.yaml -o ../external --allow-outside-project
   ${chalk.gray('$')} GIDEVO_ALLOW_UNSAFE_PATHS=1 gidevo-api-tool generate -s api.yaml
-`)
+`
+  )
   .action(generateCommand);
 
 program
@@ -151,21 +161,26 @@ program
   .description('Validate API specifications')
   .argument('<spec>', 'API spec file to validate')
   .option('--strict', 'Enable strict validation against full OpenAPI schema')
-  .addHelpText('after', `
+  .addHelpText(
+    'after',
+    `
 ${chalk.gray('Validation modes:')}
   ${chalk.cyan('basic')}    Basic structure validation (default)
   ${chalk.cyan('strict')}   Full OpenAPI 3.0 schema compliance
 
 ${chalk.gray('Example:')}
   ${chalk.gray('$')} gidevo-api-tool validate api.yaml --strict
-`)
+`
+  )
   .action(validateCommand);
 
 program
   .command('login')
   .description('Authenticate with the API tool service')
   .option('--token <token>', 'API token (or enter interactively)')
-  .addHelpText('after', `
+  .addHelpText(
+    'after',
+    `
 ${chalk.gray('Authentication:')}
   You can provide a token via --token flag or enter it interactively.
   Tokens are stored securely in ~/.gidevo-api-tool/config.json
@@ -176,13 +191,11 @@ ${chalk.gray('Environment:')}
 ${chalk.gray('Example:')}
   ${chalk.gray('$')} gidevo-api-tool login
   ${chalk.gray('$')} gidevo-api-tool login --token your-token
-`)
+`
+  )
   .action(loginCommand);
 
-program
-  .command('logout')
-  .description('Remove stored credentials')
-  .action(logoutCommand);
+program.command('logout').description('Remove stored credentials').action(logoutCommand);
 
 program
   .command('whoami')
@@ -195,7 +208,9 @@ program
   .option('--init', 'Create a new .gidevorc.json file')
   .option('--show', 'Display current configuration (default)')
   .option('--path', 'Show config file path')
-  .addHelpText('after', `
+  .addHelpText(
+    'after',
+    `
 ${chalk.gray('Configuration files:')}
   The tool looks for: .gidevorc.json, .gidevorc, gidevo.config.json
 
@@ -203,21 +218,25 @@ ${chalk.gray('Examples:')}
   ${chalk.gray('$')} gidevo-api-tool config --init     Create config file
   ${chalk.gray('$')} gidevo-api-tool config --show     View current config
   ${chalk.gray('$')} gidevo-api-tool config --path     Show config file location
-`)
+`
+  )
   .action(configCommand);
 
 program
   .command('plugin <name> [args...]')
   .alias('p')
   .description('Run a plugin by name')
-  .addHelpText('after', `
+  .addHelpText(
+    'after',
+    `
 ${chalk.gray('Available plugins are loaded from:')}
   - dist/plugins/ (compiled)
   - src/plugins/ (development)
 
 ${chalk.gray('Example:')}
   ${chalk.gray('$')} gidevo-api-tool plugin spec-lint api.yaml
-`)
+`
+  )
   .action(pluginCommand);
 
 // Check for interactive mode before parsing
@@ -263,11 +282,11 @@ if (isInteractive) {
       path.resolve(__dirname, '..', 'plugins'), // dist/plugins after build
       path.resolve(__dirname, '..', '..', 'src', 'plugins'), // running from ts-node in src
     ];
-    const pluginDir = candidatePluginDirs.find(d => fs.existsSync(d)) || candidatePluginDirs[0];
+    const pluginDir = candidatePluginDirs.find((d) => fs.existsSync(d)) || candidatePluginDirs[0];
 
     try {
       const plugins = loadPlugins(pluginDir);
-      plugins.forEach(plugin => {
+      plugins.forEach((plugin) => {
         try {
           plugin.initialize(program);
         } catch (e) {

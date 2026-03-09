@@ -30,7 +30,7 @@ export class CodeGenerator {
 
   async generate(options: GenerateOptions): Promise<void> {
     const { spec, language, outputDir, allowOutsideProject } = options;
-    
+
     logger.info(`Starting generation for ${language} from ${spec}`);
 
     const resolvedSpec = resolveSpecPath(spec, { allowOutsideProject });
@@ -48,7 +48,7 @@ export class CodeGenerator {
     const parsedSpec = this.parseSpec(resolvedSpec, specContent);
 
     const preparedOutput = await prepareOutputDirectory(outputDir, { allowOutsideProject });
-    
+
     const strategy = this.strategies.get(language);
     if (!strategy) {
       const errorMsg = `Unsupported language: ${language}`;
@@ -64,7 +64,7 @@ export class CodeGenerator {
 
   private parseSpec(filePath: string, content: string): any {
     const ext = path.extname(filePath).toLowerCase();
-    
+
     if (ext === '.json') {
       return JSON.parse(content);
     } else if (ext === '.yaml' || ext === '.yml') {
@@ -72,7 +72,7 @@ export class CodeGenerator {
     } else if (ext === '.graphql' || ext === '.gql') {
       return { type: 'graphql', schema: content };
     }
-    
+
     throw new Error(`Unsupported spec format: ${ext}`);
   }
 }

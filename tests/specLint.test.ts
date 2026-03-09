@@ -9,7 +9,7 @@ describe('SpecLint Plugin', () => {
 
   beforeAll(() => {
     const plugins = loadPlugins(pluginDir);
-    plugin = plugins.find(p => p.name === 'SpecLint');
+    plugin = plugins.find((p) => p.name === 'SpecLint');
   });
 
   it('loads SpecLint plugin', () => {

@@ -11,13 +11,13 @@ describe('CLI Generate Command', () => {
   let logSpy: jest.SpyInstance;
 
   beforeAll(() => {
-    [tmpTs, tmpPy, tmpGo].forEach(dir => {
+    [tmpTs, tmpPy, tmpGo].forEach((dir) => {
       if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true });
     });
   });
 
   beforeEach(() => {
-    logSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+    logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -53,14 +53,20 @@ describe('CLI Generate Command', () => {
   });
 
   it('exits with error for missing spec', async () => {
-    const exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => { throw new Error('process.exit'); }) as any);
-    await expect(generateCommand({ spec: undefined as any, language: 'typescript', output: tmpTs })).rejects.toThrow('process.exit');
+    const exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => {
+      throw new Error('process.exit');
+    }) as any);
+    await expect(
+      generateCommand({ spec: undefined as any, language: 'typescript', output: tmpTs })
+    ).rejects.toThrow('process.exit');
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Missing Directive'));
     exitSpy.mockRestore();
   });
 
   it('exits with error for unsupported language', async () => {
-    const exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => { throw new Error('process.exit'); }) as any);
+    const exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => {
+      throw new Error('process.exit');
+    }) as any);
     await expect(
       generateCommand({ spec: fixtureSpec, language: 'ruby', output: tmpTs } as any)
     ).rejects.toThrow('process.exit');

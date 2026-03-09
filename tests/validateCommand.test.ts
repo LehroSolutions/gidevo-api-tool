@@ -10,8 +10,10 @@ describe('validateCommand', () => {
   let exitSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    logSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
-    exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => { throw new Error('process.exit'); }) as any);
+    logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => {
+      throw new Error('process.exit');
+    }) as any);
     if (fs.existsSync(tmpInvalid)) fs.unlinkSync(tmpInvalid);
   });
 

@@ -9,13 +9,13 @@ describe('E2E CLI tests', () => {
   const fixtureSpec = path.resolve(__dirname, 'fixtures', 'api.yaml');
 
   beforeAll(() => {
-    [tmpInit, tmpGen].forEach(dir => {
+    [tmpInit, tmpGen].forEach((dir) => {
       if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true });
     });
   });
 
   afterAll(() => {
-    [tmpInit, tmpGen].forEach(dir => {
+    [tmpInit, tmpGen].forEach((dir) => {
       if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true });
     });
   });
@@ -66,7 +66,15 @@ describe('E2E CLI tests', () => {
   });
 
   it('generate SDK produces output', () => {
-    const res = runCli(['generate', '--spec', fixtureSpec, '--language', 'typescript', '--output', tmpGen]);
+    const res = runCli([
+      'generate',
+      '--spec',
+      fixtureSpec,
+      '--language',
+      'typescript',
+      '--output',
+      tmpGen,
+    ]);
     if (!res) return;
     expect(res.status).toBe(0);
     expect(res.stdout).toContain('Synthesis Complete');

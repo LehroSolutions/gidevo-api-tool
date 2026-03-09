@@ -29,9 +29,7 @@ export async function generateCommand(options: GenerateOptions) {
     allowOutsideProject,
   } = mergedOptions;
   const cliRequestedAllowOutside = process.argv.includes('--allow-outside-project');
-  const outsideProjectAllowed = cliRequestedAllowOutside
-    ? true
-    : Boolean(allowOutsideProject);
+  const outsideProjectAllowed = cliRequestedAllowOutside ? true : Boolean(allowOutsideProject);
 
   ui.showCompactBanner();
   ui.sectionHeader('SDK SYNTHESIS PROTOCOL');
@@ -51,7 +49,10 @@ export async function generateCommand(options: GenerateOptions) {
 
   // Validate language
   if (!SUPPORTED_LANGUAGES.includes(language.toLowerCase())) {
-    ui.error('Target Unsupported', `Runtime environment must be: ${SUPPORTED_LANGUAGES.join(', ')}`);
+    ui.error(
+      'Target Unsupported',
+      `Runtime environment must be: ${SUPPORTED_LANGUAGES.join(', ')}`
+    );
     process.exit(1);
   }
 
@@ -68,7 +69,10 @@ export async function generateCommand(options: GenerateOptions) {
       ['Source Spec', ui.filePath(path.basename(spec))],
       ['Target Runtime', ui.highlight(language)],
       ['Output Artifact', ui.filePath(path.resolve(output))],
-      ['Path Policy', outsideProjectAllowed ? ui.highlight('UNSAFE OVERRIDE') : 'Project-bound (default)'],
+      [
+        'Path Policy',
+        outsideProjectAllowed ? ui.highlight('UNSAFE OVERRIDE') : 'Project-bound (default)',
+      ],
     ]
   );
 
@@ -93,7 +97,7 @@ export async function generateCommand(options: GenerateOptions) {
     // But since generator is a black box call, we just show the spinner.
     // Ideally we would hook into generator events.
     if (spinner.text) spinner.text = 'Parsing Neural Schema...';
-    await new Promise(r => setTimeout(r, 400)); // Visual pacing
+    await new Promise((r) => setTimeout(r, 400)); // Visual pacing
 
     if (spinner.text) spinner.text = `Compiling ${language} Definitions...`;
 
@@ -116,7 +120,10 @@ export async function generateCommand(options: GenerateOptions) {
     // List generated files
     const generatedFiles = listGeneratedFiles(output);
     if (generatedFiles.length > 0) {
-      ui.list(generatedFiles.map(f => ui.filePath(f)), 'ARTIFACT MANIFEST');
+      ui.list(
+        generatedFiles.map((f) => ui.filePath(f)),
+        'ARTIFACT MANIFEST'
+      );
     }
 
     ui.nextSteps([

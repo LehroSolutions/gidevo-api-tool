@@ -14,9 +14,15 @@ export interface SpinnerLike {
 function noopSpinner(initial: string): SpinnerLike {
   const spinner = {
     start: () => spinner,
-    stop: () => { /* no-op */ },
-    succeed: (text?: string) => { if (text) console.log(text); },
-    fail: (text?: string) => { if (text) console.log(text); },
+    stop: () => {
+      /* no-op */
+    },
+    succeed: (text?: string) => {
+      if (text) console.log(text);
+    },
+    fail: (text?: string) => {
+      if (text) console.log(text);
+    },
     text: initial,
   };
   return spinner;
@@ -29,13 +35,13 @@ export async function createSpinner(message: string): Promise<SpinnerLike> {
   try {
     const mod = await import('ora');
     const ora = (mod as any).default || mod;
-    
+
     // Avant-Garde Configuration
     return ora({
       text: message,
       color: 'magenta', // Closest to our Violet/Pink theme supported by ora
       spinner: 'dots12', // A more "digital" feel
-      prefixText: '  ' // Indent to match our UI
+      prefixText: '  ', // Indent to match our UI
     });
   } catch {
     return noopSpinner(message);

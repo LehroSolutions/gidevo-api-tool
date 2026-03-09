@@ -2,7 +2,7 @@
 // Copyright (c) 2025 LEHRO Solutions
 /**
  * Handlebars Helpers Registry
- * 
+ *
  * Centralized registration of Handlebars helpers to avoid duplication
  * and ensure helpers are registered only once.
  */
@@ -80,9 +80,10 @@ export function registerHandlebarsHelpers(): void {
     }
     if (schema.type === 'object') {
       if (schema.additionalProperties) {
-        const valueType = typeof schema.additionalProperties === 'object'
-          ? Handlebars.helpers.resolveType(schema.additionalProperties)
-          : 'unknown';
+        const valueType =
+          typeof schema.additionalProperties === 'object'
+            ? Handlebars.helpers.resolveType(schema.additionalProperties)
+            : 'unknown';
         return `Record<string, ${valueType}>`;
       }
       return 'Record<string, unknown>';
@@ -110,7 +111,9 @@ export function registerHandlebarsHelpers(): void {
       const parts = schema.$ref.split('/');
       type = parts[parts.length - 1];
     } else if (schema.type === 'array') {
-      const itemType = schema.items ? Handlebars.helpers.resolvePyType(schema.items, [], '') : 'Any';
+      const itemType = schema.items
+        ? Handlebars.helpers.resolvePyType(schema.items, [], '')
+        : 'Any';
       const cleanItemType = itemType.replace(/^Optional\[(.*)\]$/, '$1');
       type = `List[${cleanItemType}]`;
     } else if (schema.type === 'integer') {
@@ -121,7 +124,7 @@ export function registerHandlebarsHelpers(): void {
       type = 'bool';
     } else if (schema.type === 'string') {
       if (schema.enum) {
-        type = 'str';  // Could be Literal type in Python 3.8+
+        type = 'str'; // Could be Literal type in Python 3.8+
       } else {
         type = 'str';
       }
@@ -144,7 +147,9 @@ export function registerHandlebarsHelpers(): void {
       const parts = schema.$ref.split('/');
       type = parts[parts.length - 1];
     } else if (schema.type === 'array') {
-      const itemType = schema.items ? Handlebars.helpers.resolveGoType(schema.items, [], '') : 'interface{}';
+      const itemType = schema.items
+        ? Handlebars.helpers.resolveGoType(schema.items, [], '')
+        : 'interface{}';
       const cleanItemType = String(itemType).replace(/^\*(.+)$/, '$1');
       type = `[]${cleanItemType}`;
     } else if (schema.type === 'integer') {
@@ -158,8 +163,9 @@ export function registerHandlebarsHelpers(): void {
     } else if (schema.type === 'object') {
       if (schema.additionalProperties) {
         if (typeof schema.additionalProperties === 'object') {
-          const valueType = String(Handlebars.helpers.resolveGoType(schema.additionalProperties, [], ''))
-            .replace(/^\*(.+)$/, '$1');
+          const valueType = String(
+            Handlebars.helpers.resolveGoType(schema.additionalProperties, [], '')
+          ).replace(/^\*(.+)$/, '$1');
           type = `map[string]${valueType}`;
         } else {
           type = 'map[string]interface{}';

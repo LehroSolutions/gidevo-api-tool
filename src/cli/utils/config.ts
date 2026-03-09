@@ -1,6 +1,6 @@
 /**
  * Configuration File Support
- * 
+ *
  * Loads project-level configuration from JSON config files.
  * This allows users to set default options for commands.
  */
@@ -22,30 +22,30 @@ export interface GidevoConfig {
     spec?: string;
     allowOutsideProject?: boolean;
   };
-  
+
   /** Default settings for the init command */
   init?: {
     template?: 'openapi' | 'graphql';
     output?: string;
   };
-  
+
   /** Default settings for the validate command */
   validate?: {
     strict?: boolean;
   };
-  
+
   /** Plugin configuration */
   plugins?: {
     enabled?: boolean;
     directory?: string;
     config?: Record<string, any>;
   };
-  
+
   /** Telemetry settings */
   telemetry?: {
     enabled?: boolean;
   };
-  
+
   /** Custom settings */
   [key: string]: any;
 }
@@ -105,11 +105,7 @@ const validateConfig = ajv.compile({
  * NOTE: gidevo.config.js is intentionally excluded — executing arbitrary JS as config
  * is a Remote Code Execution (RCE) vulnerability. JSON-only configs are supported.
  */
-const CONFIG_FILE_NAMES = [
-  '.gidevorc.json',
-  '.gidevorc',
-  'gidevo.config.json',
-];
+const CONFIG_FILE_NAMES = ['.gidevorc.json', '.gidevorc', 'gidevo.config.json'];
 
 /**
  * Cached configuration
@@ -122,7 +118,7 @@ let cachedConfigPath: string | null = null;
  */
 export function findConfigFile(startDir: string = process.cwd()): string | null {
   let currentDir = startDir;
-  
+
   // Walk up the directory tree looking for config files
   while (currentDir !== path.dirname(currentDir)) {
     for (const fileName of CONFIG_FILE_NAMES) {
@@ -133,7 +129,7 @@ export function findConfigFile(startDir: string = process.cwd()): string | null 
     }
     currentDir = path.dirname(currentDir);
   }
-  
+
   return null;
 }
 
@@ -148,7 +144,7 @@ export function loadConfigFile(configPath: string): GidevoConfig {
   if (ext === '.js') {
     throw new Error(
       `JavaScript config files (${configPath}) are not supported for security reasons. ` +
-      'Please use a JSON config file (.gidevorc.json or gidevo.config.json) instead.'
+        'Please use a JSON config file (.gidevorc.json or gidevo.config.json) instead.'
     );
   }
 
@@ -181,16 +177,16 @@ export function loadConfig(startDir: string = process.cwd()): GidevoConfig {
       return cachedConfig;
     }
   }
-  
+
   const configPath = findConfigFile(startDir);
-  
+
   if (!configPath) {
     // No config file found, return empty config
     cachedConfig = {};
     cachedConfigPath = null;
     return cachedConfig;
   }
-  
+
   try {
     cachedConfig = loadConfigFile(configPath);
     cachedConfigPath = configPath;
@@ -211,14 +207,14 @@ export function getConfigValue<T>(key: string, defaultValue?: T): T | undefined 
   const config = loadConfig();
   const keys = key.split('.');
   let value: any = config;
-  
+
   for (const k of keys) {
     if (value === undefined || value === null) {
       return defaultValue;
     }
     value = value[k];
   }
-  
+
   return value !== undefined ? value : defaultValue;
 }
 
@@ -248,17 +244,17 @@ export function mergeWithConfig<T extends Record<string, any>>(
 ): T {
   const config = loadConfig();
   const sectionConfig = config[configSection] || {};
-  
+
   // Start with config defaults, then overlay command options
   const merged: Record<string, any> = { ...sectionConfig };
-  
+
   for (const [key, value] of Object.entries(commandOptions)) {
     // Only use command option if it's explicitly set (not undefined)
     if (value !== undefined) {
       merged[key] = value;
     }
   }
-  
+
   return merged as T;
 }
 
@@ -285,7 +281,7 @@ export function createSampleConfig(outputPath: string = '.gidevorc.json'): void 
       enabled: true,
     },
   };
-  
+
   const resolvedPath = path.resolve(process.cwd(), outputPath);
   fs.writeFileSync(resolvedPath, JSON.stringify(sampleConfig, null, 2) + '\n');
   logger.info('Created sample configuration', { path: resolvedPath });

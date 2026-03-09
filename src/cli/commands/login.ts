@@ -33,7 +33,7 @@ export async function loginCommand(options: LoginOptions) {
   if (!token) {
     console.log();
     token = await password('Input Access Token');
-    
+
     if (!token || token.trim().length === 0) {
       ui.error('Input Anomaly', 'Token cannot be empty.');
       process.exit(1);

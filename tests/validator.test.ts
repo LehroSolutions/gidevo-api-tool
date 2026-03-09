@@ -23,19 +23,14 @@ describe('Validator.validate', () => {
 
   it('detects missing required fields', async () => {
     const tmpSpec = path.join(__dirname, 'tmp-spec.yaml');
-    const content = [
-      'openapi: "3.0.0"',
-      'info:',
-      '  title: "Test API"',
-      'paths: {}'
-    ].join('\n');
+    const content = ['openapi: "3.0.0"', 'info:', '  title: "Test API"', 'paths: {}'].join('\n');
     fs.writeFileSync(tmpSpec, content);
     const result = await validator.validate(tmpSpec);
     expect(result.valid).toBe(false);
     expect(result.errors).toEqual(
       expect.arrayContaining([
         expect.stringContaining("/info must have required property 'version'"),
-        expect.stringContaining("/paths must NOT have fewer than 1 properties")
+        expect.stringContaining('/paths must NOT have fewer than 1 properties'),
       ])
     );
     fs.unlinkSync(tmpSpec);
@@ -63,7 +58,7 @@ describe('Validator.validate', () => {
       '    invalidMethod:',
       '      responses:',
       '        "200":',
-      '          description: "OK"'
+      '          description: "OK"',
     ].join('\n');
     fs.writeFileSync(tmpSpec, content);
 

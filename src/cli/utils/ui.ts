@@ -11,14 +11,14 @@ import packageJson from '../../../package.json';
 
 // AVANT-GARDE PALETTE
 const THEME = {
-  primary: '#8B5CF6',    // Violet: Core Identity
-  secondary: '#06B6D4',  // Cyan: Success / Action
-  accent: '#EC4899',     // Pink: Alerts / Highlights
-  dim: '#64748B',        // Slate: Subtle text
-  bg: '#1E293B',         // Dark Slate: Box backgrounds
-  success: '#10B981',    // Emerald: Success state
-  error: '#EF4444',      // Red: Error state
-  warning: '#F59E0B',    // Amber: Warning state
+  primary: '#8B5CF6', // Violet: Core Identity
+  secondary: '#06B6D4', // Cyan: Success / Action
+  accent: '#EC4899', // Pink: Alerts / Highlights
+  dim: '#64748B', // Slate: Subtle text
+  bg: '#1E293B', // Dark Slate: Box backgrounds
+  success: '#10B981', // Emerald: Success state
+  error: '#EF4444', // Red: Error state
+  warning: '#F59E0B', // Amber: Warning state
 };
 
 // Layout constants
@@ -50,8 +50,8 @@ export function showBanner(): void {
 export function showCompactBanner(): void {
   console.log(
     chalk.hex(THEME.primary).bold('\n  ● G') +
-    chalk.white('IDEVO') +
-    chalk.hex(THEME.dim)(' API Tool')
+      chalk.white('IDEVO') +
+      chalk.hex(THEME.dim)(' API Tool')
   );
 }
 
@@ -70,15 +70,13 @@ export interface BoxOptions {
  * Create a styled box around content
  */
 export function box(content: string, options: BoxOptions = {}): string {
-  const {
-    title,
-    padding = 1,
-    borderColor = THEME.primary,
-    dimBorder = false
-  } = options;
+  const { title, padding = 1, borderColor = THEME.primary, dimBorder = false } = options;
 
   const lines = content.split('\n');
-  const maxLen = Math.max(...lines.map(l => stripAnsi(l).length), title ? stripAnsi(title).length + 4 : 0);
+  const maxLen = Math.max(
+    ...lines.map((l) => stripAnsi(l).length),
+    title ? stripAnsi(title).length + 4 : 0
+  );
   const width = maxLen + padding * 2;
 
   const colorFn = chalk.hex(borderColor);
@@ -95,7 +93,10 @@ export function box(content: string, options: BoxOptions = {}): string {
   if (title) {
     const titleLen = stripAnsi(title).length;
     // Asymmetric title placement for modern feel
-    result += borderFn(topLeft + horizontal + ' ') + chalk.bold(title) + borderFn(' ' + horizontal.repeat(width - titleLen - 2) + topRight + '\n');
+    result +=
+      borderFn(topLeft + horizontal + ' ') +
+      chalk.bold(title) +
+      borderFn(' ' + horizontal.repeat(width - titleLen - 2) + topRight + '\n');
   } else {
     result += borderFn(topLeft + hLine + topRight + '\n');
   }
@@ -166,11 +167,11 @@ export function step(stepNum: number, total: number, message: string): void {
 
   console.log(
     chalk.hex(THEME.dim)('  [') +
-    chalk.hex(THEME.secondary)(`${stepStr}`) +
-    chalk.hex(THEME.dim)('/') +
-    chalk.hex(THEME.dim)(`${totalStr}`) +
-    chalk.hex(THEME.dim)('] ') +
-    chalk.white(message)
+      chalk.hex(THEME.secondary)(`${stepStr}`) +
+      chalk.hex(THEME.dim)('/') +
+      chalk.hex(THEME.dim)(`${totalStr}`) +
+      chalk.hex(THEME.dim)('] ') +
+      chalk.white(message)
   );
 }
 
@@ -181,7 +182,7 @@ export function list(items: string[], title?: string): void {
   if (title) {
     console.log(chalk.hex(THEME.primary).bold(`\n  ${title}`));
   }
-  items.forEach(item => {
+  items.forEach((item) => {
     console.log(chalk.hex(THEME.secondary)('  → ') + chalk.white(item));
   });
 }
@@ -199,22 +200,26 @@ export function keyValue(key: string, value: string, indent = 2): void {
  */
 export function table(headers: string[], rows: string[][]): void {
   const colWidths = headers.map((h, i) => {
-    const maxRowWidth = Math.max(...rows.map(r => stripAnsi(r[i] || '').length));
+    const maxRowWidth = Math.max(...rows.map((r) => stripAnsi(r[i] || '').length));
     return Math.max(stripAnsi(h).length, maxRowWidth);
   });
 
   // Header
   console.log();
-  const headerRow = headers.map((h, i) => chalk.hex(THEME.dim)(h.toUpperCase().padEnd(colWidths[i]))).join('  ');
+  const headerRow = headers
+    .map((h, i) => chalk.hex(THEME.dim)(h.toUpperCase().padEnd(colWidths[i])))
+    .join('  ');
   console.log('  ' + headerRow);
 
   // Rows
-  rows.forEach(row => {
-    const rowStr = row.map((cell, i) => {
-      // Highlight first column
-      const content = (cell || '').padEnd(colWidths[i]);
-      return i === 0 ? chalk.hex(THEME.primary)(content) : chalk.white(content);
-    }).join('  ');
+  rows.forEach((row) => {
+    const rowStr = row
+      .map((cell, i) => {
+        // Highlight first column
+        const content = (cell || '').padEnd(colWidths[i]);
+        return i === 0 ? chalk.hex(THEME.primary)(content) : chalk.white(content);
+      })
+      .join('  ');
     console.log('  ' + rowStr);
   });
   console.log();
@@ -228,7 +233,8 @@ export function progressBar(current: number, total: number, width = 30): string 
   const filled = Math.round((current / total) * width);
   const empty = width - filled;
 
-  const bar = chalk.hex(THEME.secondary)('━'.repeat(filled)) + chalk.hex(THEME.dim)('━'.repeat(empty));
+  const bar =
+    chalk.hex(THEME.secondary)('━'.repeat(filled)) + chalk.hex(THEME.dim)('━'.repeat(empty));
   return `${bar} ${percentage}%`;
 }
 

@@ -53,9 +53,7 @@ export async function configCommand(options: ConfigOptions) {
 
   if (!configPath) {
     ui.info('Operating in Default Mode', 'No project manifest detected');
-    ui.nextSteps([
-      'Initialize manifest: gidevo-api-tool config --init',
-    ]);
+    ui.nextSteps(['Initialize manifest: gidevo-api-tool config --init']);
     return;
   }
 
@@ -91,9 +89,7 @@ export async function configCommand(options: ConfigOptions) {
 
 function displayConfigSection(section: Record<string, any>) {
   for (const [key, value] of Object.entries(section)) {
-    const displayValue = typeof value === 'object'
-      ? JSON.stringify(value)
-      : String(value);
+    const displayValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
     ui.keyValue(key, displayValue);
   }
 }

@@ -21,22 +21,16 @@ export { configCommand } from './cli/commands/config';
 export { ui } from './cli/utils/ui';
 
 // Configuration utilities
-export { 
-  loadConfig, 
-  getConfigPath, 
-  getConfigValue, 
+export {
+  loadConfig,
+  getConfigPath,
+  getConfigValue,
   mergeWithConfig,
-  GidevoConfig 
+  GidevoConfig,
 } from './cli/utils/config';
 
 // Interactive mode utilities
-export { 
-  prompt, 
-  select, 
-  confirm, 
-  password,
-  interactiveMode 
-} from './cli/utils/interactive';
+export { prompt, select, confirm, password, interactiveMode } from './cli/utils/interactive';
 
 // Secrets management (for advanced integrations)
 export { SecretsManager } from './core/secrets';

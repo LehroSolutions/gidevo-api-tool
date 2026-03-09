@@ -1,6 +1,6 @@
 /**
  * Interactive Mode Utilities
- * 
+ *
  * Provides a guided wizard for new users to configure and run
  * gidevo-api-tool commands interactively.
  */
@@ -16,7 +16,7 @@ import chalk from 'chalk';
 export function prompt(question: string, defaultValue?: string): Promise<string> {
   const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
   });
 
   const questionMark = chalk.hex(ui.theme.secondary)('?');
@@ -40,7 +40,11 @@ export function prompt(question: string, defaultValue?: string): Promise<string>
 /**
  * Prompt user to select from a list of options with detailed visualization
  */
-export async function select(question: string, options: string[], defaultIndex = 0): Promise<string> {
+export async function select(
+  question: string,
+  options: string[],
+  defaultIndex = 0
+): Promise<string> {
   console.log();
   console.log(`${chalk.hex(ui.theme.secondary)('?')} ${chalk.bold(question)}`);
 
@@ -48,7 +52,9 @@ export async function select(question: string, options: string[], defaultIndex =
     const isSelected = idx === defaultIndex; // Visual hint for default, though real selection logic is via number input
     // We are simulating a selection list but staying with simple numbering for robustness without 'inquirer'
     const marker = chalk.hex(ui.theme.dim)(`${idx + 1}.`);
-    const text = isSelected ? chalk.hex(ui.theme.secondary)(opt) + chalk.hex(ui.theme.dim)(' (default)') : chalk.white(opt);
+    const text = isSelected
+      ? chalk.hex(ui.theme.secondary)(opt) + chalk.hex(ui.theme.dim)(' (default)')
+      : chalk.white(opt);
     console.log(`  ${marker} ${text}`);
   });
   console.log();
@@ -83,8 +89,8 @@ export async function password(question: string): Promise<string> {
       name: 'answer',
       message: chalk.bold(question),
       prefix: chalk.hex(ui.theme.secondary)('?'),
-      mask: '*'
-    }
+      mask: '*',
+    },
   ]);
   return answer;
 }
@@ -100,7 +106,13 @@ export async function initWizard(): Promise<{ template: string; output: string }
   const output = await prompt('Target Workspace', defaultDir);
 
   const summary = `Template:  ${ui.highlight(template)}\nOutput:    ${ui.highlight(output)}`;
-  console.log(ui.box(summary, { title: 'CONFIGURATION LOCKED', borderColor: ui.theme.success, dimBorder: true }));
+  console.log(
+    ui.box(summary, {
+      title: 'CONFIGURATION LOCKED',
+      borderColor: ui.theme.success,
+      dimBorder: true,
+    })
+  );
 
   const proceed = await confirm('Execute Initialization?');
 
@@ -114,7 +126,12 @@ export async function initWizard(): Promise<{ template: string; output: string }
 /**
  * Interactive wizard for the generate command
  */
-export async function generateWizard(): Promise<{ spec: string; language: string; output: string; template?: string }> {
+export async function generateWizard(): Promise<{
+  spec: string;
+  language: string;
+  output: string;
+  template?: string;
+}> {
   ui.sectionHeader('SDK SYNTHESIS PROTOCOL');
 
   const spec = await prompt('Source Specification Path');
@@ -141,7 +158,13 @@ Output:    ${ui.highlight(output)}
 ${template ? `Template:  ${ui.highlight(template)}` : ''}
 `.trim();
 
-  console.log(ui.box(summary, { title: 'SYNTHESIS PARAMETERS', borderColor: ui.theme.success, dimBorder: true }));
+  console.log(
+    ui.box(summary, {
+      title: 'SYNTHESIS PARAMETERS',
+      borderColor: ui.theme.success,
+      dimBorder: true,
+    })
+  );
 
   const proceed = await confirm('Initiate Synthesis?');
 
@@ -158,7 +181,9 @@ ${template ? `Template:  ${ui.highlight(template)}` : ''}
 export async function loginWizard(): Promise<{ token: string }> {
   ui.sectionHeader('SECURE CONTEXT HANDSHAKE');
 
-  console.log(chalk.hex(ui.theme.dim)('  Authenticate with GIDEVO Cloud Node to access premium features.'));
+  console.log(
+    chalk.hex(ui.theme.dim)('  Authenticate with GIDEVO Cloud Node to access premium features.')
+  );
   console.log(chalk.hex(ui.theme.dim)('  Token Authority: https://gidevo.io/settings/tokens\n'));
 
   const token = await password('Access Token');
@@ -176,14 +201,18 @@ export async function loginWizard(): Promise<{ token: string }> {
 export async function interactiveMode(): Promise<{ command: string; options: any }> {
   ui.showBanner();
 
-  const commandRaw = await select('Select Directice', [
-    'init      :: Initialize new neural architecture',
-    'generate  :: Synthesize SDK from specs',
-    'validate  :: Verify specification integrity',
-    'login     :: Establish secure cloud context',
-    'whoami    :: Identity verification',
-    'Exit      :: Terminate session'
-  ], 0);
+  const commandRaw = await select(
+    'Select Directice',
+    [
+      'init      :: Initialize new neural architecture',
+      'generate  :: Synthesize SDK from specs',
+      'validate  :: Verify specification integrity',
+      'login     :: Establish secure cloud context',
+      'whoami    :: Identity verification',
+      'Exit      :: Terminate session',
+    ],
+    0
+  );
 
   const commandName = commandRaw.split(/\s+/)[0].trim().toLowerCase();
 

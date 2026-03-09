@@ -1,5 +1,7 @@
 # GIDEVO-API TOOL
+
 <!-- CI and Quality Badges -->
+
 [![CI](https://github.com/lehrosolutions/gidevo-api-tool/actions/workflows/ci.yml/badge.svg)](https://github.com/lehrosolutions/gidevo-api-tool/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/lehrosolutions/gidevo-api-tool/actions/workflows/codeql.yml/badge.svg)](https://github.com/lehrosolutions/gidevo-api-tool/actions/workflows/codeql.yml)
 
@@ -41,12 +43,12 @@ gidevo-api-tool validate ./specs/api.yaml
 
 All commands have convenient short aliases:
 
-| Command    | Alias | Description                    |
-|------------|-------|--------------------------------|
-| `init`     | `i`   | Initialize a new project       |
-| `generate` | `gen` | Generate SDK from spec         |
-| `validate` | `val` | Validate API specification     |
-| `plugin`   | `p`   | Manage plugins                 |
+| Command    | Alias | Description                |
+| ---------- | ----- | -------------------------- |
+| `init`     | `i`   | Initialize a new project   |
+| `generate` | `gen` | Generate SDK from spec     |
+| `validate` | `val` | Validate API specification |
+| `plugin`   | `p`   | Manage plugins             |
 
 ### Quiet Mode (CI & Accessibility)
 
@@ -105,11 +107,13 @@ gidevo-api-tool gen -s ./specs/api.yaml -l typescript -o ./generated
 ```
 
 **Supported Languages:**
+
 - `typescript` - REST client with fetch or axios templates
 - `python` - Python client with requests library
 - `go` - Go client with generated request helpers and schema types
 
 **Path Safety (default secure mode):**
+
 - By default, `--spec` and `--output` must stay within the current project root.
 - To explicitly override this behavior, use:
   - `--allow-outside-project`, or
@@ -117,6 +121,7 @@ gidevo-api-tool gen -s ./specs/api.yaml -l typescript -o ./generated
   - `GIDEVO_ALLOW_UNSAFE_PATHS=1`
 
 **Configuration Example (`.gidevorc.json`):**
+
 ```json
 {
   "generate": {
@@ -138,6 +143,7 @@ gidevo-api-tool val ./specs/api.yaml
 ```
 
 **Output Example:**
+
 ```
 ✔ Specification is valid
 
@@ -172,6 +178,7 @@ GIDEVO_API_TOKEN=YOUR_API_TOKEN gidevo-api-tool generate --spec ./specs/api.yaml
 ```bash
 gidevo-api-tool logout
 ```
+
 Removes stored credentials from your user config directory.
 
 ### WhoAmI
@@ -183,6 +190,7 @@ gidevo-api-tool whoami
 ```
 
 **Output Example:**
+
 ```
 🔐 Authentication Status
 
@@ -232,7 +240,7 @@ async function build() {
   await generator.generate({
     spec: './specs/api.yaml',
     language: 'typescript',
-    outputDir: './generated'
+    outputDir: './generated',
   });
 
   console.log('SDK generated successfully!');
@@ -252,11 +260,11 @@ import { Plugin } from './plugin';
 
 export default class MyCustomPlugin implements Plugin {
   name = 'myCustomPlugin';
-  
+
   initialize(options?: any): void {
     // Setup code
   }
-  
+
   async run(...args: any[]): Promise<boolean> {
     // Plugin logic
     console.log('Running my custom plugin!');
@@ -269,6 +277,7 @@ export default class MyCustomPlugin implements Plugin {
 3. Plugins are auto-discovered from `dist/plugins/` (falls back to `src/plugins/` in development)
 
 **Built-in Plugins:**
+
 - `specLint` - Lint API specifications for best practices
 - `typescriptGenerator` - Generate TypeScript SDKs
 - `pythonGenerator` - Generate Python SDKs
@@ -321,34 +330,34 @@ src/
 
 See the `docs/` directory for detailed guides:
 
-| Document | Description |
-|----------|-------------|
-| [01-Requirements-and-Use-Cases](docs/01-Requirements-and-Use-Cases.md) | Project requirements |
-| [02-Architecture-and-Design](docs/02-Architecture-and-Design.md) | System architecture |
-| [03-Tech-Stack-Selection](docs/03-Tech-Stack-Selection.md) | Technology choices |
-| [04-API-Specification](docs/04-API-Specification.md) | API spec format |
-| [06-Security-and-Authentication](docs/06-Security-and-Authentication.md) | Security practices |
-| [07-Testing-and-QA](docs/07-Testing-and-QA.md) | Testing strategy |
-| [08-Packaging-and-Distribution](docs/08-Packaging-and-Distribution.md) | Distribution |
-| [09-Deployment-and-Integration](docs/09-Deployment-and-Integration.md) | Deployment guide |
-| [10-Monitoring-and-Logging](docs/10-Monitoring-and-Logging.md) | Observability |
-| [11-Versioning-and-Maintenance](docs/11-Versioning-and-Maintenance.md) | Version management |
-| [12-Pricing-and-Revenue-Models](docs/12-Pricing-and-Revenue-Models.md) | Business model |
+| Document                                                                 | Description          |
+| ------------------------------------------------------------------------ | -------------------- |
+| [01-Requirements-and-Use-Cases](docs/01-Requirements-and-Use-Cases.md)   | Project requirements |
+| [02-Architecture-and-Design](docs/02-Architecture-and-Design.md)         | System architecture  |
+| [03-Tech-Stack-Selection](docs/03-Tech-Stack-Selection.md)               | Technology choices   |
+| [04-API-Specification](docs/04-API-Specification.md)                     | API spec format      |
+| [06-Security-and-Authentication](docs/06-Security-and-Authentication.md) | Security practices   |
+| [07-Testing-and-QA](docs/07-Testing-and-QA.md)                           | Testing strategy     |
+| [08-Packaging-and-Distribution](docs/08-Packaging-and-Distribution.md)   | Distribution         |
+| [09-Deployment-and-Integration](docs/09-Deployment-and-Integration.md)   | Deployment guide     |
+| [10-Monitoring-and-Logging](docs/10-Monitoring-and-Logging.md)           | Observability        |
+| [11-Versioning-and-Maintenance](docs/11-Versioning-and-Maintenance.md)   | Version management   |
+| [12-Pricing-and-Revenue-Models](docs/12-Pricing-and-Revenue-Models.md)   | Business model       |
 
 ## 📖 DeepWiki
 
 Dive into our in-depth internal documentation for design decisions, UX guidelines, plugin architecture, and CI/CD workflows:
 
-| Document | Description |
-|----------|-------------|
-| [Architecture Overview](docs/deepwiki/architecture.md) | System architecture details |
-| [CLI UX & Accessibility](docs/deepwiki/cli-ux.md) | UI system documentation |
-| [Plugin System Design](docs/deepwiki/plugin-design.md) | Plugin architecture |
-| [CI/CD & Release Pipeline](docs/deepwiki/ci-cd.md) | Build and release process |
-| [UI System Architecture (ADR-002)](docs/deepwiki/ADR-002-UI-System-Architecture.md) | UI design decisions |
-| [Plugin Architecture (ADR-001)](docs/deepwiki/ADR-001-Plugin-Architecture.md) | Plugin design decisions |
-| [Changelog](docs/deepwiki/CHANGELOG-UI-IMPROVEMENTS.md) | Recent changes |
-| [Implementation Roadmap](docs/deepwiki/NEXT-STEPS-IMPLEMENTATION-ROADMAP.md) | Future plans |
+| Document                                                                            | Description                 |
+| ----------------------------------------------------------------------------------- | --------------------------- |
+| [Architecture Overview](docs/deepwiki/architecture.md)                              | System architecture details |
+| [CLI UX & Accessibility](docs/deepwiki/cli-ux.md)                                   | UI system documentation     |
+| [Plugin System Design](docs/deepwiki/plugin-design.md)                              | Plugin architecture         |
+| [CI/CD & Release Pipeline](docs/deepwiki/ci-cd.md)                                  | Build and release process   |
+| [UI System Architecture (ADR-002)](docs/deepwiki/ADR-002-UI-System-Architecture.md) | UI design decisions         |
+| [Plugin Architecture (ADR-001)](docs/deepwiki/ADR-001-Plugin-Architecture.md)       | Plugin design decisions     |
+| [Changelog](docs/deepwiki/CHANGELOG-UI-IMPROVEMENTS.md)                             | Recent changes              |
+| [Implementation Roadmap](docs/deepwiki/NEXT-STEPS-IMPLEMENTATION-ROADMAP.md)        | Future plans                |
 
 ## 🤝 Contributing
 
@@ -373,4 +382,5 @@ Summary: see `LICENSE`.
 SPDX-License-Identifier: Apache-2.0 OR LicenseRef-LEHRO-Solutions-Commercial
 
 ---
+
 © 2025 LEHRO Solutions

@@ -7,7 +7,7 @@ import * as crypto from 'crypto';
 
 /**
  * Secrets Manager
- * 
+ *
  * Handles secure storage of sensitive information like authentication tokens.
  * Tries to use system keychain (via keytar) if available, otherwise falls back
  * to an obfuscated file in the user's home directory with restricted permissions.
@@ -30,17 +30,17 @@ export class SecretsManager {
    */
   private async ensureInitialized(): Promise<void> {
     if (this.initialized) return;
-    
+
     if (!this.initPromise) {
       this.initPromise = this.init();
     }
-    
+
     await this.initPromise;
   }
 
   private async init(): Promise<void> {
     if (this.initialized) return;
-    
+
     try {
       // Try to load keytar dynamically
       // This allows the tool to work even if keytar build failed or isn't installed
@@ -50,7 +50,7 @@ export class SecretsManager {
       // Keytar not available, will use file fallback
       this.keytar = null;
     }
-    
+
     this.initialized = true;
   }
 
@@ -59,7 +59,7 @@ export class SecretsManager {
    */
   async setSecret(key: string, value: string): Promise<void> {
     await this.ensureInitialized();
-    
+
     if (this.keytar) {
       try {
         await this.keytar.setPassword(this.serviceName, key, value);
@@ -80,7 +80,7 @@ export class SecretsManager {
    */
   async getSecret(key: string): Promise<string | null> {
     await this.ensureInitialized();
-    
+
     if (this.keytar) {
       try {
         const secret = await this.keytar.getPassword(this.serviceName, key);
@@ -101,7 +101,7 @@ export class SecretsManager {
    */
   async deleteSecret(key: string): Promise<void> {
     await this.ensureInitialized();
-    
+
     if (this.keytar) {
       try {
         await this.keytar.deletePassword(this.serviceName, key);
@@ -161,7 +161,7 @@ export class SecretsManager {
     }
 
     secrets[key] = value;
-    
+
     const encrypted = this.encrypt(JSON.stringify(secrets));
     fs.writeFileSync(this.secretsFile, encrypted, { mode: 0o600 });
   }
@@ -184,7 +184,7 @@ export class SecretsManager {
     try {
       const content = fs.readFileSync(this.secretsFile, 'utf8');
       const secrets = JSON.parse(this.decrypt(content));
-      
+
       if (secrets[key]) {
         delete secrets[key];
         const encrypted = this.encrypt(JSON.stringify(secrets));
@@ -263,5 +263,3 @@ export class SecretsManager {
     return decrypted.toString();
   }
 }
-
-

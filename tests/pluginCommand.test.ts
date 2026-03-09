@@ -11,7 +11,9 @@ describe('pluginCommand', () => {
   let logSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => { throw new Error('process.exit'); }) as any);
+    exitSpy = jest.spyOn(process, 'exit').mockImplementation((() => {
+      throw new Error('process.exit');
+    }) as any);
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     mockLoad.mockReset();
   });
@@ -22,10 +24,14 @@ describe('pluginCommand', () => {
   });
 
   it('runs existing plugin successfully', async () => {
-    const fakePlugin: any = { name: 'SpecLint', run: jest.fn().mockResolvedValue(true), initialize: jest.fn() };
+    const fakePlugin: any = {
+      name: 'SpecLint',
+      run: jest.fn().mockResolvedValue(true),
+      initialize: jest.fn(),
+    };
     mockLoad.mockReturnValue([fakePlugin]);
     await pluginCommand('SpecLint', ['arg1']);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('EXTENSION RUNTIME')); 
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('EXTENSION RUNTIME'));
     expect(fakePlugin.run).toHaveBeenCalledWith('arg1');
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Extension Complete'));
   });
@@ -33,6 +39,6 @@ describe('pluginCommand', () => {
   it('exits on unknown plugin', async () => {
     mockLoad.mockReturnValue([]);
     await expect(pluginCommand('Unknown', [])).rejects.toThrow('process.exit');
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Extension Unknown')); 
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Extension Unknown'));
   });
 });

@@ -10,7 +10,7 @@ jest.mock('os', () => {
   const real = jest.requireActual('os');
   return {
     ...real,
-    homedir: () => path.join(process.cwd(), 'tests', 'tmp-auth-home')
+    homedir: () => path.join(process.cwd(), 'tests', 'tmp-auth-home'),
   };
 });
 
@@ -18,7 +18,7 @@ jest.mock('os', () => {
 jest.mock('../src/cli/utils/interactive', () => ({
   prompt: async () => 'interactive-token',
   password: async () => 'interactive-token',
-  confirm: async () => true
+  confirm: async () => true,
 }));
 
 // Mock spinner
@@ -27,8 +27,8 @@ jest.mock('../src/cli/utils/spinner', () => ({
     start: jest.fn(),
     stop: jest.fn(),
     succeed: jest.fn(),
-    fail: jest.fn()
-  })
+    fail: jest.fn(),
+  }),
 }));
 
 describe('Auth flow', () => {
@@ -61,12 +61,12 @@ describe('Auth flow', () => {
     await svc.login('exp-token');
     const first = await svc.getToken();
     expect(first).toBe('exp-token');
-    
+
     // Corrupt expiresAt to past
     const cfg = JSON.parse(fs.readFileSync(configFile, 'utf8'));
     cfg.expiresAt = new Date(Date.now() - 1000).toISOString();
     fs.writeFileSync(configFile, JSON.stringify(cfg, null, 2));
-    
+
     const second = await svc.getToken();
     expect(second).toBeNull();
   });

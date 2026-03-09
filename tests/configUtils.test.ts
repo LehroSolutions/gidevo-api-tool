@@ -1,10 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import {
-  clearConfigCache,
-  loadConfig,
-  loadConfigFile,
-} from '../src/cli/utils/config';
+import { clearConfigCache, loadConfig, loadConfigFile } from '../src/cli/utils/config';
 
 describe('config utils security + validation', () => {
   const tmpDir = path.resolve(__dirname, 'tmp-config-utils');
@@ -33,20 +29,14 @@ describe('config utils security + validation', () => {
 
   it('validates config schema and rejects invalid language', () => {
     const configPath = path.join(tmpDir, '.gidevorc.json');
-    fs.writeFileSync(
-      configPath,
-      JSON.stringify({ generate: { language: 'ruby' } }, null, 2)
-    );
+    fs.writeFileSync(configPath, JSON.stringify({ generate: { language: 'ruby' } }, null, 2));
 
     expect(() => loadConfigFile(configPath)).toThrow('Config schema validation failed');
   });
 
   it('falls back to empty config when schema validation fails', () => {
     const configPath = path.join(tmpDir, '.gidevorc.json');
-    fs.writeFileSync(
-      configPath,
-      JSON.stringify({ generate: { language: 'ruby' } }, null, 2)
-    );
+    fs.writeFileSync(configPath, JSON.stringify({ generate: { language: 'ruby' } }, null, 2));
 
     const config = loadConfig(tmpDir);
     expect(config).toEqual({});

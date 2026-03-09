@@ -19,7 +19,6 @@ describe('whoamiCommand', () => {
     jest.spyOn(os, 'homedir').mockReturnValue(homeDir);
   });
 
-
   it('prints not authenticated when no token is present', async () => {
     const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
     await whoamiCommand();
@@ -30,20 +29,26 @@ describe('whoamiCommand', () => {
   it('prints authenticated userId and expiry when token is valid', async () => {
     // Create valid config
     fs.mkdirSync(configDir, { recursive: true });
-    const config = { token: 'token123', userId: 'user42', expiresAt: new Date(Date.now() + 60000).toISOString() };
+    const config = {
+      token: 'token123',
+      userId: 'user42',
+      expiresAt: new Date(Date.now() + 60000).toISOString(),
+    };
     fs.writeFileSync(configFile, JSON.stringify(config, null, 2));
 
     const logs: string[] = [];
-    const spy = jest.spyOn(console, 'log').mockImplementation((...args) => { logs.push(args.join(' ')); });
+    const spy = jest.spyOn(console, 'log').mockImplementation((...args) => {
+      logs.push(args.join(' '));
+    });
 
     await whoamiCommand();
 
     // Check that userId appears in output
-    const hasUserId = logs.some(log => log.includes('user42'));
+    const hasUserId = logs.some((log) => log.includes('user42'));
     expect(hasUserId).toBe(true);
-    
+
     // Check that Authenticated success appears
-    const hasAuth = logs.some(log => log.includes('Session Active'));
+    const hasAuth = logs.some((log) => log.includes('Session Active'));
     expect(hasAuth).toBe(true);
 
     spy.mockRestore();
