@@ -6,9 +6,13 @@
  */
 
 import * as readline from 'readline';
-import inquirer from 'inquirer';
 import { ui } from './ui';
 import chalk from 'chalk';
+
+const nativeImport = new Function(
+  'specifier',
+  'return import(specifier);'
+) as (specifier: string) => Promise<any>;
 
 /**
  * Prompt user for input with a question and Avant-Garde styling
@@ -83,7 +87,8 @@ export async function confirm(question: string, defaultYes = true): Promise<bool
  * Prompt for password with masking
  */
 export async function password(question: string): Promise<string> {
-  const { answer } = await inquirer.prompt<{ answer: string }>([
+  const { default: inquirer } = await nativeImport('inquirer');
+  const { answer } = (await inquirer.prompt([
     {
       type: 'password',
       name: 'answer',
@@ -91,7 +96,7 @@ export async function password(question: string): Promise<string> {
       prefix: chalk.hex(ui.theme.secondary)('?'),
       mask: '*',
     },
-  ]);
+  ])) as { answer: string };
   return answer;
 }
 
