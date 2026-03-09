@@ -18,7 +18,7 @@ class SpecLintPlugin {
         const result = await validator.validate(specPath);
         if (!result.valid) {
             console.log(chalk_1.default.red('🛑 SpecLint found issues:'));
-            result.errors.forEach(error => console.log(chalk_1.default.red(` - ${error}`)));
+            result.errors.forEach((error) => console.log(chalk_1.default.red(` - ${error}`)));
         }
         else {
             console.log(chalk_1.default.green('✅ SpecLint: no issues found.'));

@@ -40,11 +40,17 @@ exports.createSpinner = createSpinner;
 function noopSpinner(initial) {
     const spinner = {
         start: () => spinner,
-        stop: () => { },
-        succeed: (text) => { if (text)
-            console.log(text); },
-        fail: (text) => { if (text)
-            console.log(text); },
+        stop: () => {
+            /* no-op */
+        },
+        succeed: (text) => {
+            if (text)
+                console.log(text);
+        },
+        fail: (text) => {
+            if (text)
+                console.log(text);
+        },
         text: initial,
     };
     return spinner;
@@ -61,7 +67,7 @@ async function createSpinner(message) {
             text: message,
             color: 'magenta', // Closest to our Violet/Pink theme supported by ora
             spinner: 'dots12', // A more "digital" feel
-            prefixText: '  ' // Indent to match our UI
+            prefixText: '  ', // Indent to match our UI
         });
     }
     catch {

@@ -55,14 +55,14 @@ const openApiSchema = {
             properties: {
                 title: { type: 'string' },
                 version: { type: 'string' },
-                description: { type: 'string' }
-            }
+                description: { type: 'string' },
+            },
         },
         paths: {
             type: 'object',
-            minProperties: 1
-        }
-    }
+            minProperties: 1,
+        },
+    },
 };
 class Validator {
     constructor() {

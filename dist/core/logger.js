@@ -39,15 +39,13 @@ class Logger {
                 level: LogLevel[level],
                 message: this.prefix ? `${this.prefix} ${message}` : message,
                 timestamp,
-                ...context
+                ...context,
             };
             console.log(JSON.stringify(logEntry));
             return;
         }
         const prefixStr = this.prefix ? chalk_1.default.gray(`[${this.prefix}] `) : '';
-        const metaStr = context && Object.keys(context).length > 0
-            ? chalk_1.default.gray(` ${JSON.stringify(context)}`)
-            : '';
+        const metaStr = context && Object.keys(context).length > 0 ? chalk_1.default.gray(` ${JSON.stringify(context)}`) : '';
         const levelColors = {
             [LogLevel.DEBUG]: chalk_1.default.gray,
             [LogLevel.INFO]: chalk_1.default.blue,

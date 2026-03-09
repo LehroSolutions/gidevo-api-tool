@@ -50,9 +50,7 @@ async function generateCommand(options) {
     const mergedOptions = (0, config_1.mergeWithConfig)(options, 'generate');
     const { spec, language = 'typescript', output = './generated', allowOutsideProject, } = mergedOptions;
     const cliRequestedAllowOutside = process.argv.includes('--allow-outside-project');
-    const outsideProjectAllowed = cliRequestedAllowOutside
-        ? true
-        : Boolean(allowOutsideProject);
+    const outsideProjectAllowed = cliRequestedAllowOutside ? true : Boolean(allowOutsideProject);
     ui_1.ui.showCompactBanner();
     ui_1.ui.sectionHeader('SDK SYNTHESIS PROTOCOL');
     // Show config file if used
@@ -81,7 +79,10 @@ async function generateCommand(options) {
         ['Source Spec', ui_1.ui.filePath(path.basename(spec))],
         ['Target Runtime', ui_1.ui.highlight(language)],
         ['Output Artifact', ui_1.ui.filePath(path.resolve(output))],
-        ['Path Policy', outsideProjectAllowed ? ui_1.ui.highlight('UNSAFE OVERRIDE') : 'Project-bound (default)'],
+        [
+            'Path Policy',
+            outsideProjectAllowed ? ui_1.ui.highlight('UNSAFE OVERRIDE') : 'Project-bound (default)',
+        ],
     ]);
     if (outsideProjectAllowed || process.env.GIDEVO_ALLOW_UNSAFE_PATHS === '1') {
         ui_1.ui.warning('Unsafe Path Override Active', 'External spec/output paths are allowed for this run.');
@@ -98,7 +99,7 @@ async function generateCommand(options) {
         // Ideally we would hook into generator events.
         if (spinner.text)
             spinner.text = 'Parsing Neural Schema...';
-        await new Promise(r => setTimeout(r, 400)); // Visual pacing
+        await new Promise((r) => setTimeout(r, 400)); // Visual pacing
         if (spinner.text)
             spinner.text = `Compiling ${language} Definitions...`;
         await generator.generate({
@@ -117,7 +118,7 @@ async function generateCommand(options) {
         // List generated files
         const generatedFiles = listGeneratedFiles(output);
         if (generatedFiles.length > 0) {
-            ui_1.ui.list(generatedFiles.map(f => ui_1.ui.filePath(f)), 'ARTIFACT MANIFEST');
+            ui_1.ui.list(generatedFiles.map((f) => ui_1.ui.filePath(f)), 'ARTIFACT MANIFEST');
         }
         ui_1.ui.nextSteps([
             `Integrate artifacts from ${ui_1.ui.filePath(output)}`,

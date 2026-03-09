@@ -60,7 +60,7 @@ const chalk_1 = __importDefault(require("chalk"));
 function prompt(question, defaultValue) {
     const rl = readline.createInterface({
         input: process.stdin,
-        output: process.stdout
+        output: process.stdout,
     });
     const questionMark = chalk_1.default.hex(ui_1.ui.theme.secondary)('?');
     const questionText = chalk_1.default.bold(question);
@@ -87,7 +87,9 @@ async function select(question, options, defaultIndex = 0) {
         const isSelected = idx === defaultIndex; // Visual hint for default, though real selection logic is via number input
         // We are simulating a selection list but staying with simple numbering for robustness without 'inquirer'
         const marker = chalk_1.default.hex(ui_1.ui.theme.dim)(`${idx + 1}.`);
-        const text = isSelected ? chalk_1.default.hex(ui_1.ui.theme.secondary)(opt) + chalk_1.default.hex(ui_1.ui.theme.dim)(' (default)') : chalk_1.default.white(opt);
+        const text = isSelected
+            ? chalk_1.default.hex(ui_1.ui.theme.secondary)(opt) + chalk_1.default.hex(ui_1.ui.theme.dim)(' (default)')
+            : chalk_1.default.white(opt);
         console.log(`  ${marker} ${text}`);
     });
     console.log();
@@ -118,8 +120,8 @@ async function password(question) {
             name: 'answer',
             message: chalk_1.default.bold(question),
             prefix: chalk_1.default.hex(ui_1.ui.theme.secondary)('?'),
-            mask: '*'
-        }
+            mask: '*',
+        },
     ]);
     return answer;
 }
@@ -132,7 +134,11 @@ async function initWizard() {
     const defaultDir = `./${template}-api`;
     const output = await prompt('Target Workspace', defaultDir);
     const summary = `Template:  ${ui_1.ui.highlight(template)}\nOutput:    ${ui_1.ui.highlight(output)}`;
-    console.log(ui_1.ui.box(summary, { title: 'CONFIGURATION LOCKED', borderColor: ui_1.ui.theme.success, dimBorder: true }));
+    console.log(ui_1.ui.box(summary, {
+        title: 'CONFIGURATION LOCKED',
+        borderColor: ui_1.ui.theme.success,
+        dimBorder: true,
+    }));
     const proceed = await confirm('Execute Initialization?');
     if (!proceed) {
         throw new Error('Wizard cancelled by user');
@@ -163,7 +169,11 @@ Language:  ${ui_1.ui.highlight(language)}
 Output:    ${ui_1.ui.highlight(output)}
 ${template ? `Template:  ${ui_1.ui.highlight(template)}` : ''}
 `.trim();
-    console.log(ui_1.ui.box(summary, { title: 'SYNTHESIS PARAMETERS', borderColor: ui_1.ui.theme.success, dimBorder: true }));
+    console.log(ui_1.ui.box(summary, {
+        title: 'SYNTHESIS PARAMETERS',
+        borderColor: ui_1.ui.theme.success,
+        dimBorder: true,
+    }));
     const proceed = await confirm('Initiate Synthesis?');
     if (!proceed) {
         throw new Error('Wizard cancelled by user');
@@ -194,7 +204,7 @@ async function interactiveMode() {
         'validate  :: Verify specification integrity',
         'login     :: Establish secure cloud context',
         'whoami    :: Identity verification',
-        'Exit      :: Terminate session'
+        'Exit      :: Terminate session',
     ], 0);
     const commandName = commandRaw.split(/\s+/)[0].trim().toLowerCase();
     switch (commandName) {

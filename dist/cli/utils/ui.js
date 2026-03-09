@@ -77,7 +77,7 @@ function showCompactBanner() {
 function box(content, options = {}) {
     const { title, padding = 1, borderColor = THEME.primary, dimBorder = false } = options;
     const lines = content.split('\n');
-    const maxLen = Math.max(...lines.map(l => stripAnsi(l).length), title ? stripAnsi(title).length + 4 : 0);
+    const maxLen = Math.max(...lines.map((l) => stripAnsi(l).length), title ? stripAnsi(title).length + 4 : 0);
     const width = maxLen + padding * 2;
     const colorFn = chalk_1.default.hex(borderColor);
     const borderFn = dimBorder ? (s) => chalk_1.default.hex(THEME.dim)(s) : colorFn;
@@ -89,7 +89,10 @@ function box(content, options = {}) {
     if (title) {
         const titleLen = stripAnsi(title).length;
         // Asymmetric title placement for modern feel
-        result += borderFn(topLeft + horizontal + ' ') + chalk_1.default.bold(title) + borderFn(' ' + horizontal.repeat(width - titleLen - 2) + topRight + '\n');
+        result +=
+            borderFn(topLeft + horizontal + ' ') +
+                chalk_1.default.bold(title) +
+                borderFn(' ' + horizontal.repeat(width - titleLen - 2) + topRight + '\n');
     }
     else {
         result += borderFn(topLeft + hLine + topRight + '\n');
@@ -164,7 +167,7 @@ function list(items, title) {
     if (title) {
         console.log(chalk_1.default.hex(THEME.primary).bold(`\n  ${title}`));
     }
-    items.forEach(item => {
+    items.forEach((item) => {
         console.log(chalk_1.default.hex(THEME.secondary)('  → ') + chalk_1.default.white(item));
     });
 }
@@ -180,20 +183,24 @@ function keyValue(key, value, indent = 2) {
  */
 function table(headers, rows) {
     const colWidths = headers.map((h, i) => {
-        const maxRowWidth = Math.max(...rows.map(r => stripAnsi(r[i] || '').length));
+        const maxRowWidth = Math.max(...rows.map((r) => stripAnsi(r[i] || '').length));
         return Math.max(stripAnsi(h).length, maxRowWidth);
     });
     // Header
     console.log();
-    const headerRow = headers.map((h, i) => chalk_1.default.hex(THEME.dim)(h.toUpperCase().padEnd(colWidths[i]))).join('  ');
+    const headerRow = headers
+        .map((h, i) => chalk_1.default.hex(THEME.dim)(h.toUpperCase().padEnd(colWidths[i])))
+        .join('  ');
     console.log('  ' + headerRow);
     // Rows
-    rows.forEach(row => {
-        const rowStr = row.map((cell, i) => {
+    rows.forEach((row) => {
+        const rowStr = row
+            .map((cell, i) => {
             // Highlight first column
             const content = (cell || '').padEnd(colWidths[i]);
             return i === 0 ? chalk_1.default.hex(THEME.primary)(content) : chalk_1.default.white(content);
-        }).join('  ');
+        })
+            .join('  ');
         console.log('  ' + rowStr);
     });
     console.log();

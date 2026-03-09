@@ -54,7 +54,7 @@ class AuthService {
         // In real implementation, validate token with backend
         const config = {
             userId: 'user123',
-            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
         };
         if (!fs.existsSync(this.configDir)) {
             fs.mkdirSync(this.configDir, { recursive: true });

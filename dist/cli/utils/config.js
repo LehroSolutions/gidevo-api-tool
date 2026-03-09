@@ -108,11 +108,7 @@ const validateConfig = ajv.compile({
  * NOTE: gidevo.config.js is intentionally excluded — executing arbitrary JS as config
  * is a Remote Code Execution (RCE) vulnerability. JSON-only configs are supported.
  */
-const CONFIG_FILE_NAMES = [
-    '.gidevorc.json',
-    '.gidevorc',
-    'gidevo.config.json',
-];
+const CONFIG_FILE_NAMES = ['.gidevorc.json', '.gidevorc', 'gidevo.config.json'];
 /**
  * Cached configuration
  */

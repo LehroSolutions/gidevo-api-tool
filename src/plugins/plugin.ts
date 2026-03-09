@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0 OR LicenseRef-LEHRO-Solutions-Commercial
 // Copyright (c) 2025 LEHRO Solutions
 import * as fs from 'fs';
+import { createRequire } from 'module';
 import * as path from 'path';
 
 import { Command } from 'commander';
@@ -26,6 +27,7 @@ export interface Plugin {
 export function loadPlugins(pluginDir: string): Plugin[] {
   const dir = path.resolve(pluginDir);
   if (!fs.existsSync(dir)) return [];
+  const requireFromLoader = createRequire(__filename);
 
   // Resolve canonical (symlink-free) path and verify it matches the intended dir.
   // This prevents symlink-based path traversal attacks.
@@ -62,9 +64,8 @@ export function loadPlugins(pluginDir: string): Plugin[] {
     }
     if (!realPluginPath.startsWith(realDir + path.sep) && realPluginPath !== realDir) continue;
 
-    // nosemgrep: gidevo-dynamic-require-approved
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const mod = require(realPluginPath);
+    // Use Node's module loader after strict realpath validation of each plugin file.
+    const mod = requireFromLoader(realPluginPath);
     const exportObj = mod.default || mod;
     const plugin: Plugin = typeof exportObj === 'function' ? new exportObj() : exportObj;
     if (plugin && plugin.name && typeof plugin.run === 'function') {

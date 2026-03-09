@@ -53,7 +53,7 @@ async function pluginCommand(name, args) {
         path.resolve(__dirname, '..', '..', 'plugins'), // dist/plugins after build
         path.resolve(__dirname, '..', '..', '..', 'src', 'plugins'), // src/plugins during development
     ];
-    const pluginDir = candidatePluginDirs.find(d => fs.existsSync(d)) || candidatePluginDirs[0];
+    const pluginDir = candidatePluginDirs.find((d) => fs.existsSync(d)) || candidatePluginDirs[0];
     let plugins;
     try {
         plugins = (0, plugin_1.loadPlugins)(pluginDir);
@@ -69,18 +69,18 @@ async function pluginCommand(name, args) {
         }
         else {
             ui_1.ui.sectionHeader('REGISTERED EXTENSIONS');
-            plugins.forEach(plugin => {
+            plugins.forEach((plugin) => {
                 console.log(`    ${ui_1.ui.highlight(plugin.name)}`);
             });
         }
         return;
     }
-    const plugin = plugins.find(p => p.name.toLowerCase() === name.toLowerCase());
+    const plugin = plugins.find((p) => p.name.toLowerCase() === name.toLowerCase());
     if (!plugin) {
         ui_1.ui.error('Extension Unknown', `"${name}" not in registry`);
         if (plugins.length > 0) {
             ui_1.ui.sectionHeader('REGISTERED EXTENSIONS');
-            plugins.forEach(p => {
+            plugins.forEach((p) => {
                 console.log(`    ${ui_1.ui.highlight(p.name)}`);
             });
         }

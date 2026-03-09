@@ -52,6 +52,7 @@ const config_1 = require("./commands/config");
 const path = __importStar(require("path"));
 const plugin_2 = require("../plugins/plugin");
 const fs = __importStar(require("fs"));
+const crypto_1 = require("crypto");
 const logger_1 = require("../core/logger");
 const ui_1 = require("./utils/ui");
 const interactive_1 = require("./utils/interactive");
@@ -77,10 +78,9 @@ function resolveVersion() {
     return '0.0.0-dev';
 }
 const program = new commander_1.Command();
-const uuid_1 = require("uuid");
 const telemetry_1 = require("../core/telemetry");
 // Generate trace ID for this execution
-const traceId = (0, uuid_1.v4)();
+const traceId = (0, crypto_1.randomUUID)();
 logger_1.logger.setTraceId(traceId);
 telemetry_1.telemetry.setTraceId(traceId);
 // Global error handler
@@ -197,10 +197,7 @@ ${chalk_1.default.gray('Example:')}
   ${chalk_1.default.gray('$')} gidevo-api-tool login --token your-token
 `)
     .action(login_1.loginCommand);
-program
-    .command('logout')
-    .description('Remove stored credentials')
-    .action(logout_1.logoutCommand);
+program.command('logout').description('Remove stored credentials').action(logout_1.logoutCommand);
 program
     .command('whoami')
     .description('Display current authentication status')
@@ -277,10 +274,10 @@ else {
             path.resolve(__dirname, '..', 'plugins'), // dist/plugins after build
             path.resolve(__dirname, '..', '..', 'src', 'plugins'), // running from ts-node in src
         ];
-        const pluginDir = candidatePluginDirs.find(d => fs.existsSync(d)) || candidatePluginDirs[0];
+        const pluginDir = candidatePluginDirs.find((d) => fs.existsSync(d)) || candidatePluginDirs[0];
         try {
             const plugins = (0, plugin_2.loadPlugins)(pluginDir);
-            plugins.forEach(plugin => {
+            plugins.forEach((plugin) => {
                 try {
                     plugin.initialize(program);
                 }

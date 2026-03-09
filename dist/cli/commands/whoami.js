@@ -32,9 +32,7 @@ async function whoamiCommand() {
     if (authService.isTokenExpired()) {
         ui_1.ui.error('Context Expired', 'Session token validity exhausted.');
         ui_1.ui.keyValue('Terminated', ui_1.ui.timestamp(config.expiresAt));
-        ui_1.ui.nextSteps([
-            'Refresh context: gidevo-api-tool login',
-        ]);
+        ui_1.ui.nextSteps(['Refresh context: gidevo-api-tool login']);
         return;
     }
     // Show authenticated status

@@ -136,7 +136,9 @@ function registerHandlebarsHelpers() {
             type = parts[parts.length - 1];
         }
         else if (schema.type === 'array') {
-            const itemType = schema.items ? Handlebars.helpers.resolvePyType(schema.items, [], '') : 'Any';
+            const itemType = schema.items
+                ? Handlebars.helpers.resolvePyType(schema.items, [], '')
+                : 'Any';
             const cleanItemType = itemType.replace(/^Optional\[(.*)\]$/, '$1');
             type = `List[${cleanItemType}]`;
         }
@@ -175,7 +177,9 @@ function registerHandlebarsHelpers() {
             type = parts[parts.length - 1];
         }
         else if (schema.type === 'array') {
-            const itemType = schema.items ? Handlebars.helpers.resolveGoType(schema.items, [], '') : 'interface{}';
+            const itemType = schema.items
+                ? Handlebars.helpers.resolveGoType(schema.items, [], '')
+                : 'interface{}';
             const cleanItemType = String(itemType).replace(/^\*(.+)$/, '$1');
             type = `[]${cleanItemType}`;
         }
@@ -194,8 +198,7 @@ function registerHandlebarsHelpers() {
         else if (schema.type === 'object') {
             if (schema.additionalProperties) {
                 if (typeof schema.additionalProperties === 'object') {
-                    const valueType = String(Handlebars.helpers.resolveGoType(schema.additionalProperties, [], ''))
-                        .replace(/^\*(.+)$/, '$1');
+                    const valueType = String(Handlebars.helpers.resolveGoType(schema.additionalProperties, [], '')).replace(/^\*(.+)$/, '$1');
                     type = `map[string]${valueType}`;
                 }
                 else {

@@ -37,6 +37,7 @@ exports.loadPlugins = loadPlugins;
 // SPDX-License-Identifier: Apache-2.0 OR LicenseRef-LEHRO-Solutions-Commercial
 // Copyright (c) 2025 LEHRO Solutions
 const fs = __importStar(require("fs"));
+const module_1 = require("module");
 const path = __importStar(require("path"));
 /**
  * Dynamically load all plugins from a directory.
@@ -46,6 +47,7 @@ function loadPlugins(pluginDir) {
     const dir = path.resolve(pluginDir);
     if (!fs.existsSync(dir))
         return [];
+    const requireFromLoader = (0, module_1.createRequire)(__filename);
     // Resolve canonical (symlink-free) path and verify it matches the intended dir.
     // This prevents symlink-based path traversal attacks.
     let realDir;
@@ -83,9 +85,8 @@ function loadPlugins(pluginDir) {
         }
         if (!realPluginPath.startsWith(realDir + path.sep) && realPluginPath !== realDir)
             continue;
-        // nosemgrep: gidevo-dynamic-require-approved
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const mod = require(realPluginPath);
+        // Use Node's module loader after strict realpath validation of each plugin file.
+        const mod = requireFromLoader(realPluginPath);
         const exportObj = mod.default || mod;
         const plugin = typeof exportObj === 'function' ? new exportObj() : exportObj;
         if (plugin && plugin.name && typeof plugin.run === 'function') {

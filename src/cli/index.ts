@@ -16,6 +16,7 @@ import { configCommand } from './commands/config';
 import * as path from 'path';
 import { loadPlugins } from '../plugins/plugin';
 import * as fs from 'fs';
+import { randomUUID } from 'crypto';
 import { logger } from '../core/logger';
 import { ui } from './utils/ui';
 import { interactiveMode } from './utils/interactive';
@@ -43,12 +44,10 @@ function resolveVersion(): string {
 
 const program = new Command();
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { telemetry } from '../core/telemetry';
 
 // Generate trace ID for this execution
-const traceId = uuidv4();
+const traceId = randomUUID();
 logger.setTraceId(traceId);
 telemetry.setTraceId(traceId);
 

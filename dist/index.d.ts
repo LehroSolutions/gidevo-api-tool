@@ -13,7 +13,7 @@ export { pluginCommand } from './cli/commands/plugin';
 export { whoamiCommand } from './cli/commands/whoami';
 export { configCommand } from './cli/commands/config';
 export { ui } from './cli/utils/ui';
-export { loadConfig, getConfigPath, getConfigValue, mergeWithConfig, GidevoConfig } from './cli/utils/config';
+export { loadConfig, getConfigPath, getConfigValue, mergeWithConfig, GidevoConfig, } from './cli/utils/config';
 export { prompt, select, confirm, password, interactiveMode } from './cli/utils/interactive';
 export { SecretsManager } from './core/secrets';
 //# sourceMappingURL=index.d.ts.map
