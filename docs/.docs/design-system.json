@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Design System",
+  "group": "Guides",
+  "path": ".docs/design-system.md",
+  "lead": "Neural / deep-space CLI identity",
+  "content_markdown": "# GIDEVO API Tool Design System\n\n## Tone\nNeural / deep-space CLI identity\n\n## Mode\n`dark`\n\n## Core tokens\n- Background: `#0b1220`\n- Panel: `#111827`\n- Text: `#e5e7eb`\n- Muted: `#94a3b8`\n- Line: `#334155`\n- Accent: `#7c3aed`\n- Accent 2: `#2563eb`\n- Success / Warning / Danger: `#059669` / `#d97706` / `#dc2626`\n- Radius: `12px`\n- Font: `Arial, Helvetica, sans-serif`\n- Mono: `Consolas, monospace`\n\n## Docs integration\n- Shared CSS: [design-system.css](./design-system.css)\n- Machine tokens: [design-system.tokens.json](./design-system.tokens.json)\n- All ultra-linked HTML pages are rendered with this theme (not a generic shared skin).\n\n## Operator UX standards\n- Semantic HTML and visible focus states\n- High-contrast product palette (no generic purple-gradient AI slop)\n- Prefer product density and operational clarity\n- Respect `prefers-reduced-motion`\n\n## Related\n- [Architecture](./architecture.md)\n- [How to Use](./how-to-use.md)\n- [Skills](./skills.md)\n- [Index](./index.md)\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "How To Use",
+  "group": "Guides",
+  "path": "how-to-use.md",
+  "lead": "GIDEVO validates specs and generates SDKs (TypeScript, Python, Go).",
+  "content_markdown": "# How to Use GIDEVO API Tool\n\nGIDEVO validates specs and generates SDKs (TypeScript, Python, Go).\n\n## 1) Install\n\n```bash\nbun install\nbun run build\n```\n\n## 2) First successful flow\n\n```bash\nnode dist/cli/index.js doctor --spec ./tests/fixtures/api.yaml\nnode dist/cli/index.js validate ./tests/fixtures/api.yaml\nnode dist/cli/index.js generate -s ./tests/fixtures/api.yaml -l typescript -o ./output\nnode dist/cli/index.js workflow --spec ./tests/fixtures/api.yaml --language typescript --output ./generated\n```\n\n## 3) Common commands\n- `init` scaffold project\n- `doctor` health checks\n- `validate` / `generate` / `workflow`\n- `login` / `logout` / `whoami`\n- `plugin` extension runtime\n\n## 4) Production tips\n- Treat specs as untrusted input boundaries\n- Prefer `workflow --dry-run` before writing shared dirs\n- Keep tokens out of shell history\n\n## Related\n- [INSTALL.md](../../INSTALL.md)\n- [Architecture](./architecture.md)\n- [Security](./security.md)\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

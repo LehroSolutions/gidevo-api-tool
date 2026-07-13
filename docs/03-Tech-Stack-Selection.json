@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "03 Tech Stack Selection",
+  "group": "Guides",
+  "path": "03-Tech-Stack-Selection.md",
+  "lead": "1. Performance Needs: gRPC (high throughput), async frameworks",
+  "content_markdown": "# 03-Tech-Stack-Selection.md\n\n# Tech-Stack Selection\n\n## 1. Language Ecosystems\n\n| Concern         | Python                                    | TypeScript                                |\n|-----------------|-------------------------------------------|-------------------------------------------|\n| Popular Runtimes| CPython, PyPy, CPython-embedded           | Node.js, Deno                              |\n| Typing          | Dynamic; optional type hints (mypy)       | Static; built-in typings                   |\n| Concurrency     | asyncio, threading, multiprocessing       | async/await (Node), web workers, Deno\u2019s Tokio |\n| Community       | Data, ML, scripting, infra                | Web frontends, full-stack, serverless       |\n\n## 2. Frameworks & Libraries\n\n### Python\n- **Web/API**: FastAPI (async, OpenAPI auto-gen), Flask, Django REST Framework\n- **CLI & Codegen**: Click, Typer\n- **Testing**: pytest, hypothesis\n- **Packaging**: setuptools, Poetry\n\n### TypeScript\n- **Web/API**: NestJS, Express (TS), Koa\n- **CLI & Codegen**: Oclif, yargs\n- **Testing**: Jest, Mocha/Chai\n- **Bundling**: Rollup, Webpack, esbuild\n\n## 3. Package Management & Distribution\n- Python: PyPI distribution (`wheel`, `sdist`), versioning via Poetry or bump2version\n- TypeScript: npm/Yarn/PNPM, scoped packages, semantic-release\n- Multi-language SDK: Docker image, language-specific registries\n\n## 4. Build & CI/CD Integration\n- **CI Providers**: GitHub Actions, GitLab CI, Jenkins, CircleCI\n- **Tasks**:\n  - Linting (flake8, ESLint)\n  - Type & schema validation (mypy, tsc)\n  - Unit & integration tests\n  - Codegen step (OpenAPI \u2192 SDK)\n  - Packaging & publishing\n- **Artifact Storage**: Artifactory, Nexus, private registries\n\n## 5. Criteria for Stack Selection\n1. **Performance Needs**: gRPC (high throughput), async frameworks\n2. **Team Skillset**: existing Python vs TS expertise\n3. **Ecosystem Requirements**: ML/data (Python), frontend integration (TS)\n4. **Deployment Targets**: containers, serverless, on-prem\n5. **Maintenance & Support**: maturity, community, security updates\n\n## 6. Recommended Combos\n- **API-first Web Service**: FastAPI + Poetry + GitHub Actions\n- **Full-Stack Enterprise App**: NestJS + npm + GitLab CI\n- **CLI-based Tooling**: Typer + Click + Oclif\n\n---\n*Next:* Draft `04-API-Specification.md` detailing spec formats and conventions.\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

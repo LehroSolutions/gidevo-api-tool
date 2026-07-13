@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "foundations",
+  "title": "Foundations",
+  "status": "current",
+  "audience": [
+    "API developers",
+    "Platform engineers",
+    "CLI contributors"
+  ],
+  "useWhen": "Use the corresponding current guide for this task.",
+  "sourceOfTruth": "current/foundations.md",
+  "counterparts": {
+    "markdown": "current/foundations.md",
+    "html": "current/foundations.html",
+    "json": "current/foundations.json"
+  },
+  "summary": "Current foundations guidance for GIDEVO API Tool.",
+  "sections": [
+    {
+      "id": "purpose",
+      "label": "Purpose"
+    },
+    {
+      "id": "on-this-page",
+      "label": "On this page"
+    },
+    {
+      "id": "guidance",
+      "label": "Guidance"
+    },
+    {
+      "id": "verification",
+      "label": "Verification"
+    },
+    {
+      "id": "related-guides",
+      "label": "Related guides"
+    },
+    {
+      "id": "non-negotiable-rules",
+      "label": "Non-negotiable rules"
+    },
+    {
+      "id": "accessibility-baseline",
+      "label": "Accessibility baseline"
+    },
+    {
+      "id": "content-rules",
+      "label": "Content rules"
+    }
+  ],
+  "relatedGuides": [
+    "start-here",
+    "architecture",
+    "quality",
+    "contributing"
+  ],
+  "keywords": [
+    "gidevo-api-tool",
+    "foundations",
+    "documentation",
+    "current"
+  ],
+  "lastReviewed": "2026-07-13",
+  "sourceChecksum": "0855292ea3db9e55a1b638c4f46d88394aeb92ddbabbe78f8423705962821532",
+  "generatedAt": "2026-07-13T11:47:55.584127+00:00",
+  "release": "archive-2026-07-13",
+  "validation": {
+    "state": "generated"
+  }
+}

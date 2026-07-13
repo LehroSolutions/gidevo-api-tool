@@ -1,0 +1,54 @@
+import * as fs from 'fs';
+import * as path from 'path';
+import Handlebars from 'handlebars';
+import { GeneratorStrategy } from './GeneratorStrategy.js';
+import { registerHandlebarsHelpers } from './handlebarsHelpers.js';
+import { safeWriteGeneratedFile } from '../pathSafety.js';
+import { dirnameFromMetaUrl } from '../runtime.js';
+
+const currentDir = dirnameFromMetaUrl(import.meta.url);
+
+export class TypeScriptStrategy implements GeneratorStrategy {
+  // Resolve templates directory relative to this file
+  // In production (dist), this will be .../dist/templates/typescript
+  // In development (src), this will be .../src/templates/typescript
+  private templatesDir = path.join(currentDir, '../../templates/typescript');
+
+  constructor() {
+    // Register helpers once (idempotent)
+    registerHandlebarsHelpers();
+  }
+
+  async generate(spec: any, outputDir: string): Promise<void> {
+    const clientCode = await this.generateClient(spec);
+    const typesCode = await this.generateTypes(spec);
+
+    await safeWriteGeneratedFile(outputDir, 'client.ts', clientCode);
+    await safeWriteGeneratedFile(outputDir, 'types.ts', typesCode);
+  }
+
+  private async generateClient(spec: any): Promise<string> {
+    const templateName = spec.type === 'graphql' ? 'client-graphql.hbs' : 'client-rest.hbs';
+    const templatePath = path.join(this.templatesDir, templateName);
+
+    try {
+      const templateContent = await fs.promises.readFile(templatePath, 'utf-8');
+      const template = Handlebars.compile(templateContent);
+      return template(spec);
+    } catch (error) {
+      throw new Error(`Failed to load template from ${templatePath}: ${error}`);
+    }
+  }
+
+  private async generateTypes(spec: any): Promise<string> {
+    const templatePath = path.join(this.templatesDir, 'types.hbs');
+
+    try {
+      const templateContent = await fs.promises.readFile(templatePath, 'utf-8');
+      const template = Handlebars.compile(templateContent);
+      return template(spec);
+    } catch (error) {
+      throw new Error(`Failed to load template from ${templatePath}: ${error}`);
+    }
+  }
+}

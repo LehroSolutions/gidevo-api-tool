@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Architecture",
+  "group": "Deepwiki",
+  "path": "deepwiki/architecture.md",
+  "lead": "This document provides a high-level view of GIDEVO-API TOOL's architecture.",
+  "content_markdown": "# Architecture Overview\n\nThis document provides a high-level view of GIDEVO-API TOOL's architecture.\n\n## Core Components\n\n- **CLI Entry Point**: `src/cli/index.ts` uses `commander` to parse commands and global flags.\n- **Commands**: Each command (`init`, `generate`, `validate`, `login`, `logout`, `whoami`, `plugin`) is implemented in `src/cli/commands/*.ts`.\n- **Core Logic**: Business logic lives in `src/core`:\n  - `AuthService` handles authentication state, storing tokens under `~/.gidevo-api-tool/config.json`.\n  - `Validator` parses and validates API specs (OpenAPI & GraphQL).\n  - `CodeGenerator` generates multi-language SDKs via plugin abstraction.\n\n## Modules & Dependency Flow\n\n1. **CLI**: Parses input, global flags, then delegates to command handlers.\n2. **Command Handler**: Validates inputs (file existence, flags) and invokes core services.\n3. **Core Services**: Perform filesystem operations, parsing, and codegen.\n4. **Plugins**: Located in `dist/plugins` (JavaScript) or `src/plugins` during dev, loaded dynamically.\n5. **Output**: Files written to target directories (`specs`, `generated`, etc.).\n\n## Key Patterns\n\n- **Dynamic Plugin Loading**: Only `.js` files are discovered; supports TypeScript dev and JavaScript dist.\n- **Config Persistence**: Auth config written and read via JSON for simplicity.\n- **ESM Interop**: Spinner uses dynamic ESM import to avoid Jest issues.\n\nFor further details, see [Plugin System Design](plugin-design.md).\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

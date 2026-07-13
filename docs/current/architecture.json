@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "architecture",
+  "title": "Architecture",
+  "status": "current",
+  "audience": [
+    "API developers",
+    "Platform engineers",
+    "CLI contributors"
+  ],
+  "useWhen": "Use the corresponding current guide for this task.",
+  "sourceOfTruth": "current/architecture.md",
+  "counterparts": {
+    "markdown": "current/architecture.md",
+    "html": "current/architecture.html",
+    "json": "current/architecture.json"
+  },
+  "summary": "Current architecture guidance for GIDEVO API Tool.",
+  "sections": [
+    {
+      "id": "purpose",
+      "label": "Purpose"
+    },
+    {
+      "id": "on-this-page",
+      "label": "On this page"
+    },
+    {
+      "id": "guidance",
+      "label": "Guidance"
+    },
+    {
+      "id": "verification",
+      "label": "Verification"
+    },
+    {
+      "id": "related-guides",
+      "label": "Related guides"
+    },
+    {
+      "id": "system-map",
+      "label": "System map"
+    },
+    {
+      "id": "ownership-boundaries",
+      "label": "Ownership boundaries"
+    },
+    {
+      "id": "safe-change-sequence",
+      "label": "Safe change sequence"
+    }
+  ],
+  "relatedGuides": [
+    "start-here",
+    "quality",
+    "contributing"
+  ],
+  "keywords": [
+    "gidevo-api-tool",
+    "architecture",
+    "documentation",
+    "current"
+  ],
+  "lastReviewed": "2026-07-13",
+  "sourceChecksum": "57020d03f081e62c4ece1ee6707542751ae97197fd546db0a8d2790d2e7dbe88",
+  "generatedAt": "2026-07-13T11:47:55.584920+00:00",
+  "release": "archive-2026-07-13",
+  "validation": {
+    "state": "generated"
+  }
+}

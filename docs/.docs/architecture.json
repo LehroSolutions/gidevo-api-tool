@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Architecture",
+  "group": "Guides",
+  "path": ".docs/architecture.md",
+  "lead": "Agentic CLI for OpenAPI validation, multi-language SDK synthesis, plugins, and secure secret storage.",
+  "content_markdown": "# GIDEVO API Tool Architecture\n\n  ## Intent\n  Agentic CLI for OpenAPI validation, multi-language SDK synthesis, plugins, and secure secret storage.\n\n  ## Runtime shape\n  - Domain: **API tooling / SDK generation**\n  - Primary stack: Node.js, TypeScript, Commander, Handlebars, AJV, js-yaml\n  - Key entrypoints:\n- `src/cli/index.ts`\n- `src/core/generator.ts`\n- `src/core/validator.ts`\n- `src/core/secrets.ts`\n\n  ## Boundaries\n  - Validate inputs at trust boundaries.\n  - Keep authorization explicit near data access.\n  - Prefer recoverable errors over silent failure.\n  - Keep side effects isolated and observable.\n\n  ## Related\n  - [Design System](./design-system.md)\n  - [Security](./security.md)\n  - [ADR-0001](./adr-0001-docs-system.md)\n  - [Roadmap](./roadmap.md)\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

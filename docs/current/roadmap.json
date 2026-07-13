@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "roadmap",
+  "title": "Roadmap",
+  "status": "current",
+  "audience": [
+    "API developers",
+    "Platform engineers",
+    "CLI contributors"
+  ],
+  "useWhen": "Use the corresponding current guide for this task.",
+  "sourceOfTruth": "current/roadmap.md",
+  "counterparts": {
+    "markdown": "current/roadmap.md",
+    "html": "current/roadmap.html",
+    "json": "current/roadmap.json"
+  },
+  "summary": "Current roadmap guidance for GIDEVO API Tool.",
+  "sections": [
+    {
+      "id": "purpose",
+      "label": "Purpose"
+    },
+    {
+      "id": "on-this-page",
+      "label": "On this page"
+    },
+    {
+      "id": "guidance",
+      "label": "Guidance"
+    },
+    {
+      "id": "verification",
+      "label": "Verification"
+    },
+    {
+      "id": "related-guides",
+      "label": "Related guides"
+    },
+    {
+      "id": "completed-delivery",
+      "label": "Completed delivery"
+    },
+    {
+      "id": "current-maintenance",
+      "label": "Current maintenance"
+    }
+  ],
+  "relatedGuides": [
+    "start-here",
+    "architecture",
+    "quality",
+    "contributing"
+  ],
+  "keywords": [
+    "gidevo-api-tool",
+    "roadmap",
+    "documentation",
+    "current"
+  ],
+  "lastReviewed": "2026-07-13",
+  "sourceChecksum": "d648cb641f359a68868f97ddfbaf3fb44003d7015d889062c4c74b63646167b3",
+  "generatedAt": "2026-07-13T11:47:55.586311+00:00",
+  "release": "archive-2026-07-13",
+  "validation": {
+    "state": "generated"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Cli Ux",
+  "group": "Deepwiki",
+  "path": "deepwiki/cli-ux.md",
+  "lead": "The v0.2 CLI keeps GIDEVO branding but uses direct developer language. Commands should say what they do: generate, validate, configure, diagnose, and run workflows.",
+  "content_markdown": "# CLI UX & Accessibility\n\nThe v0.2 CLI keeps GIDEVO branding but uses direct developer language. Commands should say what they do: generate, validate, configure, diagnose, and run workflows.\n\n## Design Principles\n\n- Prefer clear action labels over abstract terminology.\n- Keep output useful in terminals, CI logs, and screen readers.\n- Use color as enhancement only; never rely on color for meaning.\n- Provide JSON output for automation where workflows need machine-readable state.\n\n## Global Flags\n\n| Flag | Description |\n| --- | --- |\n| `--no-spinner` | Disable animated spinners. |\n| `--no-color` | Disable ANSI color output. |\n| `--no-plugins` | Disable plugin loading. |\n| `-q, --quiet` | Suppress banners and non-essential output. |\n| `-i, --interactive` | Run the guided wizard. |\n\n## Agentic Commands\n\n`doctor` is read-only and reports project health:\n\n```bash\ngidevo-api-tool doctor --spec ./specs/api.yaml\ngidevo-api-tool doctor --spec ./specs/api.yaml --json\n```\n\n`workflow` validates before generation:\n\n```bash\ngidevo-api-tool workflow --spec ./specs/api.yaml --language typescript --output ./generated\ngidevo-api-tool workflow --spec ./specs/api.yaml --language go --dry-run --json\n```\n\n## Message Style\n\nMessage headings use familiar labels:\n\n```text\n[OK]\n[WARN]\n[ERROR]\n[INFO]\n```\n\nSection names are concise:\n\n```text\nSDK GENERATION\nSPECIFICATION VALIDATION\nPROJECT DOCTOR\nAGENTIC WORKFLOW\n```\n\n## JSON Output\n\nUse `--json` on `doctor` and `workflow` when another tool or CI job needs structured output. JSON mode must not print banners or colored prose.\n\n## Related ADRs\n\n- [ADR-004: Developer-Clear Agentic CLI](ADR-004-Developer-Clear-Agentic-CLI.md)\n- [ADR-003: Avant-Garde UI Overhaul](ADR-003-Avant-Garde-UI-Overhaul.md)\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

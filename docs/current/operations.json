@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "operations",
+  "title": "Operations",
+  "status": "current",
+  "audience": [
+    "API developers",
+    "Platform engineers",
+    "CLI contributors"
+  ],
+  "useWhen": "Use the corresponding current guide for this task.",
+  "sourceOfTruth": "current/operations.md",
+  "counterparts": {
+    "markdown": "current/operations.md",
+    "html": "current/operations.html",
+    "json": "current/operations.json"
+  },
+  "summary": "Current operations guidance for GIDEVO API Tool.",
+  "sections": [
+    {
+      "id": "purpose",
+      "label": "Purpose"
+    },
+    {
+      "id": "on-this-page",
+      "label": "On this page"
+    },
+    {
+      "id": "guidance",
+      "label": "Guidance"
+    },
+    {
+      "id": "verification",
+      "label": "Verification"
+    },
+    {
+      "id": "related-guides",
+      "label": "Related guides"
+    },
+    {
+      "id": "runtime-signals",
+      "label": "Runtime signals"
+    },
+    {
+      "id": "release-routine",
+      "label": "Release routine"
+    }
+  ],
+  "relatedGuides": [
+    "start-here",
+    "architecture",
+    "quality",
+    "contributing"
+  ],
+  "keywords": [
+    "gidevo-api-tool",
+    "operations",
+    "documentation",
+    "current"
+  ],
+  "lastReviewed": "2026-07-13",
+  "sourceChecksum": "70f4301875c10ce3f9711a69a960c80d0a8e4c58163e26fe6a54d71057a2709d",
+  "generatedAt": "2026-07-13T11:47:55.585361+00:00",
+  "release": "archive-2026-07-13",
+  "validation": {
+    "state": "generated"
+  }
+}

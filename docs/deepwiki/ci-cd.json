@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Ci Cd",
+  "group": "Deepwiki",
+  "path": "deepwiki/ci-cd.md",
+  "lead": "This section documents the current automated workflows for open-source quality and security checks.",
+  "content_markdown": "# CI/CD & Release Pipeline\n\nThis section documents the current automated workflows for open-source quality and security checks.\n\n## GitHub Actions Workflows\n\n- **`ci.yml`** (push to `main`/`develop`, PR to `main`):\n  - `test` job:\n    - Runs matrix builds on Node `18.x` and `20.x`.\n    - Executes `npm run lint`, `npm run format:check`, `npm run test:coverage`, and `npm run build`.\n  - `security` job:\n    - Runs `npm audit --audit-level high`.\n    - Runs Semgrep with repository rules:\n      - `semgrep --config .semgrep.yml --error src`\n  - `publish` job:\n    - Runs after `test` and `security`.\n    - Publishes package from `main` with `npm publish --access public`.\n\n- **`codeql.yml`**:\n  - Runs CodeQL analysis for JavaScript and TypeScript on push/PR.\n\n- **`release.yml`**:\n  - Handles release automation for tagged release flow.\n\n## Security Checks in CI\n\n- Dependency risk gate: `npm audit --audit-level high`\n- Static analysis gate: Semgrep using `.semgrep.yml`\n- CodeQL analysis: separate dedicated workflow (`codeql.yml`)\n\n## Environment Variables\n\n- `NPM_TOKEN`: required for npm publish in `publish` job.\n- `GITHUB_TOKEN`: provided automatically by GitHub Actions.\n\n## Maintenance Notes\n\n- Keep `.semgrep.yml` aligned with secure coding utilities (for example `safeWriteGeneratedFile()`).\n- Keep CodeQL and CI workflows consistent with supported Node versions in `package.json`.\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

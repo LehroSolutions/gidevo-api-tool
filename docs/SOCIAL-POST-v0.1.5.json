@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Social Post V0.1.5",
+  "group": "Guides",
+  "path": "SOCIAL-POST-v0.1.5.md",
+  "lead": "We're thrilled to announce a major update packed with developer-friendly features!",
+  "content_markdown": "# \ud83d\ude80 GIDEVO API Tool v0.1.5 is Live!\n\nWe're thrilled to announce a major update packed with developer-friendly features!\n\n## \u2728 What's New\n\n**Beautiful CLI Experience** - Professional ASCII banners, progress indicators, and consistent styling across all commands.\n\n**Interactive Wizard Mode** - New users? Run `gidevo-api-tool --interactive` for guided setup through project initialization and code generation.\n\n**Configuration Files** - Use `.gidevorc.json` to set project defaults and streamline workflows across your team.\n\n**Comprehensive Examples** - Jump-start development with TypeScript, Python examples + sample plugins and OpenAPI specs (Petstore, Todo API).\n\n**Enhanced Commands** - Shorter aliases (gen, val, i, p), better error messages, and extended help with real-world examples.\n\n## \ud83c\udfaf Perfect For\n\n- Building multi-language API clients from OpenAPI specs\n- Teams standardizing on consistent SDK generation\n- Developers integrating APIs into diverse tech stacks\n\n## \ud83c\udfc3 Quick Start\n\n```bash\nnpm install -g gidevo-api-tool\ngidevo-api-tool --interactive\n```\n\nExplore examples: `examples/basic-typescript`, `examples/basic-python`\n\n**Try it today!** \ud83d\udc49 https://github.com/LehroSolutions/gidevo-api-tool\n\nAll 29 tests passing. Production-ready. Open source.\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

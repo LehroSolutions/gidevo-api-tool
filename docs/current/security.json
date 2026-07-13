@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "security",
+  "title": "Security",
+  "status": "current",
+  "audience": [
+    "API developers",
+    "Platform engineers",
+    "CLI contributors"
+  ],
+  "useWhen": "Use the corresponding current guide for this task.",
+  "sourceOfTruth": "current/security.md",
+  "counterparts": {
+    "markdown": "current/security.md",
+    "html": "current/security.html",
+    "json": "current/security.json"
+  },
+  "summary": "Current security guidance for GIDEVO API Tool.",
+  "sections": [
+    {
+      "id": "purpose",
+      "label": "Purpose"
+    },
+    {
+      "id": "on-this-page",
+      "label": "On this page"
+    },
+    {
+      "id": "guidance",
+      "label": "Guidance"
+    },
+    {
+      "id": "verification",
+      "label": "Verification"
+    },
+    {
+      "id": "related-guides",
+      "label": "Related guides"
+    },
+    {
+      "id": "current-safeguards",
+      "label": "Current safeguards"
+    },
+    {
+      "id": "contributor-rules",
+      "label": "Contributor rules"
+    }
+  ],
+  "relatedGuides": [
+    "start-here",
+    "architecture",
+    "quality",
+    "contributing"
+  ],
+  "keywords": [
+    "gidevo-api-tool",
+    "security",
+    "documentation",
+    "current"
+  ],
+  "lastReviewed": "2026-07-13",
+  "sourceChecksum": "afc38a6ab879909c0dbf3df5e92ddfd8e572f527e4e9919d4ffa5ba334962391",
+  "generatedAt": "2026-07-13T11:47:55.585605+00:00",
+  "release": "archive-2026-07-13",
+  "validation": {
+    "state": "generated"
+  }
+}

@@ -1,0 +1,15 @@
+import { GraphQLClient } from 'graphql-request';
+
+export class ApiClient {
+  private client: GraphQLClient;
+
+  constructor(endpoint: string, token?: string) {
+    this.client = new GraphQLClient(endpoint, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
+    });
+  }
+
+  async query<T>(query: string, variables?: any): Promise<T> {
+    return this.client.request<T>(query, variables);
+  }
+}

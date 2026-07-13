@@ -1,0 +1,23 @@
+node_modules
+gidevo-marketing-video/
+Marketing video/
+my-video/
+.windurf
+
+tests/tmp-*
+
+# Private strategy/planning docs (non-OSS)
+docs/PRO_IMPLEMENTATION.md
+docs/*PRO*.md
+docs/*CLOUD*.md
+docs/*MCP*.md
+node_modules/
+.env
+.env.*
+!.env.example
+coverage/
+dist/
+.DS_Store
+*.log
+.venv/
+__pycache__/

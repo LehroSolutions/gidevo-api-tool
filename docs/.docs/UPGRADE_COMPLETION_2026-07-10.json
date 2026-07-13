@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Upgrade Completion 2026 07 10",
+  "group": "Project",
+  "path": ".docs/UPGRADE_COMPLETION_2026-07-10.md",
+  "lead": "Run npm test and npm run build after restoring locked dependencies.",
+  "content_markdown": "# 2026 Upgrade Completion\n\n## Outcome\n\n- Stronger encrypted-secret fallback derivation (PBKDF2 310k iterations).\n- YAML parsing hardened to `yaml.safeLoad()` across generator/validator/CLI.\n- Secure plugin loading retained.\n\n## Security review\n\n- Trust boundaries reviewed for secret storage and untrusted specs.\n- No secrets were added to the repository.\n\n## Verification gates\n\nRun `npm test` and `npm run build` after restoring locked dependencies.\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

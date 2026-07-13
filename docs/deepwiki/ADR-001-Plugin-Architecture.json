@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Adr 001 Plugin Architecture",
+  "group": "Deepwiki",
+  "path": "deepwiki/ADR-001-Plugin-Architecture.md",
+  "lead": "Status: Accepted",
+  "content_markdown": "# ADR-001: Plugin Architecture\n\n**Status**: Accepted\n**Date**: 2025-11-20\n\n## Context\nWe need a way to extend the CLI tool with new commands and generators without modifying the core codebase. This allows for community contributions and enterprise-specific extensions.\n\n## Decision\nWe will implement a plugin system where plugins are Node.js modules that export an `initialize` function.\n- Plugins are loaded from a `plugins` directory.\n- Plugins can register new commands with the Commander instance (future improvement).\n- Plugins are loaded before the CLI parses arguments.\n\n## Consequences\n**Positive**:\n- Extensibility: New features can be added easily.\n- Decoupling: Core logic is separated from extensions.\n\n**Negative**:\n- Complexity: Managing plugin dependencies and versions.\n- Security: executing arbitrary code from plugins requires trust.\n\n## Alternatives Considered\n- **Monolithic CLI**: Harder to maintain and extend.\n- **Separate CLIs**: Fragmented user experience.\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

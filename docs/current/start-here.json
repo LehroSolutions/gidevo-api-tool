@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "start-here",
+  "title": "Start Here",
+  "status": "current",
+  "audience": [
+    "API developers",
+    "Platform engineers",
+    "CLI contributors"
+  ],
+  "useWhen": "Use the corresponding current guide for this task.",
+  "sourceOfTruth": "current/start-here.md",
+  "counterparts": {
+    "markdown": "current/start-here.md",
+    "html": "current/start-here.html",
+    "json": "current/start-here.json"
+  },
+  "summary": "An agentic CLI for validating API specifications and generating SDKs.",
+  "sections": [
+    {
+      "id": "purpose",
+      "label": "Purpose"
+    },
+    {
+      "id": "on-this-page",
+      "label": "On this page"
+    },
+    {
+      "id": "guidance",
+      "label": "Guidance"
+    },
+    {
+      "id": "verification",
+      "label": "Verification"
+    },
+    {
+      "id": "related-guides",
+      "label": "Related guides"
+    },
+    {
+      "id": "product-route",
+      "label": "Product route"
+    },
+    {
+      "id": "latest-public-changes",
+      "label": "Latest public changes"
+    },
+    {
+      "id": "choose-a-guide",
+      "label": "Choose a guide"
+    }
+  ],
+  "relatedGuides": [
+    "architecture",
+    "quality",
+    "contributing"
+  ],
+  "keywords": [
+    "gidevo-api-tool",
+    "start-here",
+    "documentation",
+    "current"
+  ],
+  "lastReviewed": "2026-07-13",
+  "sourceChecksum": "b87d924c4f79a03b15b10c9668e72aaf490dc3dd59aa42734fb0feb63e335fdd",
+  "generatedAt": "2026-07-13T11:47:55.583810+00:00",
+  "release": "archive-2026-07-13",
+  "validation": {
+    "state": "generated"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Social Post V0.2.0",
+  "group": "Guides",
+  "path": "SOCIAL-POST-v0.2.0.md",
+  "lead": "Headline: Stop building boring API clients. Start generating Artifacts. \ud83c\udf0c",
+  "content_markdown": "# Social Media Announcements for v0.2.0\n\n## LinkedIn: The \"Developer Experience\" Focus\n\n**Headline: Stop building boring API clients. Start generating Artifacts. \ud83c\udf0c**\n\nLet\u2019s be honest: most CLI tools feel like they were built in 1998. We decided to change that.\n\nIntroducing **GIDEVO v0.2.0**\u2014the API tool that treats Developer Experience (DX) as a first-class citizen.\n\nWe didn't just add features; we overhauled the entire engine:\n\u2728 **The \"Avant-Garde\" UI**: A stunning new interface that makes code generation feel like piloting a spaceship.\n\ud83d\udd10 **Fort Knox Security**: Your API tokens are now guarded by a hybrid System Keychain + AES-256 vault.\n\ud83d\udc0d **Python Superpowers**: We now generate full **Pydantic** models. Type hints, runtime validation, and zero boilerplate.\n\nIt\u2019s type-safe. It\u2019s secure. And frankly, it looks incredible in your terminal.\n\nStop writing boilerplate. Start synthesizing.\n\n**Check the repo:** \ud83d\udc47\n[https://github.com/LehroSolutions/gidevo-api-tool](https://github.com/LehroSolutions/gidevo-api-tool)\n\n#DevTools #DX #TypeScript #Python #OpenSource #Engineering\n\n---\n\n## X (Twitter): The \"Hype\" Focus\n\n**GIDEVO v0.2.0 dropped. \ud83c\udf0c**\n\nWe built the CLI you actually *want* to use.\n\n\u2728 Avant-Garde UI (it's beautiful)\n\ud83d\udd10 AES-256 Token Vault\n\ud83d\udc0d Full Pydantic Support\n\nYour terminal deserves this upgrade.\n\n\ud83d\udc47\nhttps://github.com/LehroSolutions/gidevo-api-tool\n\n#DevTools #100DaysOfCode\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

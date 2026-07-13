@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "11 Versioning And Maintenance",
+  "group": "Guides",
+  "path": "11-Versioning-and-Maintenance.md",
+  "lead": "deprecated: true",
+  "content_markdown": "# 11-Versioning-and-Maintenance.md\n\n# Versioning & Maintenance\n\n## 1. Semantic Versioning Policy\n- Follow **MAJOR.MINOR.PATCH**:\n  - **MAJOR**: breaking API changes\n  - **MINOR**: new features, backward-compatible\n  - **PATCH**: bug fixes, backward-compatible\n- Enforce via CI (`semantic-release`, `poetry version`).\n- Tag releases as `vMAJOR.MINOR.PATCH`.\n\n## 2. Deprecation Strategy\n- Mark deprecated endpoints or SDK methods in spec/docs:\n  ```yaml\n  deprecated: true\n  description: |\n    This endpoint will be removed in v3.0.0. Use `/new-resource` instead.\n  ```\n- Communicate removal timeline (e.g., 6 months).\n- Provide alternative APIs or migration guides.\n\n## 3. Long-Term Support (LTS)\n- Define LTS versions for enterprise clients.\n- Provide security patches and critical fixes for LTS branches.\n- Publish LTS schedule in README or support portal.\n\n## 4. Branch & Release Management\n- **Main Branch**: latest stable; merges via PR with passing CI.\n- **Develop Branch**: integration for new features; CI & preview.\n- **Release Branches**: `release/x.y` for pre-production QA.\n- **Hotfix Branches**: `hotfix/x.y.z` from `main` for critical patches.\n\n## 5. Compatibility Guarantees\n- Guarantee wire-level compatibility for patch and minor releases.\n- Document breaking changes in MAJOR releases.\n- Maintain a compatibility matrix mapping SDK versions to spec versions.\n\n### v0.2 Compatibility Note\n\nBecause the package is still pre-1.0, v0.2 uses a minor release to make runtime-breaking modernization changes:\n\n- Node 18 and Node 20 support is dropped.\n- Node 24+ is required.\n- Programmatic usage is ESM-first.\n\n## 6. Upgrade Guides & Changelogs\n- Maintain `CHANGELOG.md` per [Keep a Changelog](https://keepachangelog.com/) format.\n- Provide migration sections for significant changes.\n- Example:\n  ```md\n  ## [2.0.0] - 2025-09-01\n  ### Removed\n  - Legacy `/v1` endpoints removed.\n\n  ### Migration\n  - Update base URL from `/v1` to `/v2`.\n  ```\n\n## 7. Support Windows & SLAs\n- Define support window for each release (e.g., 12 months).\n- SLA targets: response time, patch turnaround.\n- Publish support tiers: Community, Enterprise.\n\n## 8. Maintenance Automation\n- Automate dependency updates via bots (Dependabot).\n- Schedule regular spec linting and codegen validation.\n- Use branch protection rules to enforce policies.\n\n---\n*This completes the guide set. Let me know if you\u2019d like adjustments or a summary.*\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

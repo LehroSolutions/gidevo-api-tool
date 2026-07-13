@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "patterns",
+  "title": "Patterns",
+  "status": "current",
+  "audience": [
+    "API developers",
+    "Platform engineers",
+    "CLI contributors"
+  ],
+  "useWhen": "Use the corresponding current guide for this task.",
+  "sourceOfTruth": "current/patterns.md",
+  "counterparts": {
+    "markdown": "current/patterns.md",
+    "html": "current/patterns.html",
+    "json": "current/patterns.json"
+  },
+  "summary": "Current patterns guidance for GIDEVO API Tool.",
+  "sections": [
+    {
+      "id": "purpose",
+      "label": "Purpose"
+    },
+    {
+      "id": "on-this-page",
+      "label": "On this page"
+    },
+    {
+      "id": "guidance",
+      "label": "Guidance"
+    },
+    {
+      "id": "verification",
+      "label": "Verification"
+    },
+    {
+      "id": "related-guides",
+      "label": "Related guides"
+    },
+    {
+      "id": "primary-workflows",
+      "label": "Primary workflows"
+    },
+    {
+      "id": "recovery-behavior",
+      "label": "Recovery behavior"
+    }
+  ],
+  "relatedGuides": [
+    "start-here",
+    "architecture",
+    "quality",
+    "contributing"
+  ],
+  "keywords": [
+    "gidevo-api-tool",
+    "patterns",
+    "documentation",
+    "current"
+  ],
+  "lastReviewed": "2026-07-13",
+  "sourceChecksum": "a61871525097097210b42716c50dede5eeb12aa492b585d90b9f6dea052f61f4",
+  "generatedAt": "2026-07-13T11:47:55.584701+00:00",
+  "release": "archive-2026-07-13",
+  "validation": {
+    "state": "generated"
+  }
+}

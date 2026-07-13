@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Security Issues 2026 07 10",
+  "group": "Project",
+  "path": ".docs/SECURITY_ISSUES_2026-07-10.md",
+  "lead": "That accepts the full YAML type system and is unsafe for untrusted input.",
+  "content_markdown": "# Security issues noticed \u2014 2026-07-10 continuation\n\n## Findings\n\n- `js-yaml` was previously invoked via `yaml.load()` for OpenAPI specs.\n  That accepts the full YAML type system and is unsafe for untrusted input.\n- Replaced with `yaml.safeLoad()` in generator, validator, validate command,\n  and Go strategy tests.\n\n## Status\n\n- Patched in source.\n- No secrets introduced.\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

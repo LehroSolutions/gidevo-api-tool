@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Plugin Design",
+  "group": "Deepwiki",
+  "path": "deepwiki/plugin-design.md",
+  "lead": "The plugin system enables extensibility for spec validation, code generation, and custom operations.",
+  "content_markdown": "# Plugin System Design\n\nThe plugin system enables extensibility for spec validation, code generation, and custom operations.\n\n## Plugin Contract\n\nPlugins must export a class or object matching:\n\n```ts\ninterface Plugin {\n  name: string;\n  initialize(options?: any): void;\n  run(...args: any[]): Promise<boolean>;\n}\n```\n\n## Discovery & Loading\n\n- **Directories**: Looks for `dist/plugins` first, then `src/plugins` during development.\n- **File Filter**: Only safe `.js` filenames are considered (avoids TS and declaration files).\n- **File Type Check**: Plugin entries must resolve to regular files (symlinks are rejected).\n- **Path Safety**: Canonical real paths must remain inside approved plugin directories.\n- **Instantiation**:\n  - If default export is a constructor, instantiate it.\n  - Otherwise, use the exported object.\n\n## CLI Integration\n\n- `plugin <name> [args...]` command finds plugin by `name` case-insensitive.\n- Calls `plugin.run(...args)` and logs success/failure.\n\n## Example Plugin: SpecLint\n\nValidates OpenAPI spec using `js-yaml`:\n- Reports schema issues.\n- Test coverage via `tests/specLint.test.ts`.\n\n## Built-In Plugins\n\n- `specLint`\n- `typescriptGenerator`\n- `pythonGenerator`\n- `goGenerator`\n\nFor core usage, refer to [CI/CD & Release Pipeline](ci-cd.md).\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}

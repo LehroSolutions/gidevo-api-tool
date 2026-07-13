@@ -1,0 +1,11 @@
+# Bun-first package manager config for this package.
+# Install with: bun install
+
+[install]
+# Prefer frozen lockfile in CI when bun.lock is present.
+exact = true
+auto = false
+
+[run]
+# Use bun shell for scripts where possible.
+bun = true

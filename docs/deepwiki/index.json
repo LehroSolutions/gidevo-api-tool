@@ -1,0 +1,14 @@
+{
+  "product": "GIDEVO API Tool",
+  "title": "Index",
+  "group": "Deepwiki",
+  "path": "deepwiki/index.md",
+  "lead": "Welcome to the DeepWiki for GIDEVO-API TOOL. This section contains in-depth documentation on architecture, CLI UX, plugin design, and CI/CD.",
+  "content_markdown": "# DeepWiki Index\n\nWelcome to the DeepWiki for GIDEVO-API TOOL. This section contains in-depth documentation on architecture, CLI UX, plugin design, and CI/CD.\n\n## Core Documentation\n\n- [Architecture Overview](architecture.md)\n- [CLI UX & Accessibility](cli-ux.md)\n- [Extension System Design](plugin-design.md)\n- [CI/CD & Release Pipeline](ci-cd.md)\n\n## Architecture Decision Records (ADRs)\n\n- [ADR-001: Plugin Architecture](ADR-001-Plugin-Architecture.md)\n- [ADR-002: UI System Architecture](ADR-002-UI-System-Architecture.md)\n- [ADR-003: Avant-Garde UI Overhaul](ADR-003-Avant-Garde-UI-Overhaul.md)\n\n## Project Status & Roadmap\n\n- [Implementation Roadmap](NEXT-STEPS-IMPLEMENTATION-ROADMAP.md)\n- [UI Improvements Changelog](CHANGELOG-UI-IMPROVEMENTS.md)\n\n## Quick Links\n\n| Resource | Description |\n|----------|-------------|\n| [README](../../README.md) | Project overview and quick start |\n| [RELEASE](../../RELEASE.md) | Release notes |\n| [LICENSE](../../LICENSE) | License information |\n\n## Recent Updates (March 2026)\n\n### Generator Expansion\n- Added `go` as a first-class SDK generation target.\n- Added Go strategy and templates (`client.go`, `types.go`).\n- Added built-in `goGenerator` plugin.\n\n### Security Hardening\n- Added project-bounded path safety defaults for spec/output resolution.\n- Added explicit unsafe-path overrides:\n  - `--allow-outside-project`\n  - `generate.allowOutsideProject`\n  - `GIDEVO_ALLOW_UNSAFE_PATHS=1`\n- Hardened plugin loader path and file checks.\n- Tightened encrypted secret payload validation.\n\n### CI and Quality\n- Added Semgrep checks in CI using `.semgrep.yml`.\n- Updated tests/snapshots for Go generation and path/security behavior.\n\n## Previous Updates (November-December 2025)\n\n- UI and CLI UX overhaul.\n- Interactive mode and command aliases.\n- Broader test and documentation coverage.\n",
+  "layout": "quantumide-ultra-link",
+  "theme": {
+    "mode": "dark",
+    "accent": "#7c3aed",
+    "css": "design-system.css"
+  }
+}
