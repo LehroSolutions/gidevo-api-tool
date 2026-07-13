@@ -1,11 +1,11 @@
 node_modules
+.agent/
+.agents/
+.github/
+.windsurf/
+my-video/
 gidevo-marketing-video/
 Marketing video/
-my-video/
-.windurf/
-.agents/
-.agent/
-.github/
 
 tests/tmp-*
 
@@ -25,5 +25,5 @@ dist/
 .venv/
 __pycache__/
 
-# Bun is the canonical package manager and lockfile authority
+# Bun is the canonical package manager
 package-lock.json
