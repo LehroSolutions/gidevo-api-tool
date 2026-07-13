@@ -48,6 +48,14 @@
     {
       "id": "validation-record",
       "label": "Validation record"
+    },
+    {
+      "id": "bun-first-package-policy",
+      "label": "Bun-first package policy"
+    },
+    {
+      "id": "yaml-v4-build-compatibility-2026-07-13",
+      "label": "YAML v4 build compatibility \u2014 2026-07-13"
     }
   ],
   "relatedGuides": [
@@ -63,8 +71,8 @@
     "current"
   ],
   "lastReviewed": "2026-07-13",
-  "sourceChecksum": "0b3b7483cb5d080c377d031fa4e512dcb9eadeb09d94914577d7c639d0faf653",
-  "generatedAt": "2026-07-13T11:47:55.586747+00:00",
+  "sourceChecksum": "b37633ed7d3933cf158e8a40ec76b086565cb2593888ac880587b9f083c1f5ef",
+  "generatedAt": "2026-07-13T14:10:15.830894+00:00",
   "release": "archive-2026-07-13",
   "validation": {
     "state": "generated"

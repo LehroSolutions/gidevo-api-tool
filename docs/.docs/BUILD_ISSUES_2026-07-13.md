@@ -4,30 +4,28 @@
 
 - **Section:** Evidence logs
 - **Audience:** Maintainers and release engineers
-- **Use when:** Reviewing the Bun/js-yaml v4 build failure and remediation.
+- **Use when:** Reviewing the Bun/js-yaml v4 build failure and its remediation.
 - **Status:** Current
 - **Last reviewed:** 2026-07-13
 
 ## Failure
 
-`bun run build` exposed three production TypeScript errors because js-yaml v4 removed the deprecated `yaml.safeLoad` alias from its typings. The Go strategy test contained two matching deprecated calls.
+`bun run build` failed in three production files because `yaml.safeLoad` was removed from js-yaml v4 typings. Two Go strategy test calls used the same removed alias.
 
 ## Resolution
 
-Migrated all five call sites to `yaml.load`, the js-yaml v4 parser API:
+Replaced all five `yaml.safeLoad(...)` calls with `yaml.load(...)` in:
 
 - `src/cli/commands/validate.ts`
 - `src/core/generator.ts`
 - `src/core/validator.ts`
 - `tests/goStrategy.test.ts`
 
-Also removed the stale `package-lock.json`, aligned package metadata to Bun 1.3.14, and updated dependency workflows to Node 24 plus Bun.
-
 ## Verification
 
-- Source-wide scan finds no `safeLoad` or `safeDump` calls.
-- TypeScript CLI entrypoint transpilation passes.
-- Full `bun run build` must run in an installed checkout with the supplied `bun.lock`.
+- Source-wide scan: no `safeLoad` or `safeDump` references remain.
+- CLI entrypoint syntax/transpile check passed.
+- Full dependency-backed `tsc` must be rerun with `bun run build` in the installed checkout.
 
 ## Related guides
 

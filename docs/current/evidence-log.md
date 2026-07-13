@@ -40,3 +40,13 @@ Archive baseline: `all-upgraded-codebases-final.zip`, restored and reviewed on 2
 - [Quality](quality.md)
 - [ADR: documentation contract](adr-0004-documentation-contract.md)
 - [Roadmap](roadmap.md)
+
+
+## Bun-first package policy
+
+GIDEVO is supported on Node 24+ with Bun 1.2.19. Use `bun install`; do not use `npm ci`. Delete any stale `package-lock.json`, run `bun install`, and commit the resulting `bun.lock` whenever dependencies change.
+
+## YAML v4 build compatibility — 2026-07-13
+
+A Bun 1.3.14 install exposed three TypeScript failures because `js-yaml` v4 typings no longer expose the removed `safeLoad` alias. Migrated production parsing and Go strategy tests to `yaml.load`, which retains safe parsing behavior in js-yaml v4. A source-wide scan confirms no `safeLoad` or `safeDump` calls remain.
+

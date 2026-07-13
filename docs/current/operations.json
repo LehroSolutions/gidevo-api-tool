@@ -44,6 +44,10 @@
     {
       "id": "release-routine",
       "label": "Release routine"
+    },
+    {
+      "id": "bun-first-package-policy",
+      "label": "Bun-first package policy"
     }
   ],
   "relatedGuides": [
@@ -59,8 +63,8 @@
     "current"
   ],
   "lastReviewed": "2026-07-13",
-  "sourceChecksum": "70f4301875c10ce3f9711a69a960c80d0a8e4c58163e26fe6a54d71057a2709d",
-  "generatedAt": "2026-07-13T11:47:55.585361+00:00",
+  "sourceChecksum": "1204c1cce7950a8d33337c5fec2ca57c03a488a9e851605436b93d1a4d0dc09e",
+  "generatedAt": "2026-07-13T13:59:31.415654+00:00",
   "release": "archive-2026-07-13",
   "validation": {
     "state": "generated"

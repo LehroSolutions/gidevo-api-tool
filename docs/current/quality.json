@@ -47,6 +47,10 @@
     {
       "id": "definition-of-done",
       "label": "Definition of done"
+    },
+    {
+      "id": "bun-first-package-policy",
+      "label": "Bun-first package policy"
     }
   ],
   "relatedGuides": [
@@ -61,8 +65,8 @@
     "current"
   ],
   "lastReviewed": "2026-07-13",
-  "sourceChecksum": "8ba01965336d6929d49ca7ede8727c08992ec4f4cc061e260a90db058f97089e",
-  "generatedAt": "2026-07-13T11:47:55.585835+00:00",
+  "sourceChecksum": "0f7698cd17930fd225a80dd60c4f4373f29a9f26b3c212a743749fbd63dfec0b",
+  "generatedAt": "2026-07-13T13:59:31.416237+00:00",
   "release": "archive-2026-07-13",
   "validation": {
     "state": "generated"

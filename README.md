@@ -196,6 +196,7 @@ See [docs/how-to-use.md](docs/how-to-use.md) for the full operator guide.
 See [SECURITY.md](SECURITY.md).
 
 <!-- docs-system:start -->
+
 ## Documentation
 
 The current public documentation is available in [`docs/index.html`](docs/index.html). Start with [`docs/current/start-here.md`](docs/current/start-here.md) for scope, current changes, workflows, architecture, security, quality, and contribution guidance.
@@ -210,17 +211,26 @@ Documentation is maintained as canonical Markdown plus generated HTML and JSON c
 <!-- docs-system:end -->
 
 <!-- package-support:start -->
+
 ## Package manager and CI
 
-GIDEVO is **Bun-first** and requires **Node 24+**. The repository lockfile is `bun.lock`, generated with Bun 1.3.14.
+GIDEVO is **Bun-first** and requires **Node 24+** for supported development and CI. Use:
+
+```bash
+bun --version # expected: 1.2.19 or compatible 1.2+
+node --version # expected: 24.x or newer
+bun install
+bun run build
+bun run test
+```
+
+Do not run `npm ci` in this repository. A stale `package-lock.json` from an earlier npm install is not a supported lockfile and must be removed rather than refreshed. The canonical lockfile is `bun.lock`, created or updated by `bun install` and committed with dependency changes.
+
+If a local checkout already has an npm lockfile, remove it before installing:
 
 ```bash
 rm -f package-lock.json
-bun install --frozen-lockfile
-bun run build
-bun run test
-bun run docs:check
+bun install
 ```
 
-Do not use `npm ci` for this repository. It expects an npm lockfile, while this project uses Bun's lockfile. CI uses Node 24 and Bun 1.3.14 for install, test, build, and release preparation.
 <!-- package-support:end -->

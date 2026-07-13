@@ -14,7 +14,7 @@
     "html": "BUILD_ISSUES_2026-07-13.html",
     "json": "BUILD_ISSUES_2026-07-13.json"
   },
-  "summary": "Records the js-yaml v4 build failure, Bun-first CI remediation, and YAML parser migration.",
+  "summary": "Records the js-yaml v4 safeLoad build failure and migration to yaml.load.",
   "sections": [
     {
       "id": "failure",
@@ -46,8 +46,8 @@
     "build"
   ],
   "lastReviewed": "2026-07-13",
-  "sourceChecksum": "8785236ad71dc82ad6f73c3119cbef5ad665d29610a268d3380294b68b197181",
-  "generatedAt": "2026-07-13T14:15:15.983747+00:00",
+  "sourceChecksum": "e899e3bdf04a648ae8c3b6401c46bcda50831978d46cdc6212c146423931260f",
+  "generatedAt": "2026-07-13T14:10:15.830339+00:00",
   "validation": {
     "state": "verified"
   }

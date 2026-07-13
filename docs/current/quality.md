@@ -41,3 +41,8 @@ Define the minimum evidence required before describing a change as ready.
 - [Contributing](contributing.md)
 - [Evidence log](evidence-log.md)
 - [Roadmap](roadmap.md)
+
+
+## Bun-first package policy
+
+GIDEVO is supported on Node 24+ with Bun 1.2.19. Use `bun install`; do not use `npm ci`. Delete any stale `package-lock.json`, run `bun install`, and commit the resulting `bun.lock` whenever dependencies change.
