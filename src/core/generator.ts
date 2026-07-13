@@ -68,7 +68,7 @@ export class CodeGenerator {
     if (ext === '.json') {
       return JSON.parse(content);
     } else if (ext === '.yaml' || ext === '.yml') {
-      return yaml.safeLoad(content);
+      return yaml.load(content);
     } else if (ext === '.graphql' || ext === '.gql') {
       return { type: 'graphql', schema: content };
     }

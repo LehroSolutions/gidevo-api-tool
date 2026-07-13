@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "BUILD_ISSUES_2026-07-13",
+  "title": "Build Issues \u2014 2026-07-13",
+  "status": "current",
+  "audience": [
+    "Maintainers",
+    "Release engineers"
+  ],
+  "useWhen": "Reviewing the Bun/js-yaml v4 build failure and remediation.",
+  "sourceOfTruth": "BUILD_ISSUES_2026-07-13.md",
+  "counterparts": {
+    "markdown": "BUILD_ISSUES_2026-07-13.md",
+    "html": "BUILD_ISSUES_2026-07-13.html",
+    "json": "BUILD_ISSUES_2026-07-13.json"
+  },
+  "summary": "Records the js-yaml v4 build failure, Bun-first CI remediation, and YAML parser migration.",
+  "sections": [
+    {
+      "id": "failure",
+      "label": "Failure"
+    },
+    {
+      "id": "resolution",
+      "label": "Resolution"
+    },
+    {
+      "id": "verification",
+      "label": "Verification"
+    },
+    {
+      "id": "related-guides",
+      "label": "Related guides"
+    }
+  ],
+  "relatedGuides": [
+    "../current/quality",
+    "../current/evidence-log",
+    "../current/security"
+  ],
+  "keywords": [
+    "bun",
+    "js-yaml",
+    "safeLoad",
+    "TypeScript",
+    "build"
+  ],
+  "lastReviewed": "2026-07-13",
+  "sourceChecksum": "8785236ad71dc82ad6f73c3119cbef5ad665d29610a268d3380294b68b197181",
+  "generatedAt": "2026-07-13T14:15:15.983747+00:00",
+  "validation": {
+    "state": "verified"
+  }
+}

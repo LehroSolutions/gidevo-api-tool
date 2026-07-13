@@ -70,7 +70,7 @@ export class Validator {
         parsed = JSON.parse(content);
       } else if (ext === '.yaml' || ext === '.yml') {
         try {
-          parsed = yaml.safeLoad(content);
+          parsed = yaml.load(content);
         } catch (e) {
           throw new Error(`Failed to parse YAML: ${e}`);
         }

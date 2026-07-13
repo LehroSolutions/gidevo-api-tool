@@ -58,7 +58,7 @@ export async function validateCommand(spec: string, options: { strict?: boolean 
 
       if (ext === '.yaml' || ext === '.yml' || ext === '.json') {
         try {
-          const parsed = ext === '.json' ? JSON.parse(specContent) : yaml.safeLoad(specContent);
+          const parsed = ext === '.json' ? JSON.parse(specContent) : yaml.load(specContent);
 
           if (parsed.openapi) {
             ui.sectionHeader('Specification Summary');
