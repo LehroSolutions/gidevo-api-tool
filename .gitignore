@@ -1,12 +1,7 @@
 node_modules
-.agent/
-.agents/
-.github/
-.windsurf/
-my-video/
-gidevo-marketing-video/
+my-video
 Marketing video/
-
+gidevo-marketing-video/
 tests/tmp-*
 
 # Private strategy/planning docs (non-OSS)
